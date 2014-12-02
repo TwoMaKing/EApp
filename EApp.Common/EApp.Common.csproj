@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0CB524D0-68CB-47B8-8B9F-9915CBE19F31}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EApp.Common</RootNamespace>
+    <AssemblyName>EApp.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EmitMapper">
+      <HintPath>..\packages\EmitMapper\EmitMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\Zip\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\Log\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\Database\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\NInject\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\packages\Database\System.Data.SQLite.DLL</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cache\ICacheStrategy.cs" />
+    <Compile Include="Cache\Memcached\MemcacheStrategy.cs" />
+    <Compile Include="Cache\Redis\RedisStrategy.cs" />
+    <Compile Include="Compression\GZip\GZipper.cs" />
+    <Compile Include="Exceptions\ConfigException.cs" />
+    <Compile Include="Exceptions\EAppException.cs" />
+    <Compile Include="Exceptions\InfrastructureException.cs" />
+    <Compile Include="IOC\NInject\NInjectObjectContainer.cs" />
+    <Compile Include="IOC\NInject\NInjectObjectContainerFactory.cs" />
+    <Compile Include="IOC\Unity\UnityObjectContainer.cs" />
+    <Compile Include="IOC\Unity\UnityObjectContainerFactory.cs" />
+    <Compile Include="IO\FileSeracher.cs" />
+    <Compile Include="Log\LoggerWrapper.cs" />
+    <Compile Include="Mapper\ObjectMapper.cs" />
+    <Compile Include="Network\Downloader.cs" />
+    <Compile Include="Network\NetworkUtil.cs" />
+    <Compile Include="Network\WebSocket.cs" />
+    <Compile Include="Util\CommonHelper.cs" />
+    <Compile Include="Util\Convertor.cs" />
+    <Compile Include="Util\LocalizationUtil.cs" />
+    <Compile Include="Util\DateTimeUtil.cs" />
+    <Compile Include="DataAccess\BatchCommander.cs" />
+    <Compile Include="DataAccess\DbGateway.cs" />
+    <Compile Include="DataAccess\DbProviderFactory.cs" />
+    <Compile Include="DataAccess\Database.cs" />
+    <Compile Include="DataAccess\DbProvider.cs" />
+    <Compile Include="DataAccess\DbParameterCache.cs" />
+    <Compile Include="DataAccess\IStatementFactory.cs" />
+    <Compile Include="DataAccess\MSSQL\SqlServerDBProvider.cs" />
+    <Compile Include="Encrypt\DESEncrypt.cs" />
+    <Compile Include="Encrypt\AESEncrypt.cs" />
+    <Compile Include="Exceptions\LoadAssemblyException.cs" />
+    <Compile Include="Compression\ICompression.cs" />
+    <Compile Include="Compression\Zip\Zipper.cs" />
+    <Compile Include="IO\FileUtil.cs" />
+    <Compile Include="Log\Log4Net\Log4NetLoggerFactory.cs" />
+    <Compile Include="Log\Log4Net\Log4NetLogger.cs" />
+    <Compile Include="Log\LoggerContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\Reflector.cs" />
+    <Compile Include="Serialization\SerializationManager.cs" />
+    <Compile Include="Win32API\Win32WindowHandler.cs" />
+    <Compile Include="Win32API\Win32API.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AsynComponent\" />
+    <Folder Include="Compression\7Z\" />
+    <Folder Include="DataAccess\MySQL\" />
+    <Folder Include="IOC\SpringNet\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
+      <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
+      <Name>EApp.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

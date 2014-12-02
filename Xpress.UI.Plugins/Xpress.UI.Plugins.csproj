@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6A170104-5120-4E18-AF57-1D89F3CA2D74}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Xpress.UI.Plugins</RootNamespace>
+    <AssemblyName>Xpress.UI.Plugins</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cost\CostAddNewAction.cs" />
+    <Compile Include="Cost\UCCostBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Cost\UCCostBase.Designer.cs">
+      <DependentUpon>UCCostBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cost\UCCostLease.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Cost\UCCostLease.Designer.cs">
+      <DependentUpon>UCCostLease.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cost\UCCostMaintenance.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Cost\UCCostMaintenance.Designer.cs">
+      <DependentUpon>UCCostMaintenance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cost\UCCostPurchase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Cost\UCCostPurchase.Designer.cs">
+      <DependentUpon>UCCostPurchase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cost\UCCostStandardService.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Cost\UCCostStandardService.Designer.cs">
+      <DependentUpon>UCCostStandardService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PluginResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PluginResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="PluginResourceManager.cs" />
+    <Compile Include="Price\AddNewDirectPricingAction.cs" />
+    <Compile Include="Price\AddNewNonStandardPaymentAction.cs" />
+    <Compile Include="Price\UCDirectPricing.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Price\UCDirectPricing.Designer.cs">
+      <DependentUpon>UCDirectPricing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Price\UCNonStandardPayment.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Price\UCNonStandardPayment.Designer.cs">
+      <DependentUpon>UCNonStandardPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Cost\UCCostHR.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Cost\UCCostHR.Designer.cs">
+      <DependentUpon>UCCostHR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cost\UCCostLabor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Cost\UCCostLabor.Designer.cs">
+      <DependentUpon>UCCostLabor.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EApp.Common\EApp.Common.csproj">
+      <Project>{0CB524D0-68CB-47B8-8B9F-9915CBE19F31}</Project>
+      <Name>EApp.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
+      <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
+      <Name>EApp.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.DomainDriven.Infrastructure\EApp.DomainDriven.Infrastructure.csproj">
+      <Project>{571A4C88-AD4D-4DB4-831D-6400B9D88609}</Project>
+      <Name>EApp.DomainDriven.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xpress.Core\Xpress.Core.csproj">
+      <Project>{73F121D1-019B-40A5-9171-73B1030375F5}</Project>
+      <Name>Xpress.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.UI.Controls\EApp.UI.Controls.csproj">
+      <Project>{1B846C86-F3EF-48C1-9D02-7875394C13DC}</Project>
+      <Name>EApp.UI.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Plugin.Generic\EApp.Plugin.Generic.csproj">
+      <Project>{5F8A9CFC-3150-4C12-AF26-0B8298CE1FF8}</Project>
+      <Name>EApp.Plugin.Generic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\" />
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Cost\UCCostBase.resx">
+      <DependentUpon>UCCostBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PluginResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PluginResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Price\UCDirectPricing.resx">
+      <DependentUpon>UCDirectPricing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Price\UCNonStandardPayment.resx">
+      <DependentUpon>UCNonStandardPayment.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1B846C86-F3EF-48C1-9D02-7875394C13DC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EApp.UI.Controls</RootNamespace>
+    <AssemblyName>EApp.UI.Controls</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GridView\DataGridViewCellValue.cs" />
+    <Compile Include="GridView\DataGridViewEnum.cs" />
+    <Compile Include="UIHandler\BindArrayDataHelper.cs" />
+    <Compile Include="UIHandler\DataGridViewHelper.cs" />
+    <Compile Include="Common\RoundedCornerPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ribbon\GlobalHook.cs" />
+    <Compile Include="Ribbon\IContainsRibbonComponents.cs" />
+    <Compile Include="Ribbon\IContainsSelectableRibbonItems.cs" />
+    <Compile Include="Ribbon\IDropDownRibbonItem.cs" />
+    <Compile Include="Ribbon\IRibbonElement.cs" />
+    <Compile Include="Ribbon\IRibbonForm.cs" />
+    <Compile Include="Ribbon\IScrollableRibbonItem.cs" />
+    <Compile Include="Ribbon\Ribbon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonArrowDirection.cs" />
+    <Compile Include="Ribbon\RibbonButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonButtonCollection.cs" />
+    <Compile Include="Ribbon\RibbonButtonDesigner.cs" />
+    <Compile Include="Ribbon\RibbonButtonList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonButtonListDesigner.cs" />
+    <Compile Include="Ribbon\RibbonButtonStyle.cs" />
+    <Compile Include="Ribbon\RibbonCanvasEventArgs.cs" />
+    <Compile Include="Ribbon\RibbonCaptionButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonColorChooser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonComboBoxDesigner.cs" />
+    <Compile Include="Ribbon\RibbonContext.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonContextCollection.cs" />
+    <Compile Include="Ribbon\RibbonDescriptionMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonDesigner.cs" />
+    <Compile Include="Ribbon\RibbonDropDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonElementMeasureSizeEventArgs.cs" />
+    <Compile Include="Ribbon\RibbonElementPaintEventArgs.cs" />
+    <Compile Include="Ribbon\RibbonElementWithItemCollectionDesigner.cs" />
+    <Compile Include="Ribbon\RibbonForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonFormHelper.cs" />
+    <Compile Include="Ribbon\RibbonItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonItemBoundsEventArgs.cs" />
+    <Compile Include="Ribbon\RibbonItemCollection.cs" />
+    <Compile Include="Ribbon\RibbonItemCollectionEditor.cs" />
+    <Compile Include="Ribbon\RibbonItemGroup.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonItemGroupDesigner.cs" />
+    <Compile Include="Ribbon\RibbonItemGroupItemCollection.cs" />
+    <Compile Include="Ribbon\RibbonItemRenderEventArgs.cs" />
+    <Compile Include="Ribbon\RibbonMouseSensor.cs" />
+    <Compile Include="Ribbon\RibbonNonClientMode.cs" />
+    <Compile Include="Ribbon\RibbonOrbAdornerGlyph.cs" />
+    <Compile Include="Ribbon\RibbonOrbDropDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonOrbDropDownEventArgs.cs" />
+    <Compile Include="Ribbon\RibbonOrbMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonOrbMenuItemDesigner.cs" />
+    <Compile Include="Ribbon\RibbonOrbOptionButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonOrbRecentItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonPanelCollection.cs" />
+    <Compile Include="Ribbon\RibbonPanelDesigner.cs" />
+    <Compile Include="Ribbon\RibbonPanelFlowDirection.cs" />
+    <Compile Include="Ribbon\RibbonPanelGlyph.cs" />
+    <Compile Include="Ribbon\RibbonPanelPopup.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonPanelRenderEventArgs.cs" />
+    <Compile Include="Ribbon\RibbonPanelSizeMode.cs" />
+    <Compile Include="Ribbon\RibbonPopup.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonPopupManager.cs" />
+    <Compile Include="Ribbon\RibbonProfesionalRendererColorTable.cs" />
+    <Compile Include="Ribbon\RibbonProfesionalRendererColorTableBlack.cs" />
+    <Compile Include="Ribbon\RibbonProfessionalRenderer.cs" />
+    <Compile Include="Ribbon\RibbonQuickAccessToolbar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonQuickAccessToolbarGlyph.cs" />
+    <Compile Include="Ribbon\RibbonQuickAccessToolbarItemCollection.cs" />
+    <Compile Include="Ribbon\RibbonRenderer.cs" />
+    <Compile Include="Ribbon\RibbonRenderEventArgs.cs" />
+    <Compile Include="Ribbon\RibbonSeparator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonTabCollection.cs" />
+    <Compile Include="Ribbon\RibbonTabDesigner.cs" />
+    <Compile Include="Ribbon\RibbonTabGlyph.cs" />
+    <Compile Include="Ribbon\RibbonTabRenderEventArgs.cs" />
+    <Compile Include="Ribbon\RibbonTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonTextEventArgs.cs" />
+    <Compile Include="Ribbon\RibbonToolTip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonWrappedDropDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\WinApi.cs" />
+    <Compile Include="UIHandler\RibbonHelper.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\EApp.Common\EApp.Common.csproj">
+      <Project>{0CB524D0-68CB-47B8-8B9F-9915CBE19F31}</Project>
+      <Name>EApp.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
+      <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
+      <Name>EApp.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

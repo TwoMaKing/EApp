@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EApp.Core</RootNamespace>
+    <AssemblyName>EApp.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Application\App.cs" />
+    <Compile Include="Application\AppInitEventArgs.cs" />
+    <Compile Include="Application\EAppRuntime.cs" />
+    <Compile Include="Application\IApp.cs" />
+    <Compile Include="WindowsMvc\IController.cs" />
+    <Compile Include="WindowsMvc\IControllerFactory.cs" />
+    <Compile Include="WindowsMvc\IView.cs" />
+    <Compile Include="WindowsMvcControllerBuilder.cs" />
+    <Compile Include="ResourceManagerBase.cs" />
+    <Compile Include="Configuration\AppConfigSource.cs" />
+    <Compile Include="Configuration\ConfigSourceExtensions.cs" />
+    <Compile Include="Configuration\EAppConfiguration.csd.cs">
+      <DependentUpon>EAppConfiguration.csd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Configuration\Fluent\ApplicationConfigurator.cs" />
+    <Compile Include="Configuration\Fluent\AppPluginConfigurator.cs" />
+    <Compile Include="Configuration\Fluent\ConfigSourceConfigurator.cs" />
+    <Compile Include="Configuration\Fluent\Configurator.cs" />
+    <Compile Include="Configuration\Fluent\EAppConfigurator.cs" />
+    <Compile Include="Configuration\Fluent\IConfigSourceConfigurator.cs" />
+    <Compile Include="Configuration\Fluent\IConfigurator.cs" />
+    <Compile Include="Configuration\Fluent\LoggerConfigurator.cs" />
+    <Compile Include="Configuration\Fluent\MiscSettingConfigurator.cs" />
+    <Compile Include="Configuration\Fluent\ObjectContainerConfigurator.cs" />
+    <Compile Include="Configuration\Fluent\ResourceManagerConfigurator.cs" />
+    <Compile Include="Configuration\Fluent\TypeSpecifiedConfigSourceConfigurator.cs" />
+    <Compile Include="Configuration\IConfigSource.cs" />
+    <Compile Include="Configuration\RegularConfigSource.cs" />
+    <Compile Include="Exceptions\ConfigException.cs" />
+    <Compile Include="Exceptions\EAppException.cs" />
+    <Compile Include="Exceptions\InfrastructureException.cs" />
+    <Compile Include="Exceptions\LoadAssemblyException.cs" />
+    <Compile Include="GenericCancelEventArgs.cs" />
+    <Compile Include="GenericEventArgs.cs" />
+    <Compile Include="IoCFactory.cs" />
+    <Compile Include="IResourceManager.cs" />
+    <Compile Include="Plugin\IHost.cs" />
+    <Compile Include="ILogger.cs" />
+    <Compile Include="ILoggerFactory.cs" />
+    <Compile Include="IObjectContainer.cs" />
+    <Compile Include="IObjectContainerFactory.cs" />
+    <Compile Include="Plugin\IPlugin.cs" />
+    <Compile Include="Plugin\IPluginController.cs" />
+    <Compile Include="Plugin\IPluginManager.cs" />
+    <Compile Include="Plugin\IPluginProvider.cs" />
+    <Compile Include="Plugin\IPluginServiceProvider.cs" />
+    <Compile Include="Plugin\IPluginServiceProviderFactory.cs" />
+    <Compile Include="List\EntityArrayList.cs" />
+    <Compile Include="List\IEntityArrayList.cs" />
+    <Compile Include="List\IHierarchicalEntity.cs" />
+    <Compile Include="Plugin\IViewService.cs" />
+    <Compile Include="Plugin\NavigationNodeItem.cs" />
+    <Compile Include="Plugin\PluginControllerCollection.cs" />
+    <Compile Include="Plugin\PluginItem.cs" />
+    <Compile Include="Plugin\PluginItemCollection.cs" />
+    <Compile Include="Plugin\PluginLifetimeMode.cs" />
+    <Compile Include="Plugin\PluginLoadedEventArgs.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Configuration\EAppConfiguration.csd">
+      <Generator>CsdFileGenerator</Generator>
+      <LastGenOutput>EAppConfiguration.csd.cs</LastGenOutput>
+    </None>
+    <None Include="Configuration\EAppConfiguration.csd.config">
+      <DependentUpon>EAppConfiguration.csd</DependentUpon>
+    </None>
+    <None Include="Configuration\EAppConfiguration.csd.diagram">
+      <DependentUpon>EAppConfiguration.csd</DependentUpon>
+    </None>
+    <None Include="Configuration\EAppConfiguration.csd.xsd">
+      <DependentUpon>EAppConfiguration.csd</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
