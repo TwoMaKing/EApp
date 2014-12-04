@@ -255,6 +255,32 @@ namespace EApp.Core.Configuration
             }
         }
         #endregion
+        
+        #region SerializationFormats Property
+        /// <summary>
+        /// The XML name of the <see cref="SerializationFormats"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string SerializationFormatsPropertyName = "serializationFormats";
+        
+        /// <summary>
+        /// Gets or sets the SerializationFormats.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The SerializationFormats.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::EApp.Core.Configuration.EAppConfigurationSection.SerializationFormatsPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public virtual global::EApp.Core.Configuration.SerializationFormatElementCollection SerializationFormats
+        {
+            get
+            {
+                return ((global::EApp.Core.Configuration.SerializationFormatElementCollection)(base[global::EApp.Core.Configuration.EAppConfigurationSection.SerializationFormatsPropertyName]));
+            }
+            set
+            {
+                base[global::EApp.Core.Configuration.EAppConfigurationSection.SerializationFormatsPropertyName] = value;
+            }
+        }
+        #endregion
     }
 }
 namespace EApp.Core.Configuration
@@ -2138,6 +2164,202 @@ namespace EApp.Core.Configuration
             set
             {
                 base[global::EApp.Core.Configuration.WindowsMvcElement.DefaultControllerFactoryPropertyName] = value;
+            }
+        }
+        #endregion
+    }
+}
+namespace EApp.Core.Configuration
+{
+    
+    
+    /// <summary>
+    /// A collection of NameTypeElement instances.
+    /// </summary>
+    [global::System.Configuration.ConfigurationCollectionAttribute(typeof(global::EApp.Core.Configuration.NameTypeElement), CollectionType=global::System.Configuration.ConfigurationElementCollectionType.BasicMapAlternate, AddItemName=global::EApp.Core.Configuration.SerializationFormatElementCollection.NameTypeElementPropertyName)]
+    public partial class SerializationFormatElementCollection : global::System.Configuration.ConfigurationElementCollection
+    {
+        
+        #region Constants
+        /// <summary>
+        /// The XML name of the individual <see cref="global::EApp.Core.Configuration.NameTypeElement"/> instances in this collection.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string NameTypeElementPropertyName = "format";
+        #endregion
+        
+        #region Overrides
+        /// <summary>
+        /// Gets the type of the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
+        /// </summary>
+        /// <returns>The <see cref="global::System.Configuration.ConfigurationElementCollectionType"/> of this collection.</returns>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public override global::System.Configuration.ConfigurationElementCollectionType CollectionType
+        {
+            get
+            {
+                return global::System.Configuration.ConfigurationElementCollectionType.BasicMapAlternate;
+            }
+        }
+        
+        /// <summary>
+        /// Gets the name used to identify this collection of elements
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        protected override string ElementName
+        {
+            get
+            {
+                return global::EApp.Core.Configuration.SerializationFormatElementCollection.NameTypeElementPropertyName;
+            }
+        }
+        
+        /// <summary>
+        /// Indicates whether the specified <see cref="global::System.Configuration.ConfigurationElement"/> exists in the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
+        /// </summary>
+        /// <param name="elementName">The name of the element to verify.</param>
+        /// <returns>
+        /// <see langword="true"/> if the element exists in the collection; otherwise, <see langword="false"/>.
+        /// </returns>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        protected override bool IsElementName(string elementName)
+        {
+            return (elementName == global::EApp.Core.Configuration.SerializationFormatElementCollection.NameTypeElementPropertyName);
+        }
+        
+        /// <summary>
+        /// Gets the element key for the specified configuration element.
+        /// </summary>
+        /// <param name="element">The <see cref="global::System.Configuration.ConfigurationElement"/> to return the key for.</param>
+        /// <returns>
+        /// An <see cref="object"/> that acts as the key for the specified <see cref="global::System.Configuration.ConfigurationElement"/>.
+        /// </returns>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        protected override object GetElementKey(global::System.Configuration.ConfigurationElement element)
+        {
+            return ((global::EApp.Core.Configuration.NameTypeElement)(element)).Name;
+        }
+        
+        /// <summary>
+        /// Creates a new <see cref="global::EApp.Core.Configuration.NameTypeElement"/>.
+        /// </summary>
+        /// <returns>
+        /// A new <see cref="global::EApp.Core.Configuration.NameTypeElement"/>.
+        /// </returns>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        protected override global::System.Configuration.ConfigurationElement CreateNewElement()
+        {
+            return new global::EApp.Core.Configuration.NameTypeElement();
+        }
+        #endregion
+        
+        #region Indexer
+        /// <summary>
+        /// Gets the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> to retrieve.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public global::EApp.Core.Configuration.NameTypeElement this[int index]
+        {
+            get
+            {
+                return ((global::EApp.Core.Configuration.NameTypeElement)(base.BaseGet(index)));
+            }
+        }
+        
+        /// <summary>
+        /// Gets the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> with the specified key.
+        /// </summary>
+        /// <param name="name">The key of the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> to retrieve.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public global::EApp.Core.Configuration.NameTypeElement this[object name]
+        {
+            get
+            {
+                return ((global::EApp.Core.Configuration.NameTypeElement)(base.BaseGet(name)));
+            }
+        }
+        #endregion
+        
+        #region Add
+        /// <summary>
+        /// Adds the specified <see cref="global::EApp.Core.Configuration.NameTypeElement"/> to the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
+        /// </summary>
+        /// <param name="format">The <see cref="global::EApp.Core.Configuration.NameTypeElement"/> to add.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public void Add(global::EApp.Core.Configuration.NameTypeElement format)
+        {
+            base.BaseAdd(format);
+        }
+        #endregion
+        
+        #region Remove
+        /// <summary>
+        /// Removes the specified <see cref="global::EApp.Core.Configuration.NameTypeElement"/> from the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
+        /// </summary>
+        /// <param name="format">The <see cref="global::EApp.Core.Configuration.NameTypeElement"/> to remove.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public void Remove(global::EApp.Core.Configuration.NameTypeElement format)
+        {
+            base.BaseRemove(this.GetElementKey(format));
+        }
+        #endregion
+        
+        #region GetItem
+        /// <summary>
+        /// Gets the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> to retrieve.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public global::EApp.Core.Configuration.NameTypeElement GetItemAt(int index)
+        {
+            return ((global::EApp.Core.Configuration.NameTypeElement)(base.BaseGet(index)));
+        }
+        
+        /// <summary>
+        /// Gets the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> with the specified key.
+        /// </summary>
+        /// <param name="name">The key of the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> to retrieve.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public global::EApp.Core.Configuration.NameTypeElement GetItemByKey(string name)
+        {
+            return ((global::EApp.Core.Configuration.NameTypeElement)(base.BaseGet(((object)(name)))));
+        }
+        #endregion
+        
+        #region IsReadOnly override
+        /// <summary>
+        /// Gets a value indicating whether the element is read-only.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
+        #endregion
+        
+        #region Default Property
+        /// <summary>
+        /// The XML name of the <see cref="Default"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string DefaultPropertyName = "default";
+        
+        /// <summary>
+        /// Gets or sets the Default.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The Default.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::EApp.Core.Configuration.SerializationFormatElementCollection.DefaultPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public virtual string Default
+        {
+            get
+            {
+                return ((string)(base[global::EApp.Core.Configuration.SerializationFormatElementCollection.DefaultPropertyName]));
+            }
+            set
+            {
+                base[global::EApp.Core.Configuration.SerializationFormatElementCollection.DefaultPropertyName] = value;
             }
         }
         #endregion

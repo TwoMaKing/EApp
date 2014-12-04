@@ -48,6 +48,11 @@
             <configurationElementMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/WindowsMvcElement" />
           </type>
         </elementProperty>
+        <elementProperty name="SerializationFormats" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="serializationFormats" isReadOnly="false">
+          <type>
+            <configurationElementCollectionMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/SerializationFormatElementCollection" />
+          </type>
+        </elementProperty>
       </elementProperties>
     </configurationSection>
     <configurationElement name="CurrentObjectContainerElement">
@@ -279,6 +284,18 @@
         </elementProperty>
       </elementProperties>
     </configurationElement>
+    <configurationElementCollection name="SerializationFormatElementCollection" xmlItemName="format" codeGenOptions="Indexer, AddMethod, RemoveMethod, GetItemMethods">
+      <attributeProperties>
+        <attributeProperty name="Default" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="default" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/String" />
+          </type>
+        </attributeProperty>
+      </attributeProperties>
+      <itemType>
+        <configurationElementMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/NameTypeElement" />
+      </itemType>
+    </configurationElementCollection>
   </configurationElements>
   <propertyValidators>
     <validators />
