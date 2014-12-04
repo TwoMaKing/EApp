@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using EApp.Common.Util;
-using EApp.DomainDriven.Infrastructure.Domain;
+using EApp.Infrastructure.Domain;
 using Xpress.Core.Entities;
 
 
