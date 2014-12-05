@@ -76,6 +76,9 @@
     <Compile Include="Cache\Memcached\MemcacheStrategy.cs" />
     <Compile Include="Cache\Redis\RedisStrategy.cs" />
     <Compile Include="Compression\GZip\GZipper.cs" />
+    <Compile Include="DataAccess\MSSQL\SqlServerStatementFactory.cs" />
+    <Compile Include="DataAccess\MySQL\MySqlDbProvider.cs" />
+    <Compile Include="DataAccess\MySQL\MySqlStatementFactory.cs" />
     <Compile Include="Exceptions\ConfigException.cs" />
     <Compile Include="Exceptions\EAppException.cs" />
     <Compile Include="Exceptions\InfrastructureException.cs" />
@@ -99,8 +102,8 @@
     <Compile Include="DataAccess\Database.cs" />
     <Compile Include="DataAccess\DbProvider.cs" />
     <Compile Include="DataAccess\DbParameterCache.cs" />
-    <Compile Include="DataAccess\IStatementFactory.cs" />
-    <Compile Include="DataAccess\MSSQL\SqlServerDBProvider.cs" />
+    <Compile Include="DataAccess\ISqlStatementFactory.cs" />
+    <Compile Include="DataAccess\MSSQL\SqlServerDbProvider.cs" />
     <Compile Include="Encrypt\DESEncrypt.cs" />
     <Compile Include="Encrypt\AESEncrypt.cs" />
     <Compile Include="Exceptions\LoadAssemblyException.cs" />
@@ -119,7 +122,6 @@
   <ItemGroup>
     <Folder Include="AsynComponent\" />
     <Folder Include="Compression\7Z\" />
-    <Folder Include="DataAccess\MySQL\" />
     <Folder Include="IOC\SpringNet\" />
   </ItemGroup>
   <ItemGroup>

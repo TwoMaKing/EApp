@@ -6,54 +6,56 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using MySql.Data.MySqlClient;
 
-namespace EApp.Common.DataAccess.MSSQL
+namespace EApp.Common.DataAccess.MySQL
 {
-    public class SqlServerDbProvider : DbProvider
+    public class MySqlDbProvider : DbProvider
     {
-        private const string paramPrefix = "@";
+        private const string paramPrefix = "?";
 
-        private SqlServerStatementFactory sqlServerStatementFactory = new SqlServerStatementFactory();
+        private ISqlStatementFactory sqlStatementFactory = new MySqlStatementFactory();
 
-        public SqlServerDbProvider(string connectionString) : 
-            base(connectionString, System.Data.SqlClient.SqlClientFactory.Instance)
+        public MySqlDbProvider(string connectionString) : base(connectionString, MySqlClientFactory.Instance) 
         { 
         
         }
 
         public override void AdjustParameter(DbParameter param)
         {
-            SqlParameter sqlParam = (SqlParameter)param;
+            MySqlParameter mySqlParam = (MySqlParameter)param;
 
             object value = param.Value;
-            
             DbType type = param.DbType;
 
             if (value == null || value == DBNull.Value)
             {
-                sqlParam.Value = DBNull.Value;
-                if (sqlParam.DbType != DbType.Binary && sqlParam.DbType != DbType.Int32)
+                mySqlParam.Value = DBNull.Value;
+                if (mySqlParam.DbType != DbType.Binary && mySqlParam.DbType != DbType.Int32)
                 {
-                    sqlParam.SqlDbType = SqlDbType.NVarChar;
+                    mySqlParam.MySqlDbType = MySqlDbType.VarChar;
                 }
-                return;
-            }
 
-            if (value.GetType() == typeof(byte[]))
-            {
-                sqlParam.SqlDbType = SqlDbType.Image;
                 return;
             }
 
             if (value.GetType().IsEnum)
             {
-                sqlParam.SqlDbType = SqlDbType.Int;
+                mySqlParam.MySqlDbType = MySqlDbType.Enum;
+
+                return;
+            }
+
+            if (value.GetType() == typeof(byte[]))
+            {
+                mySqlParam.MySqlDbType = MySqlDbType.VarBinary;
                 return;
             }
 
             if (value.GetType() == typeof(Guid))
             {
-                sqlParam.SqlDbType = SqlDbType.UniqueIdentifier;
+                mySqlParam.MySqlDbType = MySqlDbType.VarChar;
+                mySqlParam.Value = value.ToString();
                 return;
             }
 
@@ -62,58 +64,63 @@ namespace EApp.Common.DataAccess.MSSQL
                 value.GetType() == typeof(Int64) || value.GetType() == typeof(UInt16) ||
                 value.GetType() == typeof(UInt32) || value.GetType() == typeof(UInt64))
             {
-                sqlParam.SqlDbType = SqlDbType.Int;
+                mySqlParam.MySqlDbType = MySqlDbType.Int32;
                 return;
             }
 
             if (value.GetType() == typeof(Single) || value.GetType() == typeof(Double))
             {
-                sqlParam.SqlDbType = SqlDbType.Float;
+                mySqlParam.MySqlDbType = MySqlDbType.Float;
                 return;
             }
 
             if (value.GetType() == typeof(Boolean))
             {
-                sqlParam.SqlDbType = SqlDbType.Bit;
-                sqlParam.Value = (((bool)value) ? 1 : 0);
+                mySqlParam.MySqlDbType = MySqlDbType.Bit;
+                mySqlParam.Value = (((bool)value) ? 1 : 0);
                 return;
             }
 
             if (value.GetType() == typeof(Char))
             {
-                sqlParam.SqlDbType = SqlDbType.NChar;
+                mySqlParam.MySqlDbType = MySqlDbType.VarChar;
                 return;
             }
 
             if (value.GetType() == typeof(Decimal))
             {
-                sqlParam.SqlDbType = SqlDbType.Decimal;
+                mySqlParam.MySqlDbType = MySqlDbType.Decimal;
                 return;
             }
 
-            if (value.GetType() == typeof(DateTime))
+            //datetime is special here
+            if (value.GetType() == typeof(DateTime) || type.Equals(DbType.DateTime) ||
+                type.Equals(DbType.Date) || type.Equals(DbType.Time))
             {
-                sqlParam.SqlDbType = SqlDbType.DateTime;
+                mySqlParam.MySqlDbType = MySqlDbType.Datetime;
+                mySqlParam.Value = value;
+
                 return;
             }
 
             if (value.GetType() == typeof(string))
             {
-                sqlParam.SqlDbType = SqlDbType.NVarChar;
+                mySqlParam.MySqlDbType = MySqlDbType.VarChar;
                 if (value.ToString().Length > 2000)
                 {
-                    sqlParam.SqlDbType = SqlDbType.Text;
+                    mySqlParam.MySqlDbType = MySqlDbType.Text;
                 }
                 return;
             }
 
             //by default, threat as string
-            sqlParam.SqlDbType = SqlDbType.NText;
+            mySqlParam.MySqlDbType = MySqlDbType.Text;
+            
         }
 
         public override ISqlStatementFactory CreateStatementFactory()
         {
-            return this.sqlServerStatementFactory;
+            return this.sqlStatementFactory;
         }
 
         public override string[] DiscoverParams(string sql)
@@ -123,7 +130,8 @@ namespace EApp.Common.DataAccess.MSSQL
                 return null;
             }
 
-            Regex r = new Regex(paramPrefix + @"([\w\d_]+)");
+            Regex r = new Regex("\\" + paramPrefix + @"([\w\d_]+)");
+
             MatchCollection ms = r.Matches(sql);
 
             if (ms.Count == 0)
@@ -141,7 +149,7 @@ namespace EApp.Common.DataAccess.MSSQL
 
         public override string BuildParameterName(string name)
         {
-            name = name.Trim('[', ']');
+            name = name.Trim('`');
 
             if (!name[0].Equals(paramPrefix))
             {
@@ -153,14 +161,14 @@ namespace EApp.Common.DataAccess.MSSQL
 
         public override string BuildColumnName(string name)
         {
-            if (!name.StartsWith("["))
+            if (!name.StartsWith("`")) 
             {
-                name = name.Insert(0, "[");
+                name = name.Insert(0, "`");
             }
 
-            if (!name.EndsWith("]"))
+            if (!name.EndsWith("`"))
             {
-                name = name + "]";
+                name = name + "`";
             }
 
             return name;
@@ -170,17 +178,16 @@ namespace EApp.Common.DataAccess.MSSQL
         {
             get 
             { 
-                return "SELECT SCOPE_IDENTITY()"; 
+                return "SELECT LAST_INSERT_ID()"; 
             }
         }
 
         public override string ParamPrefix
         {
             get 
-            {
+            { 
                 return paramPrefix.ToString(); 
             }
         }
-
     }
 }

@@ -13,7 +13,7 @@ namespace EApp.Infrastructure.Repository
     /// <summary>
     /// Repository interface
     /// </summary>
-    public interface IRepository<TAggregateRoot, TKey> where TAggregateRoot : class, IAggregateRoot<TKey>
+    public interface IRepository<TEntity, TKey> where TEntity : class, IEntity<TKey>
     {
         /// <summary>
         /// Return a Unit Of Work
@@ -23,27 +23,27 @@ namespace EApp.Infrastructure.Repository
         /// <summary>
         ///  Aadd a item to Repository
         /// </summary>
-        void Add(TAggregateRoot item);
+        void Add(TEntity item);
 
         /// <summary>
         /// Add items to Repository
         /// </summary>
-        void Add(IEnumerable<TAggregateRoot> items);
+        void Add(IEnumerable<TEntity> items);
 
         /// <summary>
         /// Update a item to Repository
         /// </summary>
-        void Update(TAggregateRoot item);
+        void Update(TEntity item);
 
         /// <summary>
         /// Update items to Repository
         /// </summary>
-        void Update(IEnumerable<TAggregateRoot> items);
+        void Update(IEnumerable<TEntity> items);
 
         /// <summary>
         /// Delete the specified item from Repository
         /// </summary>
-        void Delete(TAggregateRoot item);
+        void Delete(TEntity item);
 
         /// <summary>
         /// Delete a item from Repository by item key
@@ -53,40 +53,40 @@ namespace EApp.Infrastructure.Repository
         /// <summary>
         /// Delete specified items from Repository
         /// </summary>
-        void Delete(IEnumerable<TAggregateRoot> items);
+        void Delete(IEnumerable<TEntity> items);
 
         /// <summary>
         /// Find the specific aggregate root by id or key
         /// </summary>
-        TAggregateRoot FindByKey(TKey idOrKey);
+        TEntity FindByKey(TKey idOrKey);
 
         /// <summary>
         /// Find the specific aggregate root by the specification from repository.
         /// </summary>
-        TAggregateRoot Find(ISpecification<TAggregateRoot> specification);
+        TEntity Find(ISpecification<TEntity> specification);
 
         /// <summary>
         /// Find all of aggregate roots from repository.
         /// </summary>
         /// <returns></returns>
-        IQueryable<TAggregateRoot> FindAll();
+        IQueryable<TEntity> FindAll();
 
         /// <summary>
         /// Find all of aggregate roots matching query expression from repository.
         /// </summary>
-        IQueryable<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, bool>> expression);
+        IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>> expression);
 
         /// <summary>
         /// Find all of aggregate roots matching query expression from repository.
         /// </summary>
         /// <param name="pageNumber">The page number.</param>
         /// <param name="pageSize">The number of objects per page.</param>
-        IQueryable<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, bool>> expression, int pageNumber, int pageSize);
+        IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>> expression, int pageNumber, int pageSize);
 
         /// <summary>
         /// Find all of aggregate roots by the specification from repository,
         /// </summary>
-        IQueryable<TAggregateRoot> FindAll(ISpecification<TAggregateRoot> specification);
+        IQueryable<TEntity> FindAll(ISpecification<TEntity> specification);
 
 
         /// <summary>
@@ -94,11 +94,11 @@ namespace EApp.Infrastructure.Repository
         /// </summary>
         /// <param name="pageNumber">The page number.</param>
         /// <param name="pageSize">The number of objects per page.</param>
-        IQueryable<TAggregateRoot> FindAll(ISpecification<TAggregateRoot> specification, int pageNumber, int pageSize);
+        IQueryable<TEntity> FindAll(ISpecification<TEntity> specification, int pageNumber, int pageSize);
     }
 
-    public interface IRepository<TAggregateRoot> : IRepository<TAggregateRoot, Guid>
-        where TAggregateRoot : class, IAggregateRoot<Guid> , IAggregateRoot
+    public interface IRepository<TEntity> : IRepository<TEntity, Guid>
+        where TEntity : class, IEntity<Guid> , IEntity
     { 
         
     }

@@ -8,10 +8,8 @@ using System.Globalization;
 
 namespace EApp.Common.DataAccess
 {
-
     public sealed class Database
     {
-
         #region "cache"
 
         private DbParameterCache parameterCache;
@@ -302,7 +300,7 @@ namespace EApp.Common.DataAccess
             return this.dbProvider.DbProviderFactory.CreateDataAdapter();
         }
 
-        public IStatementFactory GetStatementFactory()
+        public ISqlStatementFactory GetStatementFactory()
         {
             return this.dbProvider.CreateStatementFactory();
         }
@@ -749,17 +747,17 @@ namespace EApp.Common.DataAccess
         #region "Batch Database"
 
         private DbConnection batchConnection = null;
+
         private int batchSize = 1;
 
         private BatchCommander batchCommander = null;
+        
         public bool IsBatchConnection
         {
             get { return batchConnection != null; }
         }
 
-
         #endregion
-
     }
 
 }

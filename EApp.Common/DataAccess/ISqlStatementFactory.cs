@@ -5,19 +5,19 @@ using System.Text;
 
 namespace EApp.Common.DataAccess
 {
-    public interface IStatementFactory
+    public interface ISqlStatementFactory
     {
 
         /// <summary>
         ///  Creates the insert statement
         /// </summary>
-        string CreateInsertStatement(string tableName, params string[] includeColumns);
+        string CreateInsertStatement(string tableName, string[] includedColumns);
 
 
         /// <summary>
         /// Creates the update statement
         /// </summary>
-        string CreateUpdateStatement(string tableName, string where, params string[] includeColumns);
+        string CreateUpdateStatement(string tableName, string where, string[] includedColumns);
 
 
         /// <summary>

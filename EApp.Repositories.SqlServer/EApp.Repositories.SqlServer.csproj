@@ -40,8 +40,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="SqlServerRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServerRepositoryContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EApp.Common\EApp.Common.csproj">
+      <Project>{0CB524D0-68CB-47B8-8B9F-9915CBE19F31}</Project>
+      <Name>EApp.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
+      <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
+      <Name>EApp.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Infrastructure\EApp.Infrastructure.csproj">
+      <Project>{571A4C88-AD4D-4DB4-831D-6400B9D88609}</Project>
+      <Name>EApp.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

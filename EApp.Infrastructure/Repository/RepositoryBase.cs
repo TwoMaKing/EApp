@@ -9,7 +9,7 @@ using EApp.Infrastructure.UnitOfWork;
 
 namespace EApp.Infrastructure.Repository
 {
-    public abstract class RepositoryBase<TAggregateRoot> : IRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot
+    public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
         private IRepositoryContext repositoryContext;
 
@@ -26,27 +26,27 @@ namespace EApp.Infrastructure.Repository
             }
         }
 
-        public void Add(TAggregateRoot item)
+        public void Add(TEntity item)
         {
             this.DoAdd(item);
         }
 
-        public void Add(IEnumerable<TAggregateRoot> items)
+        public void Add(IEnumerable<TEntity> items)
         {
             this.DoAdd(items);
         }
 
-        public void Update(TAggregateRoot item)
+        public void Update(TEntity item)
         {
             this.DoUpdate(item);
         }
 
-        public void Update(IEnumerable<TAggregateRoot> items)
+        public void Update(IEnumerable<TEntity> items)
         {
             this.DoUpdate(items);
         }
 
-        public void Delete(TAggregateRoot item)
+        public void Delete(TEntity item)
         {
             this.DoDelete(item);
         }
@@ -56,69 +56,69 @@ namespace EApp.Infrastructure.Repository
             this.DoDeleteByKey(idOrKey);
         }
 
-        public void Delete(IEnumerable<TAggregateRoot> items)
+        public void Delete(IEnumerable<TEntity> items)
         {
             this.DoDelete(items);
         }
 
-        public TAggregateRoot FindByKey(Guid idOrKey)
+        public TEntity FindByKey(Guid idOrKey)
         {
             return this.DoFindByKey(idOrKey);
         }
 
-        public TAggregateRoot Find(ISpecification<TAggregateRoot> specification)
+        public TEntity Find(ISpecification<TEntity> specification)
         {
             return this.DoFind(specification);
         }
 
-        public IQueryable<TAggregateRoot> FindAll()
+        public IQueryable<TEntity> FindAll()
         {
-            return this.FindAll(new AnySepcification<TAggregateRoot>());
+            return this.FindAll(new AnySepcification<TEntity>());
         }
 
-        public IQueryable<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, bool>> expression)
+        public IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>> expression)
         {
             return this.DoFindAll(expression, null, null);
         }
 
-        public IQueryable<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, bool>> expression, int pageNumber, int pageSize)
+        public IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>> expression, int pageNumber, int pageSize)
         {
             return this.DoFindAll(expression, pageNumber, pageSize);
         }
 
-        public IQueryable<TAggregateRoot> FindAll(ISpecification<TAggregateRoot> specification)
+        public IQueryable<TEntity> FindAll(ISpecification<TEntity> specification)
         {
             return this.DoFindAll(specification, null, null);
         }
 
-        public IQueryable<TAggregateRoot> FindAll(ISpecification<TAggregateRoot> specification, int pageNumber, int pageSize)
+        public IQueryable<TEntity> FindAll(ISpecification<TEntity> specification, int pageNumber, int pageSize)
         {
             return this.DoFindAll(specification, pageNumber, pageSize);
         }
 
         #region
 
-        protected abstract void DoAdd(TAggregateRoot item);
+        protected abstract void DoAdd(TEntity item);
 
-        protected abstract void DoAdd(IEnumerable<TAggregateRoot> items);
+        protected abstract void DoAdd(IEnumerable<TEntity> items);
 
-        protected abstract void DoUpdate(TAggregateRoot item);
+        protected abstract void DoUpdate(TEntity item);
 
-        protected abstract void DoUpdate(IEnumerable<TAggregateRoot> items);
+        protected abstract void DoUpdate(IEnumerable<TEntity> items);
 
-        protected abstract void DoDelete(TAggregateRoot item);
+        protected abstract void DoDelete(TEntity item);
 
-        protected abstract void DoDelete(IEnumerable<TAggregateRoot> items);
+        protected abstract void DoDelete(IEnumerable<TEntity> items);
 
         protected abstract void DoDeleteByKey(Guid idOrKey);
 
-        protected abstract TAggregateRoot DoFindByKey(Guid idOrKey);
+        protected abstract TEntity DoFindByKey(Guid idOrKey);
 
-        protected abstract TAggregateRoot DoFind(ISpecification<TAggregateRoot> specification);
+        protected abstract TEntity DoFind(ISpecification<TEntity> specification);
 
-        protected abstract IQueryable<TAggregateRoot> DoFindAll(Expression<Func<TAggregateRoot, bool>> expression, int? pageNumber, int? pageSize);
+        protected abstract IQueryable<TEntity> DoFindAll(Expression<Func<TEntity, bool>> expression, int? pageNumber, int? pageSize);
 
-        protected abstract IQueryable<TAggregateRoot> DoFindAll(ISpecification<TAggregateRoot> specification, int? pageNumber, int? pageSize);
+        protected abstract IQueryable<TEntity> DoFindAll(ISpecification<TEntity> specification, int? pageNumber, int? pageSize);
 
         #endregion
     }

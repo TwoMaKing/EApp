@@ -15,8 +15,8 @@ namespace EApp.Common.DataAccess
     /// <remarks></remarks>
     internal class DbParameterCache
     {
-
         private Database db;
+     
         public DbParameterCache(Database db)
         {
             this.db = db;
@@ -27,7 +27,6 @@ namespace EApp.Common.DataAccess
         public bool IsCache(string key)
         {
             return cache.ContainsKey(key);
-
         }
 
         ///<summary>
@@ -41,15 +40,17 @@ namespace EApp.Common.DataAccess
         {
             DbParameterCollection parms = cmd.Parameters;
             parms.Clear();
+
             DbParameter[] cacheParams = cache[key];
             if (cacheParams != null & cacheParams.Length > 0)
             {
                 if (types == null)
                 {
-                    for (int i = 0; i <= cacheParams.Length - 1; i++)
+                    for (int i = 0; i < cacheParams.Length; i++)
                     {
                         parms.Add(((ICloneable)cacheParams[i]).Clone());
                         parms[i].Value = values[i];
+                        
                         this.db.DBProvider.AdjustParameter(parms[i]);
                     }
                 }
@@ -60,65 +61,39 @@ namespace EApp.Common.DataAccess
                         parms.Add(((ICloneable)cacheParams[i]).Clone());
                         parms[i].DbType = types[i];
                         parms[i].Value = values[i];
+
                         this.db.DBProvider.AdjustParameter(parms[i]);
                     }
                 }
             }
-
         }
 
 
         public void CreateAndCacheParameters(string key, DbCommand cmd, string[] names, DbType[] types, object[] values)
         {
-            DbParameterCollection parms = cmd.Parameters;
-            parms.Clear();
+            DbParameterCollection parameters = cmd.Parameters;
+            parameters.Clear();
 
             if (names != null & names.Length > 0)
             {
                 if (types == null)
                 {
-
-                    for (int i = 0; i <= names.Length - 1; i++)
+                    for (int i = 0; i < names.Length; i++)
                     {
+                        this.db.AddInParameter(cmd, names[i], values[i]);
                     }
-
                 }
                 else
                 {
+                    for (int i = 0; i < names.Length; i++)
+                    {
+                        this.db.AddInParameter(cmd,names[i],types[i],values[i]);
+                    }
                 }
 
+                cache.Add(key, CreateCachableParamsClone(parameters));
             }
-
         }
-
-
-        //        public void CreateAndCacheParameters(string key, DbCommand cmd, string[] names, DbType[] types, object[] values)
-        //{
-        //    DbParameterCollection parms = cmd.Parameters;
-        //    parms.Clear();
-        //    if (names != null && names.Length > 0)
-        //    {
-        //        if (types == null)
-        //        {
-        //            for (int i = 0; i < names.Length; i++)
-        //            {
-        //                db.AddInParameter(cmd, names[i], values[i]);
-
-        //                AdjustParamNameForOracle(cmd, names[i]);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            for (int i = 0; i < names.Length; i++)
-        //            {
-        //                db.AddInParameter(cmd, names[i], types[i], values[i]);
-
-        //                AdjustParamNameForOracle(cmd, names[i]);
-        //            }
-        //        }
-        //        cache.Add(key, CreateCachableParamsClone(parms));
-        //    }
-        //}
 
         private DbParameter[] CreateCachableParamsClone(DbParameterCollection parms)
         {
@@ -126,7 +101,7 @@ namespace EApp.Common.DataAccess
             DbParameter[] cacheParams = new DbParameter[parms.Count];
             foreach (DbParameter param in parms)
             {
-                cacheParams[i] = (DbParameter)(param as ICloneable).Clone();
+                cacheParams[i] = (DbParameter)((ICloneable)param).Clone();
                 cacheParams[i].Value = null;
                 i += 1;
             }
@@ -141,9 +116,13 @@ namespace EApp.Common.DataAccess
                 cmd.CommandText = cmd.CommandText.Replace(paramName, "?");
             }
 
+            if (paramName[0] == ':' && paramName.Length > 25)
+            {
+                string truncatedParamName = paramName.Substring(0, 15) + paramName.Substring(paramName.Length - 11, 10);
+                cmd.Parameters[paramName].ParameterName = truncatedParamName;
+                cmd.CommandText = cmd.CommandText.Replace(paramName, truncatedParamName);
+            }
         }
-
-
     }
 
 }
