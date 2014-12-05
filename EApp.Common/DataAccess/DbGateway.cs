@@ -44,10 +44,10 @@ namespace EApp.Common.DataAccess
             this.database = new Database(dbProvider);
         }
 
-        private DbCommand PrepareSqlStringCommand(string[] paramColumns, DbType[] paramDbTypes, object[] paramValues, string sqlCommandText) 
+        private DbCommand PrepareSqlStringCommand(string[] columns, DbType[] paramDbTypes, object[] paramValues, string sqlCommandText) 
         {
-            if (paramColumns == null ||
-                paramColumns.Length == 0)
+            if (columns == null ||
+                columns.Length == 0)
             {
                 throw new ArgumentNullException("The column names of parameters cannot be null or zero.");
             }
@@ -59,12 +59,12 @@ namespace EApp.Common.DataAccess
             }
 
             if (paramDbTypes != null &&
-                !paramColumns.Length.Equals(paramDbTypes.Length))
+                !columns.Length.Equals(paramDbTypes.Length))
             {
                 throw new ArgumentException("The length of columns of parameter don't equal the length of db types of parameters.");
             }
 
-            if (!paramColumns.Length.Equals(paramValues.Length))
+            if (!columns.Length.Equals(paramValues.Length))
             {
                 throw new ArgumentException("The length of columns of parameter don't equal the length of values of parameters.");
             }
@@ -85,7 +85,7 @@ namespace EApp.Common.DataAccess
             {
                 lock (lockObject)
                 {
-                    this.database.ParameterCache.CreateAndCacheParameters(sqlCommandText, command, paramColumns, paramDbTypes, paramValues);
+                    this.database.ParameterCache.CreateAndCacheParameters(sqlCommandText, command, columns, paramDbTypes, paramValues);
                 }
             }
 
