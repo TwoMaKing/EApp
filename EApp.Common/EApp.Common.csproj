@@ -89,6 +89,7 @@
     <Compile Include="Network\Downloader.cs" />
     <Compile Include="Network\NetworkUtil.cs" />
     <Compile Include="Network\WebSocket.cs" />
+    <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="Util\CommonHelper.cs" />
     <Compile Include="Util\Convertor.cs" />
     <Compile Include="Util\LocalizationUtil.cs" />
