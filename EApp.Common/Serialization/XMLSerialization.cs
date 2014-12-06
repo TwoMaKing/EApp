@@ -8,108 +8,72 @@ using System.Xml.Serialization;
 
 namespace EApp.Common.Serialization
 {
-    public class XMLSerialization
+    public class XMLSerialization : ISerialization
     {
-        /// <summary>
-        /// 将对象序列化成XML字符串
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public string Serialize<T>(T obj)
+        public byte[] Serialize<T>(T obj)
         {
+            byte[] result = default(byte[]);
             try
             {
-                string xmlString = string.Empty;
+                if (obj == null)
+                    return result;
+                result = default(byte[]);
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-                XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
-                namespaces.Add(string.Empty, string.Empty);
+                XmlSerializerNamespaces nameSpaces = new XmlSerializerNamespaces();
+                nameSpaces.Add(string.Empty, string.Empty);
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    xmlSerializer.Serialize(ms, obj,namespaces);
-                    xmlString = Encoding.UTF8.GetString(ms.ToArray());
+                    xmlSerializer.Serialize((Stream)ms, obj, nameSpaces);
+                    result = ms.GetBuffer();
                 }
-                return xmlString;
+                return result;
             }
             catch (Exception ex)
             {
             }
-            return "";
+            return default(byte[]);
         }
 
-        /// <summary>
-        /// 将XML字符串反序列成对象
-        /// </summary>
-        /// <typeparam name="T">泛型对象</typeparam>
-        /// <param name="xmlString">要序列化的字符串</param>
-        /// <returns></returns>
-        public T Deserialize<T>(string xmlString)
+        public T DeSerialize<T>(byte[] bytes)
         {
+            T result = default(T);
             try
             {
-                T t = default(T);
+                if (bytes == null)
+                    return result;
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    result = (T)xmlSerializer.Deserialize((Stream)ms);
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return result;
+        }
+
+        public T DeSerialize<T>(string xmlString)
+        {
+            T result = default(T);
+            try
+            {
+                if (string.IsNullOrEmpty(xmlString))
+                    return result;
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
                 using (Stream xmlStream = new MemoryStream(Encoding.UTF8.GetBytes(xmlString)))
                 {
-                    using (XmlReader xmlReader = XmlReader.Create(xmlStream))
-                    {
-                        Object obj = xmlSerializer.Deserialize(xmlReader);
-                        t = (T)obj;
-                    }
+                    result = (T)xmlSerializer.Deserialize(xmlStream);
                 }
-                return t;
+                return result;
             }
             catch (Exception ex)
             {
-                
-            }
-            return default(T);
-        }
 
-        /// <summary>
-        /// 将对象序列化成xml文件
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="obj"></param>
-        /// <param name="fileName"></param>
-        public void SerializeToFile<T>(T obj, string fileName)
-        {
-            try
-            {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-                StreamWriter streamWriter = new StreamWriter(fileName);
-                xmlSerializer.Serialize((TextWriter)streamWriter, obj);
-                streamWriter.Close();
-                streamWriter.Dispose();
             }
-            catch (Exception ex)
-            { 
-            
-            }
-        }
-
-        /// <summary>
-        /// 从文件反序列化成对象
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        public T DeSerializeFromFile<T>(string fileName)
-        {
-            try
-            {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-                FileStream fileStream = new FileStream(fileName, FileMode.Open);
-                object obj = xmlSerializer.Deserialize((Stream)fileStream);
-                fileStream.Close();
-                fileStream.Dispose();
-                return (T)obj;
-            }
-            catch (Exception ex)
-            {
-            
-            }
-            return default(T);
+            return result;
         }
     }
 }
