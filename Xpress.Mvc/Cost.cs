@@ -43,26 +43,37 @@ namespace Xpress.Mvc
 
             // We can use BeginTransaction to first create and open a connection
             // and then create a transaction using the opened connection. we don't need to care the connection.
-            //DbTransaction trans = DbGateway.Default.BeginTransaction();
+            DbTransaction trans = DbGateway.Default.BeginTransaction();
 
-            //try
-            //{
-            //    DbGateway.Default.Insert("Message",
-            //        new string[] { "Id", "content", "user_id" },
-            //        new DbType[] { DbType.Int32, DbType.String, DbType.Int32 },
-            //        new object[] { 1, "a", 2 }, trans);
+            try
+            {
+                string userName;
+                string email = "airsoft_ft@126.com";
+                string password;
 
-            //    trans.Commit();
+                for (int index = 0; index < 2; index++)
+                {
+                    userName = "Admin " + index.ToString();
 
-            //}
-            //catch
-            //{
-            //    trans.Rollback();
-            //}
-            //finally
-            //{
-            //    DbGateway.Default.CloseConnection(trans);
-            //}
+                    password = "change_2014121" + index.ToString();
+
+                    DbGateway.Default.Insert("user",
+                        new string[] {"user_name", "user_email", "user_password" },
+                        new DbType[] { DbType.String, DbType.String, DbType.String },
+                        new object[] { userName, email, password }, trans);
+                }
+
+                trans.Commit();
+
+            }
+            catch
+            {
+                trans.Rollback();
+            }
+            finally
+            {
+                DbGateway.Default.CloseConnection(trans);
+            }
 
         }
     }

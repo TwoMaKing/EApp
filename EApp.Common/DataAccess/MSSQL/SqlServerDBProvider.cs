@@ -41,7 +41,7 @@ namespace EApp.Common.DataAccess.MSSQL
             }
 
             if (value.GetType() == typeof(byte[]))
-            {
+            {   
                 sqlParam.SqlDbType = SqlDbType.Image;
                 return;
             }
