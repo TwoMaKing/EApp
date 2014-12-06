@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
+using EApp.Core.Exceptions;
 
 namespace EApp.Common.DataAccess
 {
@@ -51,6 +52,12 @@ namespace EApp.Common.DataAccess
 
         static DbGateway() 
         {
+            if (ConfigurationManager.ConnectionStrings == null ||
+                ConfigurationManager.ConnectionStrings.Count.Equals(0))
+            {
+                throw new ConfigException("Please provide a connection string including name, provider and connection string.");
+            }
+
             string connectionStringName = ConfigurationManager.ConnectionStrings[0].Name;
 
             DbProvider dbProvider = DbProviderFactory.CreateDbProvider(connectionStringName);
@@ -87,7 +94,7 @@ namespace EApp.Common.DataAccess
 
             string[] assemblyAndClassType = providerName.Split(new char[] { ',' });
 
-            if (assemblyAndClassType.Length.Equals(1))
+            if (assemblyAndClassType.Length.Equals(2))
             {
                 return DbProviderFactory.CreateDbProvider(assemblyAndClassType[0].Trim(), 
                                                           assemblyAndClassType[1].Trim(), 

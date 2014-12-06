@@ -83,7 +83,7 @@ namespace EApp.Common.DataAccess
 
             try
             {
-                if (assAndClass.Length.Equals(1))
+                if (assAndClass.Length.Equals(2))
                 {
                     return CreateDbProvider(assAndClass[0].Trim(), assAndClass[1].Trim(), connectionString);
                 }
