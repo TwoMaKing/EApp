@@ -44,7 +44,7 @@ namespace EApp.Common.DataAccess
         #region "Abstract Memebers for further ORM"
 
         /// <summary>
-        /// Adjust SQL Parameter
+        /// Adjust SQL Parameter db type.
         /// </summary>
         public abstract void AdjustParameter(DbParameter param);
 
@@ -52,7 +52,7 @@ namespace EApp.Common.DataAccess
         ///Creates the SQL statement factory.
         ///</summary>
         /// <returns></returns>
-        public abstract IStatementFactory CreateStatementFactory();
+        public abstract ISqlStatementFactory CreateStatementFactory();
 
 
         /// <summary>
@@ -78,11 +78,10 @@ namespace EApp.Common.DataAccess
         public abstract string BuildColumnName(string name);
 
         /// <summary>
-        /// Gets the select last inserted row auto ID statement.
+        /// Gets the select sql script for the last inserted row auto ID statement.
         /// </summary>
         /// <value>The select last inserted row auto ID statement.</value>
         public abstract string SelectLastInsertedRowAutoIDStatement { get; }
-
 
         ///<summary>
         ///Gets the param prefix.
@@ -90,17 +89,6 @@ namespace EApp.Common.DataAccess
         /// <value>The param prefix.</value>
         public abstract string ParamPrefix { get; }
 
-        /// <summary>
-        /// Gets the left token of table name or column name.
-        /// </summary>
-        /// <value>The left token.</value>
-        public abstract string LeftToken { get; }
-
-        /// <summary>
-        /// Gets the right token of table name or column name.
-        /// </summary>
-        /// <value>The right token.</value>
-        public abstract string RightToken { get; }
 
 
         #endregion

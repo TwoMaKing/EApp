@@ -38,6 +38,31 @@ namespace EApp.Infrastructure.Repository
             }
         }
 
+
+        protected List<IEntity<TIdentityKey>> AddedCollection 
+        {
+            get 
+            {
+                return this.localAddedCollection.Value;
+            }
+        }
+
+        protected List<IEntity<TIdentityKey>> ModifiedCollection
+        {
+            get
+            {
+                return this.localModifiedCollection.Value;
+            }
+        }
+
+        protected List<IEntity<TIdentityKey>> DeletedCollection
+        {
+            get 
+            {
+                return this.localDeletedCollection.Value;
+            }
+        }
+
         public virtual void RegisterAddedEntity(IEntity<TIdentityKey> entity)
         {
             if (!this.localAddedCollection.Value.Contains(entity))

@@ -46,6 +46,11 @@
 					<xs:documentation>The WindowsMvc.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element minOccurs="0" name="serializationFormats" type="tns:EApp.Core.Configuration.SerializationFormatElementCollectionCT">
+				<xs:annotation>
+					<xs:documentation>The SerializationFormats.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="EApp.Core.Configuration.CurrentObjectContainerElementCT">
@@ -288,5 +293,19 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EApp.Core.Configuration.SerializationFormatElementCollectionCT">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="format" type="tns:EApp.Core.Configuration.NameTypeElementCT">
+				<xs:annotation>
+					<xs:documentation>The NameTypeElement Configuration Element.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="default" use="optional" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The Default.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 </xs:schema>
