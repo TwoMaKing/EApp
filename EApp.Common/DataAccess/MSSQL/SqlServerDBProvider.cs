@@ -6,12 +6,13 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using EApp.Common.Serialization;
 
 namespace EApp.Common.DataAccess.MSSQL
 {
     public class SqlServerDbProvider : DbProvider
     {
-        private const string paramPrefix = "@";
+        private const string Parameter_Prefix = "@";
 
         private SqlServerStatementFactory sqlServerStatementFactory = new SqlServerStatementFactory();
 
@@ -107,8 +108,9 @@ namespace EApp.Common.DataAccess.MSSQL
                 return;
             }
 
-            //by default, threat as string
+            //by default, threat as string and then Serialize it a string.
             sqlParam.SqlDbType = SqlDbType.NText;
+            sqlParam.Value = SerializationManager.Serialize(sqlParam.Value);
         }
 
         public override ISqlStatementFactory CreateStatementFactory()
@@ -123,7 +125,7 @@ namespace EApp.Common.DataAccess.MSSQL
                 return null;
             }
 
-            Regex r = new Regex(paramPrefix + @"([\w\d_]+)");
+            Regex r = new Regex(Parameter_Prefix + @"([\w\d_]+)");
             MatchCollection ms = r.Matches(sql);
 
             if (ms.Count == 0)
@@ -143,7 +145,7 @@ namespace EApp.Common.DataAccess.MSSQL
         {
             name = name.Trim('[', ']');
 
-            if (!name[0].Equals(paramPrefix))
+            if (!name[0].Equals(Parameter_Prefix))
             {
                 return name.Insert(0, this.ParamPrefix);
             }
@@ -178,7 +180,7 @@ namespace EApp.Common.DataAccess.MSSQL
         {
             get 
             {
-                return paramPrefix.ToString(); 
+                return Parameter_Prefix.ToString(); 
             }
         }
 

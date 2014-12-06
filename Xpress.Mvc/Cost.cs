@@ -23,7 +23,6 @@ namespace Xpress.Mvc
         public void BindCosts(CostModel costModel) 
         { 
             //Bind cost to data grid view.
-
             dataGridView1.DataSource = costModel.Costs;
         }
 

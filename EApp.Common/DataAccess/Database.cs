@@ -18,15 +18,21 @@ namespace EApp.Common.DataAccess
 
         internal DbParameterCache ParameterCache
         {
-            get { return this.parameterCache; }
+            get 
+            { 
+                return this.parameterCache; 
+            }
         }
 
         internal Dictionary<string, string[]> ParameterNameCache
         {
-            get { return this.parameterNameCache; }
+            get 
+            { 
+                return this.parameterNameCache; 
+            }
         }
 
-        internal string[] ParseParamNames(string sql)
+        internal string[] GetParsedParamNames(string sql)
         {
             if (string.IsNullOrEmpty(sql))
             {

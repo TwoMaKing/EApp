@@ -6,17 +6,19 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using EApp.Common.Serialization;
 using MySql.Data.MySqlClient;
 
 namespace EApp.Common.DataAccess.MySQL
 {
     public class MySqlDbProvider : DbProvider
     {
-        private const string paramPrefix = "?";
+        private const string Parameter_Prefix = "?";
 
         private ISqlStatementFactory sqlStatementFactory = new MySqlStatementFactory();
 
-        public MySqlDbProvider(string connectionString) : base(connectionString, MySqlClientFactory.Instance) 
+        public MySqlDbProvider(string connectionString) : 
+            base(connectionString, MySqlClientFactory.Instance) 
         { 
         
         }
@@ -113,9 +115,10 @@ namespace EApp.Common.DataAccess.MySQL
                 return;
             }
 
-            //by default, threat as string
+            //by default, threat as string and then Serialize it a string.
             mySqlParam.MySqlDbType = MySqlDbType.Text;
-            
+
+            mySqlParam.Value = SerializationManager.Serialize(mySqlParam.Value);
         }
 
         public override ISqlStatementFactory CreateStatementFactory()
@@ -130,7 +133,7 @@ namespace EApp.Common.DataAccess.MySQL
                 return null;
             }
 
-            Regex r = new Regex("\\" + paramPrefix + @"([\w\d_]+)");
+            Regex r = new Regex("\\" + Parameter_Prefix + @"([\w\d_]+)");
 
             MatchCollection ms = r.Matches(sql);
 
@@ -151,7 +154,7 @@ namespace EApp.Common.DataAccess.MySQL
         {
             name = name.Trim('`');
 
-            if (!name[0].Equals(paramPrefix))
+            if (!name[0].Equals(Parameter_Prefix))
             {
                 return name.Insert(0, this.ParamPrefix);
             }
@@ -186,7 +189,7 @@ namespace EApp.Common.DataAccess.MySQL
         {
             get 
             { 
-                return paramPrefix.ToString(); 
+                return Parameter_Prefix.ToString(); 
             }
         }
     }
