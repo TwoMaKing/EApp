@@ -20,7 +20,8 @@ namespace EApp.Common.DataAccess.MSSQL
             StringBuilder columnNameBuilder = new StringBuilder();
             StringBuilder columnParamNameBuilder = new StringBuilder();
 
-            if (includedColumns != null)
+            if (includedColumns != null &&
+                includedColumns.Length > 0)
             {
                 string includedColumn;
 
