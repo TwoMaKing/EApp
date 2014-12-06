@@ -7,22 +7,28 @@ using Newtonsoft.Json;
 
 namespace EApp.Common.Serialization
 {
-    public class JSONSerialization
+    public class JSONSerialization : ISerialization
     {
-        /// <summary>
-        /// JSON序列化
-        /// </summary>
-        public static string JsonSerializer<T>(T obj)
+        public byte[] Serialize<T>(T obj)
         {
-            return JsonConvert.SerializeObject(obj);
+            if (obj == null)
+                return default(byte[]);
+            return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(obj));
         }
 
-        /// <summary>
-        /// JSON反序列化
-        /// </summary>
-        public static T JsonDeserialize<T>(string jsonString)
+        public T DeSerialize<T>(string jsonString)
         {
+            if (string.IsNullOrEmpty(jsonString))
+                return default(T);
             return (T)JsonConvert.DeserializeObject(jsonString);
+        }
+
+
+        public T DeSerialize<T>(byte[] bytes)
+        {
+            if (bytes == default(byte[]))
+                return default(T);
+            return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(bytes));
         }
     }
 }
