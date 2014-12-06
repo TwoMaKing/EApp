@@ -63,9 +63,9 @@ namespace EApp.Common.DataAccess
             this.database = database;
         }
 
-        public DbGateway(DatabaseType databaseType)
+        public DbGateway(DatabaseType databaseType, string connectionString)
         {
-            this.database = new Database(CreateDbProvider(databaseType));
+            this.database = new Database(CreateDbProvider(databaseType, connectionString));
         }
 
         public DbGateway(string connectionStringName)
@@ -77,12 +77,28 @@ namespace EApp.Common.DataAccess
 
         #region Private members
 
-        private static DbProvider CreateDbProvider(DatabaseType databaseType) 
+        private static DbProvider CreateDbProvider(DatabaseType databaseType, string connectionString) 
         {
             string databaseTypeName = databaseType.ToString();
 
-            return DbProviderFactory.CreateDbProvider(databaseTypeName);
+            ConnectionStringSettings connStrSetting = ConfigurationManager.ConnectionStrings[databaseTypeName];
+
+            string providerName = connStrSetting.ProviderName;
+
+            string[] assemblyAndClassType = providerName.Split(new char[] { ',' });
+
+            if (assemblyAndClassType.Length.Equals(1))
+            {
+                return DbProviderFactory.CreateDbProvider(assemblyAndClassType[0].Trim(), 
+                                                          assemblyAndClassType[1].Trim(), 
+                                                          connectionString);
+            }
+            else
+            {
+                return DbProviderFactory.CreateDbProvider(string.Empty, providerName, connectionString);
+            }
         }
+
 
         private DbCommand PrepareSqlStringCommand(string[] paramNames, DbType[] paramDbTypes, object[] paramValues, string sqlCommandText) 
         {
