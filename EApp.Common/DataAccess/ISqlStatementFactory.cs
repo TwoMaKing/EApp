@@ -32,6 +32,6 @@ namespace EApp.Common.DataAccess
         string CreateSelectStatement(string tableName,
                                      string where,
                                      string orderBy,
-                                     params string[] includeColumns);
+                                     params string[] includedColumns);
     }
 }

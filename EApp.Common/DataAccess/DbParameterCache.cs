@@ -48,21 +48,22 @@ namespace EApp.Common.DataAccess
                 {
                     for (int i = 0; i < cacheParams.Length; i++)
                     {
-                        parms.Add(((ICloneable)cacheParams[i]).Clone());
-                        parms[i].Value = values[i];
-                        
+                        DbParameter param = (DbParameter)((ICloneable)cacheParams[i]).Clone();
+                        param.Value = values[i];
                         this.db.DBProvider.AdjustParameter(parms[i]);
+
+                        parms.Add(param);
                     }
                 }
                 else
                 {
                     for (int i = 0; i <= cacheParams.Length - 1; i++)
                     {
-                        parms.Add(((ICloneable)cacheParams[i]).Clone());
-                        parms[i].DbType = types[i];
-                        parms[i].Value = values[i];
+                        DbParameter param = (DbParameter)((ICloneable)cacheParams[i]).Clone();
+                        param.DbType = types[i];
+                        param.Value = values[i];
 
-                        this.db.DBProvider.AdjustParameter(parms[i]);
+                        parms.Add(param);
                     }
                 }
             }
