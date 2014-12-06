@@ -335,7 +335,6 @@ namespace EApp.Common.DataAccess
                 {
                     conn.Close();
                     conn.Dispose();
-
                 }
                 catch (Exception ex)
                 {
@@ -346,7 +345,9 @@ namespace EApp.Common.DataAccess
 
         public void CloseConnection(DbTransaction tran)
         {
-            if (tran != null & tran.Connection.State != ConnectionState.Closed)
+            if (tran != null & 
+                tran.Connection != null &&
+                tran.Connection.State != ConnectionState.Closed)
             {
                 CloseConnection(tran.Connection);
                 tran.Dispose();

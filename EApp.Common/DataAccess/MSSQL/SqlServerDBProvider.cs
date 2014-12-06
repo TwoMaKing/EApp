@@ -12,7 +12,7 @@ namespace EApp.Common.DataAccess.MSSQL
 {
     public class SqlServerDbProvider : DbProvider
     {
-        private const string Parameter_Prefix = "@";
+        private const char Parameter_Prefix = '@';
 
         private SqlServerStatementFactory sqlServerStatementFactory = new SqlServerStatementFactory();
 
@@ -125,7 +125,7 @@ namespace EApp.Common.DataAccess.MSSQL
                 return null;
             }
 
-            Regex r = new Regex(Parameter_Prefix + @"([\w\d_]+)");
+            Regex r = new Regex("\\" + this.ParamPrefix + @"([\w\d_]+)");
             MatchCollection ms = r.Matches(sql);
 
             if (ms.Count == 0)

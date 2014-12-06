@@ -43,36 +43,54 @@ namespace Xpress.Mvc
 
             // We can use BeginTransaction to first create and open a connection
             // and then create a transaction using the opened connection. we don't need to care the connection.
+
             DbTransaction trans = DbGateway.Default.BeginTransaction();
+
+            DbConnection conn = trans.Connection;
 
             try
             {
+                // Delete
+                DbGateway.Default.Delete("user", 
+                    "user_id > @user_id and user_email = @user_email",
+                    new object[] { 1000, "airsoft_ft@126.com" }, trans);
+
                 string userName;
                 string email = "airsoft_ft@126.com";
                 string password;
 
+                // Insert
                 for (int index = 0; index < 2; index++)
                 {
-                    userName = "Admin " + index.ToString();
+                    userName = "Admin " + (index + 1).ToString();
 
                     password = "change_2014121" + index.ToString();
 
                     DbGateway.Default.Insert("user",
-                        new string[] {"user_name", "user_email", "user_password" },
-                        new DbType[] { DbType.String, DbType.String, DbType.String },
-                        new object[] { userName, email, password }, trans);
+                        new object[] { userName, null, email, password }, trans);
+
+                    //DbGateway.Default.Insert("user",
+                    //    new string[] { "user_name", "user_email", "user_password" },
+                    //    new object[] { userName, email, password }, trans);
                 }
 
-                trans.Commit();
+                // Update
+                DbGateway.Default.Update("user",
+                                         new string[] { "user_nick_name" },
+                                         new object[] { "卡洛斯" },
+                                         "user_id=@id",
+                                         new object[] { 1000 },
+                                         trans);
 
+                trans.Commit();
             }
-            catch
+            catch (Exception ex)
             {
                 trans.Rollback();
             }
             finally
             {
-                DbGateway.Default.CloseConnection(trans);
+                DbGateway.Default.CloseConnection(conn);
             }
 
         }

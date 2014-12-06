@@ -42,7 +42,7 @@ namespace EApp.Common.DataAccess
     /// </summary>
     public class DbGateway
     {
-        private static DbGateway dbGateway;
+        private static DbGateway defaultDbGateway;
 
         private Database database;
 
@@ -62,7 +62,7 @@ namespace EApp.Common.DataAccess
 
             DbProvider dbProvider = DbProviderFactory.CreateDbProvider(connectionStringName);
 
-            dbGateway = new DbGateway(new Database(dbProvider));
+            defaultDbGateway = new DbGateway(new Database(dbProvider));
         }
 
         public DbGateway(Database database)
@@ -114,33 +114,18 @@ namespace EApp.Common.DataAccess
                 throw new ArgumentNullException("The sql command text cannot be null or empty."); 
             }
 
-            if (paramNames == null ||
-                paramNames.Length == 0)
-            {
-                throw new ArgumentNullException("The column names of parameters cannot be null or zero.");
-            }
-
-            if (paramValues == null ||
-                paramValues.Length == 0)
-            {
-                throw new ArgumentNullException("The values of parameters cannot be null or zero.");
-            }
-
-            if (paramDbTypes != null &&
+            if (paramNames != null &&
+                paramDbTypes != null &&
                 !paramNames.Length.Equals(paramDbTypes.Length))
             {
-                throw new ArgumentException("The length of columns of parameter should equal the length of db types of parameters.");
+                throw new ArgumentException("The length of names of parameters should equal the length of db types of parameters.");
             }
 
-            if (!paramNames.Length.Equals(paramValues.Length))
+            if (paramNames != null &&
+               (paramValues == null ||
+                !paramNames.Length.Equals(paramValues.Length)))
             {
-                throw new ArgumentException("The length of columns of parameter should equal the length of values of parameters.");
-            }
-
-            if (paramDbTypes != null &&
-                !paramDbTypes.Length.Equals(paramValues.Length))
-            {
-                throw new ArgumentException("The length of db types of parameter should equal the length of values of parameters.");
+                throw new ArgumentException("The length of names of parameters should equal the length of values of parameters.");
             }
 
             DbCommand command = this.database.GetSqlStringCommand(sqlCommandText);
@@ -200,12 +185,6 @@ namespace EApp.Common.DataAccess
             if (!inParamNames.Length.Equals(inParamValues.Length))
             {
                 throw new ArgumentException("The length of columns of parameter should equal the length of values of parameters.");
-            }
-
-            if (inParamDbTypes != null &&
-                !inParamDbTypes.Length.Equals(inParamValues.Length))
-            {
-                throw new ArgumentException("The length of db types of in parameter should equal the length of values of parameters.");
             }
 
             if (outParamNames != null &&
@@ -293,8 +272,18 @@ namespace EApp.Common.DataAccess
         {
             get
             {
-                return dbGateway;
+                return defaultDbGateway;
             }
+        }
+
+        public static void SetDefaultDatabase(string connectionStringName) 
+        {
+            defaultDbGateway = new DbGateway(connectionStringName);
+        }
+
+        public static void SetDefaultDatabase(DatabaseType databaseType, string connectionString)
+        {
+            defaultDbGateway = new DbGateway(new Database(CreateDbProvider(databaseType, connectionString)));
         }
 
         public DbConnection OpenConnectiion() 
@@ -312,17 +301,21 @@ namespace EApp.Common.DataAccess
             return this.database.BeginTransaction(isolationLevel);
         }
 
+        public int Insert(string table, object[] values, DbTransaction transaction) 
+        {
+            return this.Insert(table, null, values, transaction);
+        }
+
+        public int Insert(string table, string[] columns, object[] values, DbTransaction transaction)
+        {
+            return this.Insert(table, null, null, values, transaction);
+        }
+
         public int Insert(string table, string[] columns, DbType[] dbTypes, object[] values, DbTransaction transaction)
         {
             if (string.IsNullOrEmpty(table))
             {
                 throw new ArgumentNullException("The table name cannot be null or zero.");
-            }
-
-            if (columns == null ||
-                columns.Length == 0)
-            {
-                throw new ArgumentNullException("The column names of parameters cannot be null or zero.");
             }
 
             if (values == null ||
@@ -331,18 +324,21 @@ namespace EApp.Common.DataAccess
                 throw new ArgumentNullException("The values of parameters cannot be null or zero.");
             }
 
-            if (dbTypes != null &&
+            if (columns != null &&
+                dbTypes != null &&
                 !columns.Length.Equals(dbTypes.Length))
             {
                 throw new ArgumentException("The length of columns of parameter don't equal the length of db types of parameters.");
             }
 
-            if (!columns.Length.Equals(values.Length))
+            if (columns != null &&
+                !columns.Length.Equals(values.Length))
             {
                 throw new ArgumentException("The length of columns of parameter don't equal the length of values of parameters.");
             }
 
-            if (dbTypes != null &&
+            if (columns == null &&
+                dbTypes != null &&
                 !dbTypes.Length.Equals(values.Length))
             {
                 throw new ArgumentException("The length of db types of parameter don't equal the length of values of parameters.");
@@ -352,7 +348,30 @@ namespace EApp.Common.DataAccess
 
             string insertSqlStatement = statementFactory.CreateInsertStatement(table, columns);
 
-            DbCommand insertCommand = this.PrepareSqlStringCommand(columns, dbTypes, values, insertSqlStatement);
+            string[] paramNames;
+
+            if (columns == null)
+            {
+                paramNames = new string[values.Length];
+
+                string paramNamesSql = string.Empty;
+
+                for (int paramIndex = 0; paramIndex < values.Length; paramIndex++)
+                {
+                    paramNames[paramIndex] = "@column_" + (paramIndex + 1).ToString();
+
+                    paramNamesSql += paramNames[paramIndex] + ",";
+                }
+
+                insertSqlStatement = string.Format(insertSqlStatement, paramNamesSql.TrimEnd(','));
+            }
+            else
+            {
+                paramNames = columns;
+            }
+
+
+            DbCommand insertCommand = this.PrepareSqlStringCommand(paramNames, dbTypes, values, insertSqlStatement);
 
             object returnValue;
 
@@ -415,6 +434,33 @@ namespace EApp.Common.DataAccess
             return 0;
         }
 
+        /// <summary>
+        /// Update a table without where condition. This is a actually batch update.
+        /// </summary>
+        public void Update(string table,
+                           string[] columns,
+                           object[] values,
+                           DbTransaction transaction)
+        {
+            this.Update(table, columns, values, null, null, transaction);
+        }
+
+        /// <summary>
+        /// Update a table with where condition. 
+        /// </summary>
+        public void Update(string table,
+                           string[] columns,
+                           object[] values,
+                           string where,
+                           object[] whereValues,
+                           DbTransaction transaction) 
+        {
+            this.Update(table, columns, null, values, where, null, whereValues, transaction);
+        }
+
+        /// <summary>
+        /// Update a table with where condition.
+        /// </summary>
         public void Update(string table, 
                            string[] columns, 
                            DbType[] dbTypes, 
@@ -452,32 +498,19 @@ namespace EApp.Common.DataAccess
             {
                 throw new ArgumentException("The length of columns should equal the length of parameter db types.");
             }
-
-            if (dbTypes != null &&
-                !dbTypes.Length.Equals(values.Length))
-            {
-                throw new ArgumentException("The length of parameter db types should equal the length of parameter values.");
-            }
             
             string[] whereParamNames = this.database.GetParsedParamNames(where);
 
             if (whereParamNames != null &&
                 whereDbTypes != null &&
-                !whereDbTypes.Length.Equals(whereValues.Length))
-            {
-                throw new ArgumentException("The length of parameter db types in where sql should equal the length of parameter values in where sql if where sql is not null or empty.");
-            }
-
-            if (whereParamNames != null &&
-                whereDbTypes != null &&
-                whereParamNames.Length.Equals(whereDbTypes.Length))
+                !whereParamNames.Length.Equals(whereDbTypes.Length))
             {
                 throw new ArgumentException("The length of parameter db types in where sql should equal the length of parameter names in where sql if sql is not null or empty.");
             }
 
             if (whereParamNames != null &&
                 whereValues != null &&
-                whereParamNames.Length.Equals(whereValues.Length))
+                !whereParamNames.Length.Equals(whereValues.Length))
             {
                 throw new ArgumentException("The length of parameter names in where sql should equal the length of parameter values in where sql if sql is not null or empty.");
             }
@@ -516,8 +549,9 @@ namespace EApp.Common.DataAccess
             }
 
             DbCommand command = this.PrepareSqlStringCommand(allParamNames.ToArray(), 
-                allParamDbTypes.ToArray(), allParamValues.ToArray(), updateSqlStatement);
-
+                                                             allParamDbTypes.Count.Equals(0)? null : allParamDbTypes.ToArray() , 
+                                                             allParamValues.ToArray(), 
+                                                             updateSqlStatement);
             if (transaction == null)
             {
                 this.database.ExecuteNonQuery(command);
@@ -526,6 +560,16 @@ namespace EApp.Common.DataAccess
             {
                 this.database.ExecuteNonQuery(command, transaction);
             }
+        }
+
+        public void Delete(string table, DbTransaction transaction)
+        {
+            this.Delete(table, null, null, null, transaction);
+        }
+
+        public void Delete(string table, string where, object[] whereValues, DbTransaction transaction) 
+        {
+            this.Delete(table, where, null, whereValues, transaction);
         }
 
         public void Delete(string table, string where, DbType[] whereDbTypes, object[] whereValues, DbTransaction transaction) 
@@ -546,21 +590,14 @@ namespace EApp.Common.DataAccess
 
             if (whereParamNames != null &&
                 whereDbTypes != null &&
-                !whereDbTypes.Length.Equals(whereValues.Length))
-            {
-                throw new ArgumentException("The length of parameter types in where Sql should equal the length of parameter values in where Sql if where is not null or empty.");
-            }
-
-            if (whereParamNames != null &&
-                whereDbTypes != null &&
                 !whereDbTypes.Length.Equals(whereParamNames.Length))
             {
                 throw new ArgumentException("The length of parameter types in where Sql should equal the length of parameter names in where Sql if where is not null or empty.");
             }
 
             if (whereParamNames != null &&
-                whereValues != null &&
-                whereParamNames.Length.Equals(whereValues.Length))
+               (whereValues == null ||
+                !whereParamNames.Length.Equals(whereValues.Length)))
             {
                 throw new ArgumentException("The length of parameter values in where Sql should equal the length of parameter names in where Sql if where is not null or empty..");
             }
@@ -569,11 +606,19 @@ namespace EApp.Common.DataAccess
 
             string deleteSqlStatement = sqlStatementFactory.CreateDeleteStatement(table, where);
 
-           
+            DbCommand command = this.PrepareSqlStringCommand(whereParamNames,
+                                                             whereParamNames == null ? null : whereDbTypes,
+                                                             whereParamNames == null ? null : whereValues,
+                                                             deleteSqlStatement);
 
-
-
-
+            if (transaction == null)
+            {
+                this.database.ExecuteNonQuery(command);
+            }
+            else
+            {
+                this.database.ExecuteNonQuery(command, transaction);
+            }
         }
 
         public void ExecuteNonQuery(string sqlCommandText, DbType[] paramDbTypes, object[] paramValues, DbTransaction transaction) 
@@ -592,6 +637,13 @@ namespace EApp.Common.DataAccess
             }
         }
 
+        public DataSet ExecuteStoredProcedure(string storedProcedureName,
+                                              string[] inParamNames,
+                                              object[] inParamValues,
+                                              DbTransaction transaction)
+        {
+            return this.ExecuteStoredProcedure(storedProcedureName, inParamNames, null, inParamValues, transaction);
+        }
 
         public DataSet ExecuteStoredProcedure(string storedProcedureName,
                                               string[] inParamNames,

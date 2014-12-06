@@ -13,7 +13,7 @@ namespace EApp.Common.DataAccess.MySQL
 {
     public class MySqlDbProvider : DbProvider
     {
-        private const string Parameter_Prefix = "?";
+        private const char Parameter_Prefix = '?';
 
         private ISqlStatementFactory sqlStatementFactory = new MySqlStatementFactory();
 
@@ -133,7 +133,7 @@ namespace EApp.Common.DataAccess.MySQL
                 return null;
             }
 
-            Regex r = new Regex("\\" + Parameter_Prefix + @"([\w\d_]+)");
+            Regex r = new Regex("\\" + this.ParamPrefix + @"([\w\d_]+)");
 
             MatchCollection ms = r.Matches(sql);
 
