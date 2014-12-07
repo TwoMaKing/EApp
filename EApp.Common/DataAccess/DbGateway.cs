@@ -291,6 +291,11 @@ namespace EApp.Common.DataAccess
             return this.database.CreateConnection(true);
         }
 
+        public DbTransaction BeginTransaction(DbConnection connection) 
+        {
+            return this.database.BeginTransaction(connection);
+        }
+
         public DbTransaction BeginTransaction() 
         {
             return this.BeginTransaction(IsolationLevel.ReadCommitted);
@@ -621,6 +626,11 @@ namespace EApp.Common.DataAccess
             }
         }
 
+        public void ExecuteNonQuery(string sqlCommandText, object[] paramValues, DbTransaction transaction)
+        {
+            this.ExecuteNonQuery(sqlCommandText, null, paramValues, transaction);
+        }
+
         public void ExecuteNonQuery(string sqlCommandText, DbType[] paramDbTypes, object[] paramValues, DbTransaction transaction) 
         {
             string[] paramNames = this.database.DiscoverParams(sqlCommandText);
@@ -687,6 +697,16 @@ namespace EApp.Common.DataAccess
             return returnDataSet;   
         }
 
+        public IDataReader ExecuteReader(string commandText, object[] paramValues)
+        {
+            return this.ExecuteReader(commandText, paramValues, null);
+        }
+
+        public IDataReader ExecuteReader(string commandText, object[] paramValues, DbTransaction transaction) 
+        {
+            return this.ExecuteReader(commandText, null, paramValues, transaction);
+        }
+
         public IDataReader ExecuteReader(string commandText, DbType[] paramDbTypes, object[] paramValues)
         {
             return this.ExecuteReader(commandText, paramDbTypes, paramValues, null);
@@ -708,6 +728,16 @@ namespace EApp.Common.DataAccess
             }
         }
 
+        public object ExecuteScalar(string commandText, object[] paramValues)
+        {
+            return this.ExecuteScalar(commandText, paramValues, null);
+        }
+
+        public object ExecuteScalar(string commandText, object[] paramValues, DbTransaction transaction) 
+        {
+            return this.ExecuteScalar(commandText, null, paramValues, transaction);
+        }
+
         public object ExecuteScalar(string commandText, DbType[] paramDbTypes, object[] paramValues)
         {
             return this.ExecuteScalar(commandText, paramDbTypes, paramValues, null);
@@ -727,6 +757,16 @@ namespace EApp.Common.DataAccess
             {
                 return this.database.ExecuteScalar(command, transaction);
             }
+        }
+
+        public DataSet ExecuteDataSet(string commandText, object[] paramValues) 
+        {
+            return this.ExecuteDataSet(commandText, paramValues, null);
+        }
+
+        public DataSet ExecuteDataSet(string commandText, object[] paramValues, DbTransaction transaction)
+        {
+            return this.ExecuteDataSet(commandText, null, paramValues, transaction);
         }
 
         public DataSet ExecuteDataSet(string commandText, DbType[] paramDbTypes, object[] paramValues)

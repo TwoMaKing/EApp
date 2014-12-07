@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using EApp.Common.Serialization;
 
-namespace EApp.Common.DataAccess.MSSQL
+namespace EApp.Common.DataAccess.SqlServer
 {
     public class SqlServerDbProvider : DbProvider
     {
@@ -22,6 +22,9 @@ namespace EApp.Common.DataAccess.MSSQL
         
         }
 
+        /// <summary>
+        /// Adjust common Parameter db type to the specified MS SQL Server Parameter db type.
+        /// </summary>
         public override void AdjustParameter(DbParameter param)
         {
             SqlParameter sqlParam = (SqlParameter)param;

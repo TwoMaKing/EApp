@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EApp.Common.DataAccess.MySQL
+namespace EApp.Common.DataAccess.MySql
 {
     public class MySqlStatementFactory : ISqlStatementFactory
     {

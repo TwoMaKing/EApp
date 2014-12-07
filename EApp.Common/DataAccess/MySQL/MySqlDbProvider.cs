@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 using EApp.Common.Serialization;
 using MySql.Data.MySqlClient;
 
-namespace EApp.Common.DataAccess.MySQL
+namespace EApp.Common.DataAccess.MySql
 {
     public class MySqlDbProvider : DbProvider
     {
@@ -23,6 +23,9 @@ namespace EApp.Common.DataAccess.MySQL
         
         }
 
+        /// <summary>
+        /// Adjust common Parameter db type to the specified MySql Parameter db type.
+        /// </summary>
         public override void AdjustParameter(DbParameter param)
         {
             MySqlParameter mySqlParam = (MySqlParameter)param;
@@ -126,6 +129,13 @@ namespace EApp.Common.DataAccess.MySQL
             return this.sqlStatementFactory;
         }
 
+        /// <summary>
+        /// Discovers params from SQL text.
+        /// E.g. insert into `user` values (?user_name, ?user_email, ?user_password)
+        /// Having 3 parameters: ?user_name, ?user_email, ?user_password.
+        /// </summary>
+        /// <param name="sql">The full or part of SQL text.</param>
+        /// <returns>The discovered params.</returns>
         public override string[] DiscoverParams(string sql)
         {
             if (sql == null)
@@ -150,6 +160,13 @@ namespace EApp.Common.DataAccess.MySQL
             return paramNames;
         }
 
+        /// <summary>
+        /// Builds the name of the parameter. 
+        /// E.g. for MySql add a '?' char at the begin with the columns. e.g. ?user_name, ?user_email
+        /// insert into [user] values (?user_name, ?user_email)
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public override string BuildParameterName(string name)
         {
             name = name.Trim('`');
@@ -162,6 +179,14 @@ namespace EApp.Common.DataAccess.MySQL
             return name;
         }
 
+        /// <summary>
+        /// Builds the name of the column or table.
+        /// E.g. for MySql add '`' and '`' at the left and right of the column name.
+        /// e.g. `user_name`, `user_email`
+        /// update `user` set `user_name`=?user_name, `user_email`=?user_email where `user_id`=?user_id
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public override string BuildColumnName(string name)
         {
             if (!name.StartsWith("`")) 

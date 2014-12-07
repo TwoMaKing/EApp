@@ -33,10 +33,11 @@ namespace Xpress.Mvc
             this.View.Action("AddCost");
 
 
-            //DbGateway db = new DbGateway("MySql")
-            //DbGateway.Default
+            //Create Instance 1: DbGateway db = new DbGateway("MySql")
 
-            //DbGateway db = new DbGateway(DatabaseType.SqlServer, "server=localhost\OSPTTESTDEV;database=TESTDB;User ID=sa;Password=sa");
+            //Create Instance 2: DbGateway.Default
+
+            //Create Instance 3: DbGateway db = new DbGateway(DatabaseType.SqlServer, "server=localhost\OSPTTESTDEV;database=TESTDB;User ID=sa;Password=sa");
 
             // Actually, no need to create and open a connection.
             //DbConnection connection = DbGateway.Default.OpenConnectiion();
@@ -44,9 +45,9 @@ namespace Xpress.Mvc
             // We can use BeginTransaction to first create and open a connection
             // and then create a transaction using the opened connection. we don't need to care the connection.
 
-            DbTransaction trans = DbGateway.Default.BeginTransaction();
+            DbConnection connection = DbGateway.Default.OpenConnectiion();
 
-            DbConnection conn = trans.Connection;
+            DbTransaction trans = DbGateway.Default.BeginTransaction(connection);
 
             try
             {
@@ -82,7 +83,12 @@ namespace Xpress.Mvc
                                          new object[] { 1000 },
                                          trans);
 
-                trans.Commit();
+                // customized Non Query SQL scripts.
+                DbGateway.Default.ExecuteNonQuery("update [user] set [user_email]=@email where [user_id]=@id",
+                                                  new object[] {"119075838@qq.com", 1000 }, 
+                                                  trans);
+
+                trans.Commit();                
             }
             catch (Exception ex)
             {
@@ -90,7 +96,35 @@ namespace Xpress.Mvc
             }
             finally
             {
-                DbGateway.Default.CloseConnection(conn);
+                DbGateway.Default.CloseConnection(connection);
+            }
+
+            // 注意，transaction 提交之后， transaction 的 connection 将变为null,
+            // 所以 调用 transaction 的Commit 之后，不能再使用带 transaction参数的方法,
+            // 应该直接调用无transaction 参数的方法。
+            string userQuerySql = @"select [user_name], [user_email], [user_password] from [user] where [user_id]=@id";
+
+            //读取后直接关闭connection. 这样也避免了死锁。
+            DataSet ds = DbGateway.Default.ExecuteDataSet(userQuerySql, new object[] { 1000 });
+
+            // 以下方法在 Commit 调用 之后 再执行 是错误的，如果需要在Commit 之后 调用 带transaction的方法那说明你的数据库操作逻辑本身就有问题
+            // 你应该在Commit 之前获取你想要的数据，用ReadCommitted 的隔离级别。可研究 转账 业务,要保证是同一个事物里面，所以不管读取还是
+            // 更新都应该在事物提交之前去做。提交之后读数据已经没必要在 用事物去读了，Query执行后直接关闭connecton.
+            //DataSet ds = DbGateway.Default.ExecuteDataSet(userQuerySql, new object[] { 1000 }, trans);
+
+            DataTable dt = ds.Tables[0];
+
+            string userEmail = dt.Rows[0]["user_email"].ToString();
+
+            using (IDataReader dr = DbGateway.Default.ExecuteReader(userQuerySql, new object[] { 1000 }))
+            {
+                dr.Read();
+
+                string userPassword = dr["user_password"].ToString();
+
+                //dr.Close();
+
+                //dr.Dispose();
             }
 
         }
