@@ -8,11 +8,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using EApp.Common.Serialization;
 
-namespace EApp.Common.DataAccess.MSSQL
+namespace EApp.Common.DataAccess.SqlServer
 {
     public class SqlServerDbProvider : DbProvider
     {
-        private const string Parameter_Prefix = "@";
+        private const char Parameter_Prefix = '@';
 
         private SqlServerStatementFactory sqlServerStatementFactory = new SqlServerStatementFactory();
 
@@ -22,6 +22,9 @@ namespace EApp.Common.DataAccess.MSSQL
         
         }
 
+        /// <summary>
+        /// Adjust common Parameter db type to the specified MS SQL Server Parameter db type.
+        /// </summary>
         public override void AdjustParameter(DbParameter param)
         {
             SqlParameter sqlParam = (SqlParameter)param;
@@ -41,7 +44,7 @@ namespace EApp.Common.DataAccess.MSSQL
             }
 
             if (value.GetType() == typeof(byte[]))
-            {
+            {   
                 sqlParam.SqlDbType = SqlDbType.Image;
                 return;
             }
@@ -125,7 +128,7 @@ namespace EApp.Common.DataAccess.MSSQL
                 return null;
             }
 
-            Regex r = new Regex(Parameter_Prefix + @"([\w\d_]+)");
+            Regex r = new Regex("\\" + this.ParamPrefix + @"([\w\d_]+)");
             MatchCollection ms = r.Matches(sql);
 
             if (ms.Count == 0)

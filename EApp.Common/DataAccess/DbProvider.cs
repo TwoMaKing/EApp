@@ -56,7 +56,9 @@ namespace EApp.Common.DataAccess
 
 
         /// <summary>
-        ///Discovers params from SQL text.
+        /// Discovers params from SQL text.
+        /// E.g. insert into [user] values (@user_name, @user_email, @user_password). 
+        /// Having 3 parameters: @user_name, @user_email, @user_password.
         /// </summary>
         /// <param name="sql">The full or part of SQL text.</param>
         /// <returns>The discovered params.</returns>
@@ -64,14 +66,19 @@ namespace EApp.Common.DataAccess
 
 
         /// <summary>
-        /// Builds the name of the parameter.
+        /// Builds the name of the parameter. 
+        /// E.g. for MS SQL add a '@' char at the begin with the column name. e.g. @user_name, @user_email
+        /// insert into [user] values (@user_name, @user_email)
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
         public abstract string BuildParameterName(string name);
 
         /// <summary>
-        /// Builds the name of the column.
+        /// Builds the name of the column or table.
+        /// E.g. for MS SQL add '[' and ']' at the left and right of the column name.
+        /// e.g. [user_name], [user_email]
+        /// update [user] set [user_name]=@user_name, [user_email]=@user_email where [user_id]=@user_id
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>

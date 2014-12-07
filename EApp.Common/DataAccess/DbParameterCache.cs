@@ -50,8 +50,7 @@ namespace EApp.Common.DataAccess
                     {
                         DbParameter param = (DbParameter)((ICloneable)cacheParams[i]).Clone();
                         param.Value = values[i];
-                        this.db.DBProvider.AdjustParameter(parms[i]);
-
+                        this.db.DBProvider.AdjustParameter(param);
                         parms.Add(param);
                     }
                 }
@@ -62,7 +61,7 @@ namespace EApp.Common.DataAccess
                         DbParameter param = (DbParameter)((ICloneable)cacheParams[i]).Clone();
                         param.DbType = types[i];
                         param.Value = values[i];
-
+                        this.db.DBProvider.AdjustParameter(param);
                         parms.Add(param);
                     }
                 }

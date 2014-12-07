@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EApp.Common.DataAccess.MSSQL
+namespace EApp.Common.DataAccess.SqlServer
 {
     public class SqlServerStatementFactory : ISqlStatementFactory
     {
@@ -15,12 +15,13 @@ namespace EApp.Common.DataAccess.MSSQL
 
         public string CreateInsertStatement(string tableName, string[] includedColumns)
         {
-            string insertSql = @"INSERT INTO [{0}] ({1}) VALUES ({2})";
+            string insertSql = @"INSERT INTO [{0}] {1} VALUES ({2})";
 
             StringBuilder columnNameBuilder = new StringBuilder();
             StringBuilder columnParamNameBuilder = new StringBuilder();
 
-            if (includedColumns != null)
+            if (includedColumns != null &&
+                includedColumns.Length > 0)
             {
                 string includedColumn;
 
@@ -34,12 +35,26 @@ namespace EApp.Common.DataAccess.MSSQL
 
                     dbFieldName = string.Format("{0}{1}{2},", Parameter_Left_Token, includedColumn, Parameter_Right_Token);
 
+                    if (columnIndex == 0)
+                    {
+                        dbFieldName = "(" + dbFieldName;
+                    }
+
+                    if (columnIndex == includedColumns.Length - 1)
+                    {
+                        dbFieldName = dbFieldName + ")";
+                    }
+
                     dbFieldParamName = string.Format("{0}{1},", Parameter_Prefix, includedColumn);
 
                     columnNameBuilder.Append(dbFieldName);
 
                     columnParamNameBuilder.Append(dbFieldParamName);
                 }
+            }
+            else
+            {
+                columnParamNameBuilder.Append("{0}");
             }
 
             return string.Format(insertSql, tableName.Trim(Parameter_Left_Token, Parameter_Right_Token),
