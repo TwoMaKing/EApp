@@ -55,6 +55,7 @@
     <Compile Include="Cost.Designer.cs">
       <DependentUpon>Cost.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logic\DataExporter.cs" />
     <Compile Include="Models\CostModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
