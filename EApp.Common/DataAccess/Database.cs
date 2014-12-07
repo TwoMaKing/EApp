@@ -188,7 +188,10 @@ namespace EApp.Common.DataAccess
             }
             finally
             {
-                this.CloseConnection(command);
+                if (cmdBehavior != CommandBehavior.CloseConnection)
+                {
+                    this.CloseConnection(command);
+                }
             }
         }
 
@@ -224,16 +227,6 @@ namespace EApp.Common.DataAccess
             }
 
             return rows;
-        }
-
-        private DbTransaction BeginTransaction(DbConnection connection)
-        {
-            return connection.BeginTransaction();
-        }
-
-        private DbTransaction BeginTransaction(DbConnection connection, IsolationLevel isolationLevel)
-        {
-            return connection.BeginTransaction(isolationLevel);
         }
 
         private static void PrepareCommand(DbCommand command, DbConnection connection)
@@ -318,7 +311,7 @@ namespace EApp.Common.DataAccess
         public void CloseConnection(DbCommand command)
         {
             if (command != null & command.Connection.State != ConnectionState.Closed & this.batchConnection == null)
-            {
+            {   
                 if (command.Transaction == null)
                 {
                     CloseConnection(command.Connection);
@@ -335,7 +328,6 @@ namespace EApp.Common.DataAccess
                 {
                     conn.Close();
                     conn.Dispose();
-
                 }
                 catch (Exception ex)
                 {
@@ -346,7 +338,9 @@ namespace EApp.Common.DataAccess
 
         public void CloseConnection(DbTransaction tran)
         {
-            if (tran != null & tran.Connection.State != ConnectionState.Closed)
+            if (tran != null & 
+                tran.Connection != null &&
+                tran.Connection.State != ConnectionState.Closed)
             {
                 CloseConnection(tran.Connection);
                 tran.Dispose();
@@ -523,7 +517,6 @@ namespace EApp.Common.DataAccess
                 try
                 {
                     CloseConnection(connection);
-
                 }
                 catch
                 {
@@ -685,9 +678,19 @@ namespace EApp.Common.DataAccess
             return this.GetConnection(true).BeginTransaction();
         }
 
-        public DbTransaction BeginTransaction(IsolationLevel il)
+        public DbTransaction BeginTransaction(IsolationLevel isolationLevel)
         {
-            return this.GetConnection(true).BeginTransaction(il);
+            return this.GetConnection(true).BeginTransaction(isolationLevel);
+        }
+
+        public DbTransaction BeginTransaction(DbConnection connection)
+        {
+            return connection.BeginTransaction();
+        }
+
+        public DbTransaction BeginTransaction(DbConnection connection, IsolationLevel isolationLevel)
+        {
+            return connection.BeginTransaction(isolationLevel);
         }
 
         public void RollbackTransaction(DbTransaction transaction)
