@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chat", "Xpress.Chat\Xpress.Chat.csproj", "{B83FD7E2-C2FA-45E3-AE88-17DBAFAB45F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.Domain", "Xpress.Chart.Domain\Xpress.Chart.Domain.csproj", "{EDFF63AB-3B20-41E6-869D-26AA995DE025}"
@@ -36,6 +38,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Repositories.SqlServer", "EApp.Repositories.SqlServer\EApp.Repositories.SqlServer.csproj", "{69820BD8-912B-461F-BDC2-AFA43E318953}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Repositories.EntityFramework", "EApp.Repositories.EntityFramework\EApp.Repositories.EntityFramework.csproj", "{5A6BFFC4-41C0-42CE-9186-56076D3002E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Common.Test", "EApp.Common.Test\EApp.Common.Test.csproj", "{DE7A4E63-4A76-4563-B78F-66D195032810}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -217,17 +221,27 @@ Global
 		{5A6BFFC4-41C0-42CE-9186-56076D3002E6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5A6BFFC4-41C0-42CE-9186-56076D3002E6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5A6BFFC4-41C0-42CE-9186-56076D3002E6}.Release|x86.ActiveCfg = Release|Any CPU
+		{DE7A4E63-4A76-4563-B78F-66D195032810}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE7A4E63-4A76-4563-B78F-66D195032810}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE7A4E63-4A76-4563-B78F-66D195032810}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DE7A4E63-4A76-4563-B78F-66D195032810}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DE7A4E63-4A76-4563-B78F-66D195032810}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DE7A4E63-4A76-4563-B78F-66D195032810}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE7A4E63-4A76-4563-B78F-66D195032810}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE7A4E63-4A76-4563-B78F-66D195032810}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DE7A4E63-4A76-4563-B78F-66D195032810}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DE7A4E63-4A76-4563-B78F-66D195032810}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{EDFF63AB-3B20-41E6-869D-26AA995DE025} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{3FF46FD1-492A-4DE9-BA07-4C5F1ACEA60E} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{6A170104-5120-4E18-AF57-1D89F3CA2D74} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{73F121D1-019B-40A5-9171-73B1030375F5} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{B83FD7E2-C2FA-45E3-AE88-17DBAFAB45F2} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{EE878E3B-F721-444F-954F-562B192463E1} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{8CC54AD5-B722-41D8-98C6-5C1C6FCA1869} = {69953842-655B-4E4C-9CB0-284F0390D323}
-		{EDFF63AB-3B20-41E6-869D-26AA995DE025} = {69953842-655B-4E4C-9CB0-284F0390D323}
 	EndGlobalSection
 EndGlobal
