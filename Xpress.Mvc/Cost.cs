@@ -6,11 +6,14 @@ using System.Data.Common;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
+using EApp.Common.AsynComponent;
 using EApp.Common.DataAccess;
 using EApp.Core.Application;
 using EApp.Core.Configuration;
 using EApp.Windows.Mvc;
+using Xpress.Mvc.Logic;
 using Xpress.Mvc.Models;
 
 namespace Xpress.Mvc
@@ -60,20 +63,33 @@ namespace Xpress.Mvc
                 string email = "airsoft_ft@126.com";
                 string password;
 
+                string topicName;
+
+                string topicDesc;
+
                 // Insert
-                for (int index = 0; index < 2; index++)
+                for (int index = 0; index < 10; index++)
                 {
                     userName = "Admin " + (index + 1).ToString();
 
                     password = "change_2014121" + index.ToString();
 
+                    topicName = "Topic " + (index + 1).ToString();
+
+                    topicDesc = "Description " + (index + 1).ToString();
+
                     DbGateway.Default.Insert("user",
-                        new object[] { userName, null, email, password }, trans);
+                                              new object[] { userName, null, email, password }, 
+                                              trans);
+
+                    DbGateway.Default.Insert("topic",
+                                              new object[] { topicName, topicDesc }, trans);
 
                     //DbGateway.Default.Insert("user",
                     //    new string[] { "user_name", "user_email", "user_password" },
                     //    new object[] { userName, email, password }, trans);
                 }
+
 
                 // Update
                 DbGateway.Default.Update("user",
@@ -127,6 +143,36 @@ namespace Xpress.Mvc
                 //dr.Dispose();
             }
 
+        }
+
+        private IAsyncTask exportTask;
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            rbMessage.Clear();
+
+            exportTask = new DataExporter();
+
+            exportTask.RunAsync(@"c:\\TestDataFile.txt");
+
+            exportTask.ProgressChanged += new ProgressChangedEventHandler(delegate(object o, ProgressChangedEventArgs args) 
+                {
+                    if (args != null &&
+                        args.UserState != null)
+                    {
+                        this.rbMessage.AppendText(args.UserState.ToString());
+                    }
+                });
+
+            exportTask.Completed += new AsyncCompletedEventHandler(delegate(object o, AsyncCompletedEventArgs args) 
+                {
+                    this.rbMessage.AppendText("Export Successfuly.");
+                });
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            exportTask.CancelAsync();
         }
     }
 }

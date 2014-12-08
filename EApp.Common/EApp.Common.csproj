@@ -74,6 +74,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsynComponent\AsyncTask.cs" />
+    <Compile Include="AsynComponent\IAsyncTask.cs" />
     <Compile Include="Cache\ICacheStrategy.cs" />
     <Compile Include="Cache\Memcached\MemcacheStrategy.cs" />
     <Compile Include="Cache\Redis\RedisStrategy.cs" />
@@ -129,7 +131,6 @@
     <Compile Include="Win32API\Win32API.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AsynComponent\" />
     <Folder Include="Compression\7Z\" />
     <Folder Include="IOC\SpringNet\" />
   </ItemGroup>

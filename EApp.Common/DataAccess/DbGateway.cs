@@ -697,6 +697,20 @@ namespace EApp.Common.DataAccess
             return returnDataSet;   
         }
 
+        public IDataReader ExecuteReader(string commandText)
+        {
+            DbCommand command = this.database.GetSqlStringCommand(commandText);
+
+            return this.database.ExecuteReader(command);
+        }
+
+        public IDataReader ExecuteReader(string commandText, DbTransaction transaction)
+        {
+            DbCommand command = this.database.GetSqlStringCommand(commandText);
+
+            return this.database.ExecuteReader(command, transaction);
+        }
+
         public IDataReader ExecuteReader(string commandText, object[] paramValues)
         {
             return this.ExecuteReader(commandText, paramValues, null);
@@ -728,6 +742,20 @@ namespace EApp.Common.DataAccess
             }
         }
 
+        public object ExecuteScalar(string commandText)
+        {
+            DbCommand command = this.database.GetSqlStringCommand(commandText);
+
+            return this.database.ExecuteScalar(command);
+        }
+
+        public object ExecuteScalar(string commandText, DbTransaction transaction)
+        {
+            DbCommand command = this.database.GetSqlStringCommand(commandText);
+
+            return this.database.ExecuteScalar(command, transaction);
+        }
+
         public object ExecuteScalar(string commandText, object[] paramValues)
         {
             return this.ExecuteScalar(commandText, paramValues, null);
@@ -757,6 +785,20 @@ namespace EApp.Common.DataAccess
             {
                 return this.database.ExecuteScalar(command, transaction);
             }
+        }
+
+        public DataSet ExecuteDataSet(string commandText)
+        {
+            DbCommand command = this.database.GetSqlStringCommand(commandText);
+
+            return this.database.ExecuteDataSet(command);
+        }
+
+        public DataSet ExecuteDataSet(string commandText, DbTransaction transaction) 
+        {
+            DbCommand command = this.database.GetSqlStringCommand(commandText);
+
+            return this.database.ExecuteDataSet(command, transaction);
         }
 
         public DataSet ExecuteDataSet(string commandText, object[] paramValues) 
