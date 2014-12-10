@@ -1,23 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
+using EApp.Common.DataAccess;
 using EApp.Core;
 using EApp.Core.QuerySepcifications;
 using EApp.Infrastructure.Domain;
 using EApp.Infrastructure.Repository;
-using EApp.Common.DataAccess;
 
 namespace EApp.Repositories.SqlServer
 {
-    public abstract class SqlServerRepositoryContext : RepositoryContextBase
+    public abstract class SqlServerRepositoryContext : RepositoryContext, ISqlServerRepositoryContext
     {
+        private DbConnection dbConnection;
 
-        public override void RegisterAddedEntity(IEntity<Guid> entity)
+        private DbTransaction dbTransaction;
+
+        public SqlServerRepositoryContext() 
         {
-          
+            this.dbConnection = DbGateway.Default.OpenConnection();
+
+            this.dbTransaction = this.dbConnection.BeginTransaction();
         }
 
+        public DbTransaction Transaction
+        {
+            get 
+            {
+                return this.dbTransaction;
+            }
+        }
 
         public override void Commit()
         {
@@ -26,7 +40,7 @@ namespace EApp.Repositories.SqlServer
 
         public override void Rollback()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

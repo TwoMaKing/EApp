@@ -11,19 +11,15 @@ namespace EApp.Infrastructure.Repository
     /// The implemented classes are repository transaction contexts
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    public interface IRepositoryContext<TIdentityKey> : IUnitOfWork
+    public interface IRepositoryContext: IUnitOfWork
     {
-        TIdentityKey Id { get; }
+        Guid Id { get; }
 
-        void RegisterAddedEntity(IEntity<TIdentityKey> entity);
+        void RegisterAdded(IEntity entity, IUnitOfWorkRepository unitOfWorkRepository);
 
-        void RegisterModifiedEntity(IEntity<TIdentityKey> entity);
+        void RegisterModified(IEntity entity, IUnitOfWorkRepository unitOfWorkRepository);
 
-        void RegisterDeletedEntity(IEntity<TIdentityKey> entity);
+        void RegisterDeleted(IEntity entity, IUnitOfWorkRepository unitOfWorkRepository);
     }
 
-    public interface IRepositoryContext : IRepositoryContext<Guid>
-    { 
-        
-    }
 }

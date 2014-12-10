@@ -48,7 +48,7 @@ namespace Xpress.Mvc
             // We can use BeginTransaction to first create and open a connection
             // and then create a transaction using the opened connection. we don't need to care the connection.
 
-            DbConnection connection = DbGateway.Default.OpenConnectiion();
+            DbConnection connection = DbGateway.Default.OpenConnection();
 
             DbTransaction trans = DbGateway.Default.BeginTransaction(connection);
 

@@ -7,7 +7,7 @@ using EApp.Infrastructure.Domain;
 namespace EApp.Infrastructure.Repository
 {
     /// <summary>
-    /// Used for pure SQL Scripts for Creation/Update/Deletion i.e. Non-ORMapping tool
+    /// Actually used for Entity Creation/Update/Deletion i.e .pure SQL Scripts, Entity Framework, NH.
     /// </summary>
     public interface IUnitOfWorkRepository
     {
@@ -25,6 +25,5 @@ namespace EApp.Infrastructure.Repository
         /// Execute SQL for deleting a item.
         /// </summary>
         void PersistDeletedItem(IEntity entity);
-
     }
 }

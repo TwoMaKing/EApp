@@ -37,7 +37,7 @@ namespace EApp.Infrastructure.Domain
         {
             return obj != null &&
                    obj is EntityBase<TIdentityKey> &&
-                   this == obj;
+                   this == (EntityBase<TIdentityKey>)obj;
         }
 
         public override int GetHashCode()

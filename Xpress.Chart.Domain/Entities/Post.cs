@@ -18,11 +18,23 @@ namespace Xpress.Chart.Domain
 
         private DateTime creationDateTime = DateTime.Now;
 
-        public Post(int id, Topic topic, User author, string body)
+        public Post(Topic topic, User author, string body)
         {
             this.topic = topic;
             this.author = author;
             this.body = body;
+        }
+
+        public int Id
+        {
+            get
+            {
+                return this.id;
+            }
+            set
+            {
+                this.id = value;
+            }
         }
 
         public Topic Topic 
@@ -58,15 +70,6 @@ namespace Xpress.Chart.Domain
             set
             {
                 this.creationDateTime = value;
-            }
-        }
-
-
-        public object Id
-        {
-            get
-            {
-                return this.id;
             }
         }
     }

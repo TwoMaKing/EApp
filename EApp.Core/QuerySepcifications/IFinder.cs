@@ -29,7 +29,7 @@ namespace EApp.Core.QuerySepcifications
         /// <summary>
         /// Paging query by by the Lamda expression.
         /// </summary>
-        IQueryable<TDTO> FindAll(Func<TDTO, bool> query,int pageIndex, int pageCount);
+        IQueryable<TDTO> FindAll(Func<TDTO, bool> query, int pageIndex, int pageCount);
 
     }
 }

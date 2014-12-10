@@ -47,6 +47,9 @@
     <Compile Include="Application\EAppRuntime.cs" />
     <Compile Include="Application\IApp.cs" />
     <Compile Include="ExpressionParser.cs" />
+    <Compile Include="QueryPaging\IPagingResult.cs" />
+    <Compile Include="QueryPaging\IQueryPaging.cs" />
+    <Compile Include="QueryPaging\PagingResult.cs" />
     <Compile Include="QuerySepcifications\AndNotSpecification.cs" />
     <Compile Include="QuerySepcifications\AndSpecification.cs" />
     <Compile Include="QuerySepcifications\AnySepcification.cs" />

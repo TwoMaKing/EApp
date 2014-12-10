@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{571A4C88-AD4D-4DB4-831D-6400B9D88609}</ProjectGuid>
+    <ProjectGuid>{88554C06-0A93-4EE2-BF13-670433414698}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EApp.Infrastructure</RootNamespace>
-    <AssemblyName>EApp.Infrastructure</AssemblyName>
+    <RootNamespace>Xpress.Chart.Repositories</RootNamespace>
+    <AssemblyName>Xpress.Chart.Repositories</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,26 +40,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\EntityBase.cs" />
-    <Compile Include="Domain\Events\DomainEvent.cs" />
-    <Compile Include="Domain\Events\IDomainEvent.cs" />
-    <Compile Include="Domain\Events\IDomainEventHandler.cs" />
-    <Compile Include="Domain\Events\DomainEventHandlerFactory.cs" />
-    <Compile Include="Domain\IAggregateRoot.cs" />
-    <Compile Include="Domain\IEntity.cs" />
-    <Compile Include="Domain\ValueObject.cs" />
-    <Compile Include="Repository\IRepository.cs" />
-    <Compile Include="Repository\IRepositoryContext.cs" />
-    <Compile Include="Repository\IUnitOfWorkRepository.cs" />
-    <Compile Include="Repository\Repository.cs" />
-    <Compile Include="Repository\RepositoryContext.cs" />
-    <Compile Include="UnitOfWork\IUnitOfWork.cs" />
+    <Compile Include="PostRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EApp.Common\EApp.Common.csproj">
+      <Project>{0CB524D0-68CB-47B8-8B9F-9915CBE19F31}</Project>
+      <Name>EApp.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
       <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
       <Name>EApp.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Infrastructure\EApp.Infrastructure.csproj">
+      <Project>{571A4C88-AD4D-4DB4-831D-6400B9D88609}</Project>
+      <Name>EApp.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Repositories.SqlServer\EApp.Repositories.SqlServer.csproj">
+      <Project>{69820BD8-912B-461F-BDC2-AFA43E318953}</Project>
+      <Name>EApp.Repositories.SqlServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xpress.Chart.Domain\Xpress.Chart.Domain.csproj">
+      <Project>{EDFF63AB-3B20-41E6-869D-26AA995DE025}</Project>
+      <Name>Xpress.Chart.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

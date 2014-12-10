@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using EApp.Core.QueryPaging;
 using EApp.Core.QuerySepcifications;
 using EApp.Infrastructure.Domain;
 using EApp.Infrastructure.UnitOfWork;
@@ -72,29 +73,33 @@ namespace EApp.Infrastructure.Repository
         IQueryable<TEntity> FindAll();
 
         /// <summary>
-        /// Find all of aggregate roots matching query expression from repository.
+        /// Find all of aggregate roots matching paging condition from repository.
+        /// </summary>
+        IPagingResult<TEntity> FindAll(int pageNumber, int pageSize);
+
+        /// <summary>
+        /// Find all of entites matching query expression from repository.
         /// </summary>
         IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>> expression);
 
         /// <summary>
-        /// Find all of aggregate roots matching query expression from repository.
+        /// Find all of entities matching query expression and paging condition from repository.
         /// </summary>
         /// <param name="pageNumber">The page number.</param>
         /// <param name="pageSize">The number of objects per page.</param>
-        IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>> expression, int pageNumber, int pageSize);
+        IPagingResult<TEntity> FindAll(Expression<Func<TEntity, bool>> expression, int pageNumber, int pageSize);
 
         /// <summary>
         /// Find all of aggregate roots by the specification from repository,
         /// </summary>
         IQueryable<TEntity> FindAll(ISpecification<TEntity> specification);
 
-
         /// <summary>
-        /// Find all of specific Aggregate Root by the specification from repository
+        /// Find all of specific Aggregate Root by the specification and paging condition from repository
         /// </summary>
         /// <param name="pageNumber">The page number.</param>
         /// <param name="pageSize">The number of objects per page.</param>
-        IQueryable<TEntity> FindAll(ISpecification<TEntity> specification, int pageNumber, int pageSize);
+        IPagingResult<TEntity> FindAll(ISpecification<TEntity> specification, int pageNumber, int pageSize);
     }
 
     public interface IRepository<TEntity> : IRepository<TEntity, Guid>

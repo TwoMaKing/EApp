@@ -79,6 +79,8 @@
     <Compile Include="Cache\Memcached\MemcacheStrategy.cs" />
     <Compile Include="Cache\Redis\RedisStrategy.cs" />
     <Compile Include="Compression\GZip\GZipper.cs" />
+    <Compile Include="DataAccess\IPagingSplit.cs" />
+    <Compile Include="DataAccess\PagingSplit.cs" />
     <Compile Include="DataAccess\SqlServer\SqlServerStatementFactory.cs" />
     <Compile Include="DataAccess\MySql\MySqlDbProvider.cs" />
     <Compile Include="DataAccess\MySql\MySqlStatementFactory.cs" />

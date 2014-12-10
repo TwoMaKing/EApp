@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using EApp.Core.QueryPaging;
 using EApp.Core.QuerySepcifications;
 using EApp.Infrastructure.Domain;
 using EApp.Infrastructure.UnitOfWork;
 
 namespace EApp.Infrastructure.Repository
 {
-    public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
+    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
         private IRepositoryContext repositoryContext;
 
-        public RepositoryBase(IRepositoryContext repositoryContext) 
+        public Repository(IRepositoryContext repositoryContext) 
         {
             this.repositoryContext = repositoryContext;
         }
@@ -73,30 +74,35 @@ namespace EApp.Infrastructure.Repository
 
         public IQueryable<TEntity> FindAll()
         {
-            return this.FindAll(new AnySepcification<TEntity>());
+            return this.DoFindAll(new AnySepcification<TEntity>().GetExpression());
+        }
+
+        public IPagingResult<TEntity> FindAll(int pageNumber, int pageSize)
+        {
+            return this.DoFindAll(new AnySepcification<TEntity>().GetExpression(), pageNumber, pageSize);
         }
 
         public IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>> expression)
         {
-            return this.DoFindAll(expression, null, null);
+            return this.DoFindAll(expression);
         }
 
-        public IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>> expression, int pageNumber, int pageSize)
+        public IPagingResult<TEntity> FindAll(Expression<Func<TEntity, bool>> expression, int pageNumber, int pageSize)
         {
             return this.DoFindAll(expression, pageNumber, pageSize);
         }
 
         public IQueryable<TEntity> FindAll(ISpecification<TEntity> specification)
         {
-            return this.DoFindAll(specification, null, null);
+            return this.DoFindAll(specification.GetExpression());
         }
 
-        public IQueryable<TEntity> FindAll(ISpecification<TEntity> specification, int pageNumber, int pageSize)
+        public IPagingResult<TEntity> FindAll(ISpecification<TEntity> specification, int pageNumber, int pageSize)
         {
-            return this.DoFindAll(specification, pageNumber, pageSize);
+            return this.DoFindAll(specification.GetExpression(), pageNumber, pageSize);
         }
 
-        #region
+        #region Protected members
 
         protected abstract void DoAdd(TEntity item);
 
@@ -116,10 +122,11 @@ namespace EApp.Infrastructure.Repository
 
         protected abstract TEntity DoFind(ISpecification<TEntity> specification);
 
-        protected abstract IQueryable<TEntity> DoFindAll(Expression<Func<TEntity, bool>> expression, int? pageNumber, int? pageSize);
+        protected abstract IQueryable<TEntity> DoFindAll(Expression<Func<TEntity, bool>> expression);
 
-        protected abstract IQueryable<TEntity> DoFindAll(ISpecification<TEntity> specification, int? pageNumber, int? pageSize);
+        protected abstract IPagingResult<TEntity> DoFindAll(Expression<Func<TEntity, bool>> expression, int pageNumber, int pageSize);
 
         #endregion
+
     }
 }

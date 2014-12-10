@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{571A4C88-AD4D-4DB4-831D-6400B9D88609}</ProjectGuid>
+    <ProjectGuid>{A2327927-2E7F-4DF7-83D8-BB617A3BB72D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EApp.Infrastructure</RootNamespace>
-    <AssemblyName>EApp.Infrastructure</AssemblyName>
+    <RootNamespace>Xpress.Chart.Services</RootNamespace>
+    <AssemblyName>Xpress.Chart.Services</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,6 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Routing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,27 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\EntityBase.cs" />
-    <Compile Include="Domain\Events\DomainEvent.cs" />
-    <Compile Include="Domain\Events\IDomainEvent.cs" />
-    <Compile Include="Domain\Events\IDomainEventHandler.cs" />
-    <Compile Include="Domain\Events\DomainEventHandlerFactory.cs" />
-    <Compile Include="Domain\IAggregateRoot.cs" />
-    <Compile Include="Domain\IEntity.cs" />
-    <Compile Include="Domain\ValueObject.cs" />
-    <Compile Include="Repository\IRepository.cs" />
-    <Compile Include="Repository\IRepositoryContext.cs" />
-    <Compile Include="Repository\IUnitOfWorkRepository.cs" />
-    <Compile Include="Repository\Repository.cs" />
-    <Compile Include="Repository\RepositoryContext.cs" />
-    <Compile Include="UnitOfWork\IUnitOfWork.cs" />
+    <Compile Include="IPostService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
-      <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
-      <Name>EApp.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

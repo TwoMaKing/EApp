@@ -286,7 +286,7 @@ namespace EApp.Common.DataAccess
             defaultDbGateway = new DbGateway(new Database(CreateDbProvider(databaseType, connectionString)));
         }
 
-        public DbConnection OpenConnectiion() 
+        public DbConnection OpenConnection() 
         {
             return this.database.CreateConnection(true);
         }

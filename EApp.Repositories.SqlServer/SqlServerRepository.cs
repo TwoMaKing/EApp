@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -10,14 +12,27 @@ using EApp.Infrastructure.Repository;
 
 namespace EApp.Repositories.SqlServer
 {
-    public abstract class SqlServerRepository<TEntity> : RepositoryBase<TEntity>, IUnitOfWorkRepository 
+    public abstract class SqlServerRepository<TEntity> : Repository<TEntity>, IUnitOfWorkRepository 
         where TEntity : class, IEntity
     {
-        public SqlServerRepository(IRepositoryContext repositoryContext) : base(repositoryContext) { }
+        private ISqlServerRepositoryContext sqlServerRepositoryContext;
+
+        public SqlServerRepository(ISqlServerRepositoryContext repositoryContext) : base(repositoryContext) 
+        {
+            sqlServerRepositoryContext = this.RepositoryContext as ISqlServerRepositoryContext;
+        }
+
+        protected DbTransaction SqlServerTranscation
+        {
+            get 
+            {
+                return this.sqlServerRepositoryContext.Transaction;
+            }
+        }
 
         protected override void DoAdd(TEntity item)
         {
-            this.RepositoryContext.RegisterAddedEntity(item);
+            this.RepositoryContext.RegisterAdded(item, this);
         }
 
         protected override void DoAdd(IEnumerable<TEntity> items)
@@ -29,13 +44,13 @@ namespace EApp.Repositories.SqlServer
 
             foreach (TEntity entityItem in items)
             {
-                this.RepositoryContext.RegisterAddedEntity(entityItem);
+                this.RepositoryContext.RegisterAdded(entityItem, this);
             }
         }
 
         protected override void DoUpdate(TEntity item)
         {
-            this.RepositoryContext.RegisterModifiedEntity(item);
+            this.RepositoryContext.RegisterModified(item, this);
         }
 
         protected override void DoUpdate(IEnumerable<TEntity> items)
@@ -47,13 +62,13 @@ namespace EApp.Repositories.SqlServer
 
             foreach (TEntity entityItem in items)
             {
-                this.RepositoryContext.RegisterModifiedEntity(entityItem);
+                this.RepositoryContext.RegisterModified(entityItem, this);
             }
         }
 
         protected override void DoDelete(TEntity item)
         {
-            this.RepositoryContext.RegisterDeletedEntity(item);
+            this.RepositoryContext.RegisterDeleted(item, this);
         }
 
         protected override void DoDelete(IEnumerable<TEntity> items)
@@ -65,7 +80,7 @@ namespace EApp.Repositories.SqlServer
 
             foreach (TEntity entityItem in items)
             {
-                this.RepositoryContext.RegisterDeletedEntity(entityItem);
+                this.RepositoryContext.RegisterDeleted(entityItem, this);
             }
         }
 
