@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EApp.Infrastructure.Domain;
+using EApp.Infrastructure.Events;
 
-namespace EApp.Infrastructure.DomainEvent
+namespace EApp.Infrastructure.Domain.Events
 {
-    public interface IDomainEvent
+    /// <summary>
+    /// The domain event data.
+    /// </summary>
+    public interface IDomainEvent : IEvent
     {
-        IEntity Source { set; }
-
-        TimeSpan Time { get; set; }
+        /// <summary>
+        /// The source which generate this event.
+        /// </summary>
+        IEntity Source { get; }
     }
 }

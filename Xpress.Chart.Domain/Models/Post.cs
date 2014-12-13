@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using EApp.Infrastructure.Domain;
 
-namespace Xpress.Chart.Domain
+namespace Xpress.Chart.Domain.Models
 {
     public class Post : EntityBase, IAggregateRoot
     {
@@ -14,15 +14,15 @@ namespace Xpress.Chart.Domain
 
         private User author;
 
-        private string body = string.Empty;
+        private string content = string.Empty;
 
         private DateTime creationDateTime = DateTime.Now;
 
-        public Post(Topic topic, User author, string body)
+        public Post(Topic topic, User author, string content)
         {
             this.topic = topic;
             this.author = author;
-            this.body = body;
+            this.content = content;
         }
 
         public int Id
@@ -53,11 +53,11 @@ namespace Xpress.Chart.Domain
             }
         }
 
-        public string Body
+        public string Content
         {
             get 
             {
-                return this.body;
+                return this.content;
             }
         }
 
@@ -72,5 +72,19 @@ namespace Xpress.Chart.Domain
                 this.creationDateTime = value;
             }
         }
+
+        #region Domain Business
+
+        public static Post Create(Topic topic, User author, string content) 
+        {
+            return new Post(topic, author, content);
+        }
+
+        public void Delete() 
+        { 
+            
+        }
+
+        #endregion
     }
 }

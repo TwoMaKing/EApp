@@ -41,13 +41,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\EntityBase.cs" />
+    <Compile Include="Domain\Events\DomainEventBus.cs" />
+    <Compile Include="Domain\PropertyChangedEventArgs.cs" />
     <Compile Include="Domain\Events\DomainEvent.cs" />
     <Compile Include="Domain\Events\IDomainEvent.cs" />
     <Compile Include="Domain\Events\IDomainEventHandler.cs" />
-    <Compile Include="Domain\Events\DomainEventHandlerFactory.cs" />
+    <Compile Include="Events\ActionDelegateEventHandler.cs" />
+    <Compile Include="Events\Bus\EventBus.cs" />
+    <Compile Include="Events\Bus\IBus.cs" />
+    <Compile Include="Events\Bus\IEventBus.cs" />
+    <Compile Include="Events\EventAggregator.cs" />
     <Compile Include="Domain\IAggregateRoot.cs" />
     <Compile Include="Domain\IEntity.cs" />
     <Compile Include="Domain\ValueObject.cs" />
+    <Compile Include="Events\IEventHandler.cs" />
+    <Compile Include="Events\IEvent.cs" />
+    <Compile Include="Events\IEventAggregator.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\IRepositoryContext.cs" />
     <Compile Include="Repository\IUnitOfWorkRepository.cs" />
@@ -62,6 +71,7 @@
       <Name>EApp.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

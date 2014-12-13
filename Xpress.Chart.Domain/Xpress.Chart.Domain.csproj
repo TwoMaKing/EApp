@@ -40,11 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Label.cs" />
-    <Compile Include="Entities\Post.cs" />
-    <Compile Include="Entities\Topic.cs" />
-    <Compile Include="Entities\User.cs" />
+    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\Topic.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IDomainService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EApp.Infrastructure\EApp.Infrastructure.csproj">
@@ -52,6 +53,7 @@
       <Name>EApp.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

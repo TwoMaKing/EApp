@@ -4,30 +4,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EApp.Infrastructure.Domain;
+using EApp.Infrastructure.Events;
 
-namespace EApp.Infrastructure.DomainEvent
+namespace EApp.Infrastructure.Domain.Events
 {
     public abstract class DomainEvent : IDomainEvent
     {
-        public DomainEvent() 
-        { 
-            
+        private Guid id = Guid.NewGuid();
+
+        private DateTime timestamp = DateTime.UtcNow;
+
+        private IEntity source;
+
+        public DomainEvent(IEntity source)
+        {
+            this.source = source;
         }
 
         public IEntity Source
         {
-            set { throw new NotImplementedException(); }
+            get 
+            {
+                return this.source;
+            }
         }
 
-        public TimeSpan Time
+        public Guid Id
         {
-            get
+            get 
             {
-                throw new NotImplementedException();
+                return this.id;
             }
-            set
+        }
+
+        public DateTime TimeStamp
+        {
+            get 
             {
-                throw new NotImplementedException();
+                return this.timestamp;
             }
         }
     }

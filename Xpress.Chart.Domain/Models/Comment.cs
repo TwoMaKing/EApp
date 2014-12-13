@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using EApp.Infrastructure.Domain;
 
-namespace Xpress.Chart.Domain
+namespace Xpress.Chart.Domain.Models
 {
-    public class Label : ValueObject<Label>
+    public class Comment : EntityBase, IAggregateRoot
     {
 
     }

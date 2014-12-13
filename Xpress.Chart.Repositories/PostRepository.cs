@@ -10,6 +10,7 @@ using EApp.Infrastructure.Repository;
 using EApp.Infrastructure.UnitOfWork;
 using EApp.Repositories.SqlServer;
 using Xpress.Chart.Domain;
+using Xpress.Chart.Domain.Models;
 
 namespace Xpress.Chart.Repositories
 {
@@ -22,7 +23,7 @@ namespace Xpress.Chart.Repositories
 
         protected override void PersistAddedItem(Post entity)
         {
-            throw new NotImplementedException();
+            DbGateway.Default.Insert("post", new object[] { }, this.SqlServerTranscation);
         }
 
         protected override void PersistModifiedItem(Post entity)

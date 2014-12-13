@@ -39,7 +39,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Repositories.EntityFra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.Repositories", "Xpress.Chart.Repositories\Xpress.Chart.Repositories.csproj", "{88554C06-0A93-4EE2-BF13-670433414698}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.Services", "Xpress.Chart.Services\Xpress.Chart.Services.csproj", "{A2327927-2E7F-4DF7-83D8-BB617A3BB72D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.ServiceContracts", "Xpress.Chart.Services\Xpress.Chart.ServiceContracts.csproj", "{A2327927-2E7F-4DF7-83D8-BB617A3BB72D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

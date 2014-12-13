@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -9,9 +10,23 @@ namespace EApp.Infrastructure.Domain
     /// 实体基类
     /// </summary>
     /// <typeparam name="TIdentityKey"></typeparam>
-    public abstract class EntityBase<TIdentityKey> : IEntity<TIdentityKey>
+    public abstract class EntityBase<TIdentityKey> : IEntity<TIdentityKey>, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         protected TIdentityKey key;
+
+        private bool modified;
+
+        private readonly static object lockObject = new object();
+
+        private Dictionary<string, object> changedProperties = new Dictionary<string, object>();
+
+        public EntityBase() 
+        {
+            this.PropertyChanged -= new PropertyChangedEventHandler(EntityPropertyChanged);
+            this.PropertyChanged += new PropertyChangedEventHandler(EntityPropertyChanged);
+        }
 
         /// <summary>
         /// 实体的唯一标识符, 不要理解为数据库表的主键.
@@ -25,6 +40,15 @@ namespace EApp.Infrastructure.Domain
             protected set
             { 
                 this.key = value;
+            }
+        }
+
+        public bool Modified 
+        {
+            get 
+            {
+                return changedProperties != null &&
+                       changedProperties.Count > 0;
             }
         }
 
@@ -73,6 +97,39 @@ namespace EApp.Infrastructure.Domain
         }
 
         #endregion
+
+        protected virtual void OnPropertyChanged(string propertyName, object oldvalue, object newValue) 
+        {
+            if (this.PropertyChanged != null)
+            {
+                if (oldvalue != newValue)
+                {
+                    PropertyChangedEventArgs e = new PropertyChangedEventArgs(propertyName, oldvalue, newValue);
+                
+                    this.PropertyChanged(this, e);
+                }
+            }
+        }
+
+        protected virtual void EntityPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) 
+        {
+            if (sender == this)
+            {
+                PropertyChangedEventArgs args = (PropertyChangedEventArgs)e;
+
+                lock (lockObject)
+                {
+                    if (!this.changedProperties.ContainsKey(args.PropertyName))
+                    {
+                        this.changedProperties.Add(args.PropertyName, args.NewValue);
+                    }
+                    else
+                    {
+                        this.changedProperties[args.PropertyName] = args.NewValue;
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>
