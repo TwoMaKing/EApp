@@ -8,15 +8,12 @@ namespace Xpress.Chart.Domain.Models
 {
     public class Topic : EntityBase, IAggregateRoot
     {
-        private int id;
-
         private string name = string.Empty;
 
         public Topic(int id, string name) 
         {
-            this.id = id;
-
             this.name = name;
+            this.Id = id;
         }
 
         public string Name 
@@ -31,12 +28,5 @@ namespace Xpress.Chart.Domain.Models
 
         public DateTime ExpiredDate { get; set; }
 
-        public object Id
-        {
-            get
-            {
-                return this.id;
-            }
-        }
     }
 }

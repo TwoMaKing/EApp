@@ -7,17 +7,16 @@ using EApp.Infrastructure.Events.Bus;
 
 namespace EApp.Infrastructure.Domain.Events
 {
-    public class DomainEventBus : EventBus
+    public class DomainEventAggregator : EventAggregator
     {
-        private readonly static DomainEventBus instance = new DomainEventBus();
+        private readonly static DomainEventAggregator instance = new DomainEventAggregator();
 
-        public DomainEventBus Instance 
+        public DomainEventAggregator Instance 
         {
             get 
             {
                 return instance;
             }
         }
-
     }
 }

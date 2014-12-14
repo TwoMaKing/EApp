@@ -15,7 +15,7 @@ namespace Xpress.Core.Common
         private DataGridViewCellHandler() { }
 
         public static bool UpdateNewValueIntoCellDatail<TEntityItem>(object newValue, GridViewCellDetail<TEntityItem> cellDetail) 
-            where TEntityItem : IEntity<Guid>
+            where TEntityItem : IEntity<int>
         {
             bool updateSuccess = true;
 

@@ -84,9 +84,9 @@ namespace EApp.Repositories.SqlServer
             }
         }
 
-        protected override void DoDeleteByKey(Guid idOrKey)
+        protected override void DoDeleteByKey(int id)
         {
-            TEntity itemToBeDeleted = this.DoFindByKey(idOrKey);
+            TEntity itemToBeDeleted = this.DoFindByKey(id);
 
             this.DoDelete(itemToBeDeleted);
         }

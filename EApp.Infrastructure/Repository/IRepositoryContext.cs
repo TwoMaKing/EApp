@@ -5,13 +5,14 @@ using System.Text;
 using EApp.Infrastructure.Domain;
 using EApp.Infrastructure.UnitOfWork;
 
+
 namespace EApp.Infrastructure.Repository
 {
     /// <summary>
     /// The implemented classes are repository transaction contexts
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    public interface IRepositoryContext: IUnitOfWork
+    public interface IRepositoryContext: IUnitOfWork, IDisposable
     {
         Guid Id { get; }
 

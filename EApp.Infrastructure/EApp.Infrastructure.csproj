@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\EntityBase.cs" />
-    <Compile Include="Domain\Events\DomainEventBus.cs" />
+    <Compile Include="Domain\Events\DomainEventAggregator.cs" />
     <Compile Include="Domain\PropertyChangedEventArgs.cs" />
     <Compile Include="Domain\Events\DomainEvent.cs" />
     <Compile Include="Domain\Events\IDomainEvent.cs" />

@@ -14,11 +14,11 @@ namespace EApp.Infrastructure.Domain
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected TIdentityKey key;
+        private TIdentityKey id = default(TIdentityKey);
 
         private bool modified;
 
-        private readonly static object lockObject = new object();
+        private static object lockObject = new object();
 
         private Dictionary<string, object> changedProperties = new Dictionary<string, object>();
 
@@ -31,15 +31,15 @@ namespace EApp.Infrastructure.Domain
         /// <summary>
         /// 实体的唯一标识符, 不要理解为数据库表的主键.
         /// </summary>
-        public TIdentityKey Key
+        public TIdentityKey Id
         {
             get 
-            {  
-                return this.key;
+            {
+                return this.id;
             }
-            protected set
-            { 
-                this.key = value;
+            set
+            {
+                this.id = value;
             }
         }
 
@@ -59,44 +59,31 @@ namespace EApp.Infrastructure.Domain
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            return obj != null &&
-                   obj is EntityBase<TIdentityKey> &&
-                   this == (EntityBase<TIdentityKey>)obj;
-        }
-
-        public override int GetHashCode()
-        {
-            if (this.key == null)
-            {
-                return base.GetHashCode();
-            }
-
-            return this.key.GetHashCode();
-        }
-
-        #region 操作 == 和 != 符重载
-
-        public static bool operator ==(EntityBase<TIdentityKey> entityX, EntityBase<TIdentityKey> entityY)
-        {
-            if (entityX == null && entityY == null)
-            {
-                return true;
-            }
-
-            if (entityX == null || entityY == null)
+            if (obj == null ||
+               !(obj is EntityBase<TIdentityKey>))
             {
                 return false;
             }
 
-            return entityY.Key.Equals(entityY.Key);
+            EntityBase<TIdentityKey> otherEntity = obj as EntityBase<TIdentityKey>;
+
+            if (ReferenceEquals(this, otherEntity))
+            {
+                return true;
+            }
+
+            return this.Id.Equals(otherEntity.Id);
         }
 
-        public static bool operator !=(EntityBase<TIdentityKey> entityX, EntityBase<TIdentityKey> entityY)
+        public override int GetHashCode()
         {
-            return !entityX.Equals(entityY);
-        }
+            if (this.id.Equals(default(TIdentityKey)))
+            {
+                return base.GetHashCode();
+            }
 
-        #endregion
+            return this.id.GetHashCode();
+        }
 
         protected virtual void OnPropertyChanged(string propertyName, object oldvalue, object newValue) 
         {
@@ -135,18 +122,13 @@ namespace EApp.Infrastructure.Domain
     /// <summary>
     /// 框架提供的默认实体基类，Identity Key 为 GUID.
     /// </summary>
-    public abstract class EntityBase : EntityBase<Guid>, IEntity
+    public abstract class EntityBase : EntityBase<int>, IEntity
     {
-        public EntityBase() : this(Guid.Empty) { }
+        public EntityBase() : base() { }
 
-        public EntityBase(Guid key) 
+        public EntityBase(int id) : base()
         {
-            if (key == Guid.Empty)
-            {
-                key = Guid.NewGuid();
-            }
-
-            this.Key = key;
+            this.Id = id;
         }
     }
 }

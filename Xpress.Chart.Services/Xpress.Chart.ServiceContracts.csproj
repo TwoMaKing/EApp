@@ -45,6 +45,16 @@
     <Compile Include="IPostService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xpress.Chart.DataObjects\Xpress.Chart.DataObjects.csproj">
+      <Project>{55CA50AC-5C76-44B4-9579-FF9090E1D905}</Project>
+      <Name>Xpress.Chart.DataObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xpress.Chart.Domain\Xpress.Chart.Domain.csproj">
+      <Project>{EDFF63AB-3B20-41E6-869D-26AA995DE025}</Project>
+      <Name>Xpress.Chart.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

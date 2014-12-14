@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EApp.Infrastructure.Events
 {
@@ -35,29 +36,27 @@ namespace EApp.Infrastructure.Events
 
         public void Subscribe<TEvent>(IEventHandler<TEvent> eventHandler) where TEvent : IEvent
         {
+            Type eventType = typeof(TEvent);
+
             lock (lockObject)
             {
-                Type eventType = typeof(TEvent);
-
-                if (this.eventHandlerList.ContainsKey(eventType))
+                if (!this.eventHandlerList.ContainsKey(eventType))
                 {
-                    List<object> handlers = this.eventHandlerList[eventType];
-
-                    if (handlers == null)
-                    {
-                        handlers = new List<object>();
-                    }
-
-                    if (!handlers.Exists(item => this.eventHandlerEquals(item, eventHandler)))
-                    {
-                        this.eventHandlerList[eventType].Add(eventHandler);
-                    }
+                    this.eventHandlerList.Add(eventType, new List<object>());
                 }
-                else
+
+                var handlers = this.eventHandlerList[eventType];
+
+                if (handlers == null)
                 {
-                    this.eventHandlerList.Add(eventType, new List<object>() { eventHandler });
+                    handlers = new List<object>();
                 }
-            }        
+
+                if (!handlers.Exists(item => this.eventHandlerEquals(item, eventHandler)))
+                {
+                    handlers.Add(eventHandler);
+                }
+            }
         }
 
         public void Subscribe<TEvent>(IEnumerable<IEventHandler<TEvent>> eventHandlers) where TEvent : IEvent
@@ -80,37 +79,114 @@ namespace EApp.Infrastructure.Events
 
         public void Unsubscribe<TEvent>(IEventHandler<TEvent> eventHandler) where TEvent : IEvent
         {
-            throw new NotImplementedException();
+            Type eventType = typeof(TEvent);
+
+            lock (lockObject)
+            {
+                if (!this.eventHandlerList.ContainsKey(eventType))
+                {
+                    return;
+                }
+
+                var handlers = this.eventHandlerList[eventType];
+
+                if (handlers != null &&
+                    handlers.Exists(item => this.eventHandlerEquals(item, eventHandler)))
+                {
+                    var eventHandlerToRemove = handlers.First(item => this.eventHandlerEquals(item, eventHandler));
+
+                    handlers.Remove(eventHandlerToRemove);
+                }
+            }
         }
 
         public void Unsubscribe<TEvent>(IEnumerable<IEventHandler<TEvent>> eventHandlers) where TEvent : IEvent
         {
-            throw new NotImplementedException();
+            if (eventHandlers == null)
+            {
+                return;
+            }
+
+            foreach (IEventHandler<TEvent> eventHandlerItem in eventHandlers)
+            {
+                this.Unsubscribe<TEvent>(eventHandlerItem);
+            }
         }
 
         public void Unsubscribe<TEvent>(Action<TEvent> eventHandlerAction) where TEvent : IEvent
         {
-            throw new NotImplementedException();
+            this.Unsubscribe<TEvent>(new ActionDelegateEventHandler<TEvent>(eventHandlerAction));
         }
 
         public void UnsubscribeAll<TEvent>() where TEvent : IEvent
         {
-            throw new NotImplementedException();
+            Type eventType = typeof(TEvent);
+
+            lock (lockObject)
+            {
+                if (this.eventHandlerList != null &&
+                    this.eventHandlerList.ContainsKey(eventType) &&
+                    this.eventHandlerList[eventType] != null)
+                {
+                    this.eventHandlerList[eventType].Clear();
+                }
+            }
         }
 
         public void UnsubscribeAll()
         {
-            throw new NotImplementedException();
+            lock (lockObject)
+            {
+                if (this.eventHandlerList != null)
+                {
+                    this.eventHandlerList.Clear();
+                }
+            }
         }
 
         public IEnumerable<IEventHandler<TEvent>> GetSubscribedEventHandlers<TEvent>() where TEvent : IEvent
         {
-            throw new NotImplementedException();
+            Type eventType = typeof(TEvent);
+         
+            if (this.eventHandlerList == null ||
+                !this.eventHandlerList.ContainsKey(eventType) ||
+                this.eventHandlerList[eventType] == null ||
+                this.eventHandlerList[eventType].Count.Equals(0))
+            {
+                return null;
+            }
+
+            var handlers = this.eventHandlerList[eventType];
+
+            return handlers.Select(item => item as IEventHandler<TEvent>).ToList();
         }
 
         public void Publish<TEvent>(TEvent t) where TEvent : IEvent
         {
-            throw new NotImplementedException();
+            Type eventType = typeof(TEvent);
+
+            if (this.eventHandlerList != null &&
+                this.eventHandlerList.ContainsKey(eventType) &&
+                this.eventHandlerList[eventType] != null &&
+                this.eventHandlerList[eventType].Count > 0)
+            {
+                List<object> handlers = this.eventHandlerList[eventType];
+
+                foreach (object handlerObject in handlers)
+                {
+                    if (!(handlerObject is IEventHandler<TEvent>))
+                    {
+                        continue;
+                    }
+
+                    IEventHandler<TEvent> eventHandler = handlerObject as IEventHandler<TEvent>;
+
+                    //eventHandler.Handle(t);
+
+                    Task.Factory.StartNew((o) => eventHandler.Handle((TEvent)o), t);
+                }
+            }
+
         }
     }
 }

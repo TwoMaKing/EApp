@@ -12,7 +12,6 @@ namespace EApp.Infrastructure.Domain
     /// </summary>
     public abstract class ValueObject<TObject> : IEquatable<TObject> where TObject : ValueObject<TObject>
     {
-
         public override bool Equals(object obj)
         {
             return base.Equals(obj);

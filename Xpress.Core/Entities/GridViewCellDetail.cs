@@ -7,7 +7,7 @@ using Xpress.Core.Common;
 
 namespace Xpress.Core.Entities
 {
-    public class GridViewCellDetail<TEntityItem> where TEntityItem : IEntity<Guid>
+    public class GridViewCellDetail<TEntityItem> where TEntityItem : IEntity<int>
     {
         public GridViewColumnAccess AccessStatus { get; set; }
 

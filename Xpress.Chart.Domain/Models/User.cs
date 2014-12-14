@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EApp.Infrastructure.Domain;
 
 namespace Xpress.Chart.Domain.Models
 {
-    public class User
+    public class User : EntityBase, IAggregateRoot
     {
         public string Name { get; set; }
 

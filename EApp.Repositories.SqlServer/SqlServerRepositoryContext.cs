@@ -12,7 +12,7 @@ using EApp.Infrastructure.Repository;
 
 namespace EApp.Repositories.SqlServer
 {
-    public abstract class SqlServerRepositoryContext : RepositoryContext, ISqlServerRepositoryContext
+    public class SqlServerRepositoryContext : RepositoryContext, ISqlServerRepositoryContext
     {
         private DbConnection dbConnection;
 
@@ -36,11 +36,17 @@ namespace EApp.Repositories.SqlServer
         public override void Commit()
         {
             
+
         }
 
         public override void Rollback()
         {
             
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            DbGateway.Default.CloseConnection(this.dbConnection);
         }
     }
 }

@@ -15,9 +15,9 @@ namespace EApp.Infrastructure.Domain
     }
 
     /// <summary>
-    /// 框架提供的默认的聚合根接口，Identity Key 为 GUID.
+    /// 框架提供的默认的聚合根接口，Identity Key 为 int.
     /// </summary>
-    public interface IAggregateRoot : IAggregateRoot<Guid>, IEntity
+    public interface IAggregateRoot : IAggregateRoot<int>, IEntity
     { 
 
     }

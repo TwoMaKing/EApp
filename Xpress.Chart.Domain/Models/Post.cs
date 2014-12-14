@@ -8,8 +8,6 @@ namespace Xpress.Chart.Domain.Models
 {
     public class Post : EntityBase, IAggregateRoot
     {
-        private int id;
-
         private Topic topic;
 
         private User author;
@@ -23,18 +21,6 @@ namespace Xpress.Chart.Domain.Models
             this.topic = topic;
             this.author = author;
             this.content = content;
-        }
-
-        public int Id
-        {
-            get
-            {
-                return this.id;
-            }
-            set
-            {
-                this.id = value;
-            }
         }
 
         public Topic Topic 
@@ -78,11 +64,6 @@ namespace Xpress.Chart.Domain.Models
         public static Post Create(Topic topic, User author, string content) 
         {
             return new Post(topic, author, content);
-        }
-
-        public void Delete() 
-        { 
-            
         }
 
         #endregion

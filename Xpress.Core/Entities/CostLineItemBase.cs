@@ -8,16 +8,26 @@ using Xpress.Core.Common;
 
 namespace Xpress.Core.Entities
 {
-    public abstract class CostLineItemBase : IEntity<Guid>
+    public abstract class CostLineItemBase : IEntity<int>
     {
-        private Guid key;
+        private int id;
 
         public CostLineItemBase() 
         {
-            this.key = Guid.NewGuid();
+
         }
 
-        public int Id { get; set; }
+        public int Id
+        {
+            get
+            {
+                return this.Id;
+            }
+            set
+            {
+                this.id = value; 
+            }
+        }
 
         public int LastModifiedUserId { get; set; }
 
@@ -64,12 +74,5 @@ namespace Xpress.Core.Entities
             }
         }
 
-        public Guid Key
-        {
-            get 
-            {
-                return this.key;
-            }
-        }
     }
 }

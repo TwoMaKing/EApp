@@ -52,9 +52,9 @@ namespace EApp.Infrastructure.Repository
             this.DoDelete(item);
         }
 
-        public void Delete(Guid idOrKey)
+        public void Delete(int id)
         {
-            this.DoDeleteByKey(idOrKey);
+            this.DoDeleteByKey(id);
         }
 
         public void Delete(IEnumerable<TEntity> items)
@@ -62,9 +62,9 @@ namespace EApp.Infrastructure.Repository
             this.DoDelete(items);
         }
 
-        public TEntity FindByKey(Guid idOrKey)
+        public TEntity FindByKey(int id)
         {
-            return this.DoFindByKey(idOrKey);
+            return this.DoFindByKey(id);
         }
 
         public TEntity Find(ISpecification<TEntity> specification)
@@ -116,9 +116,9 @@ namespace EApp.Infrastructure.Repository
 
         protected abstract void DoDelete(IEnumerable<TEntity> items);
 
-        protected abstract void DoDeleteByKey(Guid idOrKey);
+        protected abstract void DoDeleteByKey(int id);
 
-        protected abstract TEntity DoFindByKey(Guid idOrKey);
+        protected abstract TEntity DoFindByKey(int id);
 
         protected abstract TEntity DoFind(ISpecification<TEntity> specification);
 

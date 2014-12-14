@@ -36,7 +36,7 @@ namespace Xpress.Chart.Repositories
             throw new NotImplementedException();
         }
 
-        protected override Post DoFindByKey(Guid idOrKey)
+        protected override Post DoFindByKey(int id)
         {
             throw new NotImplementedException();
         }

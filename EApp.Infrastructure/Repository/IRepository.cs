@@ -10,11 +10,10 @@ using EApp.Infrastructure.UnitOfWork;
 
 namespace EApp.Infrastructure.Repository
 {
-
     /// <summary>
     /// Repository interface
     /// </summary>
-    public interface IRepository<TEntity, TKey> where TEntity : class, IEntity<TKey>
+    public interface IRepository<TEntity, TIdentityKey> where TEntity : class, IEntity<TIdentityKey>
     {
         /// <summary>
         /// Return a Unit Of Work
@@ -49,7 +48,7 @@ namespace EApp.Infrastructure.Repository
         /// <summary>
         /// Delete a item from Repository by item key
         /// </summary>
-        void Delete(TKey idOrKey);
+        void Delete(TIdentityKey id);
 
         /// <summary>
         /// Delete specified items from Repository
@@ -59,7 +58,7 @@ namespace EApp.Infrastructure.Repository
         /// <summary>
         /// Find the specific aggregate root by id or key
         /// </summary>
-        TEntity FindByKey(TKey idOrKey);
+        TEntity FindByKey(TIdentityKey id);
 
         /// <summary>
         /// Find the specific aggregate root by the specification from repository.
@@ -102,9 +101,6 @@ namespace EApp.Infrastructure.Repository
         IPagingResult<TEntity> FindAll(ISpecification<TEntity> specification, int pageNumber, int pageSize);
     }
 
-    public interface IRepository<TEntity> : IRepository<TEntity, Guid>
-        where TEntity : class, IEntity<Guid> , IEntity
-    { 
-        
-    }
+    public interface IRepository<TEntity> : IRepository<TEntity, int>
+        where TEntity : class, IEntity<int>, IEntity { }
 }

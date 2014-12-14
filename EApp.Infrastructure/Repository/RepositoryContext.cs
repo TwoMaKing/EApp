@@ -141,6 +141,8 @@ namespace EApp.Infrastructure.Repository
             }
         }
 
+        protected abstract void Dispose(bool disposing);
+
         public bool Committed
         {
             get 
@@ -149,7 +151,7 @@ namespace EApp.Infrastructure.Repository
             }
         }
 
-        public void RegisterAdded(IEntity entity, IUnitOfWorkRepository unitOfWorkRepository)
+        public virtual void RegisterAdded(IEntity entity, IUnitOfWorkRepository unitOfWorkRepository)
         {
             if (!this.localAddedCollection.Value.ContainsKey(entity))
             {
@@ -159,7 +161,7 @@ namespace EApp.Infrastructure.Repository
             }
         }
 
-        public void RegisterModified(IEntity entity, IUnitOfWorkRepository unitOfWorkRepository)
+        public virtual void RegisterModified(IEntity entity, IUnitOfWorkRepository unitOfWorkRepository)
         {
             if (!this.localModifiedCollection.Value.ContainsKey(entity) &&
                 !this.localDeletedCollection.Value.ContainsKey(entity))
@@ -170,7 +172,7 @@ namespace EApp.Infrastructure.Repository
             }
         }
 
-        public void RegisterDeleted(IEntity entity, IUnitOfWorkRepository unitOfWorkRepository)
+        public virtual void RegisterDeleted(IEntity entity, IUnitOfWorkRepository unitOfWorkRepository)
         {
             if (this.localAddedCollection.Value.ContainsKey(entity))
             {
@@ -196,6 +198,11 @@ namespace EApp.Infrastructure.Repository
 
         public abstract void Rollback();
 
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 
 }
