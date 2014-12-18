@@ -54,6 +54,10 @@
       <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
       <Name>EApp.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EApp.Data\EApp.Data.csproj">
+      <Project>{0C072ED7-DAB6-4657-B92B-65EB54810774}</Project>
+      <Name>EApp.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EApp.Infrastructure\EApp.Infrastructure.csproj">
       <Project>{571A4C88-AD4D-4DB4-831D-6400B9D88609}</Project>
       <Name>EApp.Infrastructure</Name>

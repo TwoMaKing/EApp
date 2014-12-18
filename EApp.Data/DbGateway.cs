@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using EApp.Core.Exceptions;
 
-namespace EApp.Common.DataAccess
+namespace EApp.Data
 {
     /// <summary>
     /// Common Database type used for EApp.

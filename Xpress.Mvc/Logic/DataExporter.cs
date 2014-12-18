@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using EApp.Common.AsynComponent;
-using EApp.Common.DataAccess;
+using EApp.Data;
 
 namespace Xpress.Mvc.Logic
 {

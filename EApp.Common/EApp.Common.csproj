@@ -79,13 +79,6 @@
     <Compile Include="Cache\Memcached\MemcacheStrategy.cs" />
     <Compile Include="Cache\Redis\RedisStrategy.cs" />
     <Compile Include="Compression\GZip\GZipper.cs" />
-    <Compile Include="DataAccess\IPagingSplit.cs" />
-    <Compile Include="DataAccess\PagingSplit.cs" />
-    <Compile Include="DataAccess\SqlServer\SqlServerStatementFactory.cs" />
-    <Compile Include="DataAccess\MySql\MySqlDbProvider.cs" />
-    <Compile Include="DataAccess\MySql\MySqlStatementFactory.cs" />
-    <Compile Include="DataAccess\Oracle\OracleDbProvider.cs" />
-    <Compile Include="DataAccess\Oracle\OracleStatementFactory.cs" />
     <Compile Include="Exceptions\ConfigException.cs" />
     <Compile Include="Exceptions\EAppException.cs" />
     <Compile Include="Exceptions\InfrastructureException.cs" />
@@ -103,19 +96,11 @@
     <Compile Include="Util\Convertor.cs" />
     <Compile Include="Util\LocalizationUtil.cs" />
     <Compile Include="Util\DateTimeUtil.cs" />
-    <Compile Include="DataAccess\BatchCommander.cs" />
-    <Compile Include="DataAccess\DbGateway.cs" />
-    <Compile Include="DataAccess\DbProviderFactory.cs" />
-    <Compile Include="DataAccess\Database.cs" />
-    <Compile Include="DataAccess\DbProvider.cs" />
-    <Compile Include="DataAccess\DbParameterCache.cs" />
-    <Compile Include="DataAccess\ISqlStatementFactory.cs" />
-    <Compile Include="DataAccess\SqlServer\SqlServerDbProvider.cs" />
     <Compile Include="Encrypt\DESEncrypt.cs" />
     <Compile Include="Encrypt\AESEncrypt.cs" />
     <Compile Include="Exceptions\LoadAssemblyException.cs" />
     <Compile Include="Compression\ICompression.cs" />
-    <Compile Include="Compression\Zip\Zipper.cs" />
+    <Compile Include="Compression\Zip\WinZipper.cs" />
     <Compile Include="IO\FileUtil.cs" />
     <Compile Include="Log\Log4Net\Log4NetLoggerFactory.cs" />
     <Compile Include="Log\Log4Net\Log4NetLogger.cs" />
@@ -127,7 +112,6 @@
     <Compile Include="Win32API\Win32API.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Compression\7Z\" />
     <Folder Include="IOC\SpringNet\" />
   </ItemGroup>
   <ItemGroup>

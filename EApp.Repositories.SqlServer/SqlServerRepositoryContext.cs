@@ -4,9 +4,9 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
-using EApp.Common.DataAccess;
 using EApp.Core;
 using EApp.Core.QuerySepcifications;
+using EApp.Data;
 using EApp.Infrastructure.Domain;
 using EApp.Infrastructure.Repository;
 

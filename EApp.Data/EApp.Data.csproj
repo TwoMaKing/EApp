@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{88554C06-0A93-4EE2-BF13-670433414698}</ProjectGuid>
+    <ProjectGuid>{0C072ED7-DAB6-4657-B92B-65EB54810774}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xpress.Chart.Repositories</RootNamespace>
-    <AssemblyName>Xpress.Chart.Repositories</AssemblyName>
+    <RootNamespace>EApp.Data</RootNamespace>
+    <AssemblyName>EApp.Data</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,8 +31,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\Database\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\packages\Database\System.Data.SQLite.DLL</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,9 +48,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommentRepository.cs" />
-    <Compile Include="PostRepository.cs" />
+    <Compile Include="BatchCommander.cs" />
+    <Compile Include="Database.cs" />
+    <Compile Include="DbGateway.cs" />
+    <Compile Include="DbParameterCache.cs" />
+    <Compile Include="DbProvider.cs" />
+    <Compile Include="DbProviderFactory.cs" />
+    <Compile Include="IPagingSplit.cs" />
+    <Compile Include="ISqlStatementFactory.cs" />
+    <Compile Include="MySql\MySqlDbProvider.cs" />
+    <Compile Include="MySql\MySqlStatementFactory.cs" />
+    <Compile Include="Oracle\OracleDbProvider.cs" />
+    <Compile Include="Oracle\OracleStatementFactory.cs" />
+    <Compile Include="PagingSplit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServer\SqlServerDbProvider.cs" />
+    <Compile Include="SqlServer\SqlServerStatementFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EApp.Common\EApp.Common.csproj">
@@ -52,22 +73,6 @@
     <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
       <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
       <Name>EApp.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EApp.Data\EApp.Data.csproj">
-      <Project>{0C072ED7-DAB6-4657-B92B-65EB54810774}</Project>
-      <Name>EApp.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EApp.Infrastructure\EApp.Infrastructure.csproj">
-      <Project>{571A4C88-AD4D-4DB4-831D-6400B9D88609}</Project>
-      <Name>EApp.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EApp.Repositories.SqlServer\EApp.Repositories.SqlServer.csproj">
-      <Project>{69820BD8-912B-461F-BDC2-AFA43E318953}</Project>
-      <Name>EApp.Repositories.SqlServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Xpress.Chart.Domain\Xpress.Chart.Domain.csproj">
-      <Project>{EDFF63AB-3B20-41E6-869D-26AA995DE025}</Project>
-      <Name>Xpress.Chart.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
