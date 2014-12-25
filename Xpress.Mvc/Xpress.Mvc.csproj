@@ -38,6 +38,7 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,12 +56,22 @@
     <Compile Include="Cost.Designer.cs">
       <DependentUpon>Cost.cs</DependentUpon>
     </Compile>
+    <Compile Include="DynamicQueryable.cs" />
     <Compile Include="Logic\DataExporter.cs" />
+    <Compile Include="MainMvvm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainMvvm.Designer.cs">
+      <DependentUpon>MainMvvm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\CostModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Cost.resx">
       <DependentUpon>Cost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainMvvm.resx">
+      <DependentUpon>MainMvvm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -73,6 +84,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="Properties\DataSources\Xpress.Mvc.Models.CostLine.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

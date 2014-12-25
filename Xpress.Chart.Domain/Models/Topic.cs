@@ -2,31 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EApp.Infrastructure.Domain;
+using EApp.Core.DomainDriven.Domain;
 
 namespace Xpress.Chart.Domain.Models
 {
     public class Topic : EntityBase, IAggregateRoot
     {
-        private string name = string.Empty;
+        public Topic() : base() { }
 
-        public Topic(int id, string name) 
+        public string Name
         {
-            this.name = name;
-            this.Id = id;
-        }
-
-        public string Name 
-        {
-            get 
-            {
-                return this.name;
-            } 
+            get;
+            set;
         }
 
         public string Summary { get; set; }
 
         public DateTime ExpiredDate { get; set; }
 
+        public static Topic Create(string name, string summary, DateTime expiredDate) 
+        {
+            Topic topic = new Topic();
+
+            topic.Name = name;
+            topic.Summary = summary;
+            topic.ExpiredDate = expiredDate;
+
+            return topic;
+        } 
     }
 }

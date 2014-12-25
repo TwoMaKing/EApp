@@ -11,7 +11,7 @@ namespace EApp.Common.Util
 
         public static int? ConvertToInteger(object value) 
         {
-            if (value == null)
+            if (value == null || value == DBNull.Value)
             {
                 return null;
             }

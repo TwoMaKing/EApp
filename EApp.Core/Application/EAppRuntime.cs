@@ -35,7 +35,7 @@ namespace EApp.Core.Application
         /// <summary>
         /// The instance of the current application.
         /// </summary>
-        public IApp App 
+        public IApp CurrentApp 
         {
             get 
             {
@@ -103,9 +103,9 @@ namespace EApp.Core.Application
         /// </summary>
         public TApp GetApp<TApp>() where TApp : IApp
         {
-            if (this.App != null)
+            if (this.CurrentApp != null)
             {
-                return (TApp)this.App;
+                return (TApp)this.CurrentApp;
             }
 
             return default(TApp);

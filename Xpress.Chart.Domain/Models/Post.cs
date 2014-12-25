@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EApp.Infrastructure.Domain;
+using EApp.Core.DomainDriven.Domain;
 
 namespace Xpress.Chart.Domain.Models
 {
@@ -15,6 +15,8 @@ namespace Xpress.Chart.Domain.Models
         private string content = string.Empty;
 
         private DateTime creationDateTime = DateTime.Now;
+
+        public Post() : base() { }
 
         public Post(Topic topic, User author, string content)
         {
@@ -29,6 +31,10 @@ namespace Xpress.Chart.Domain.Models
             {
                 return this.topic;
             }
+            set
+            {
+                this.topic = value;
+            }
         }
 
         public User Author 
@@ -37,6 +43,10 @@ namespace Xpress.Chart.Domain.Models
             {
                 return this.author;
             }
+            set 
+            {
+                this.author = value;
+            }
         }
 
         public string Content
@@ -44,6 +54,10 @@ namespace Xpress.Chart.Domain.Models
             get 
             {
                 return this.content;
+            }
+            set
+            {
+                this.content = value;
             }
         }
 
@@ -59,7 +73,29 @@ namespace Xpress.Chart.Domain.Models
             }
         }
 
+        public int PraiseCount { get; private set; }
+
         #region Domain Business
+        
+        public void Publish() 
+        { 
+            // send to Message Queue.
+        }
+
+        public void Forward() 
+        { 
+        
+        }
+
+        public void Praise()
+        {
+        
+        }
+
+        public void Collect() 
+        { 
+            
+        }
 
         public static Post Create(Topic topic, User author, string content) 
         {

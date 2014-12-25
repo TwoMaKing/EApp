@@ -41,15 +41,15 @@ namespace EApp.Core
         /// </summary>
         public void SetControllerFactory(Type controllerFactoryType) 
         {
-            if (EAppRuntime.Instance.App != null &&
-                EAppRuntime.Instance.App.ObjectContainer != null)
+            if (EAppRuntime.Instance.CurrentApp != null &&
+                EAppRuntime.Instance.CurrentApp.ObjectContainer != null)
             {
-                if (!EAppRuntime.Instance.App.ObjectContainer.Registered(controllerFactoryType))
+                if (!EAppRuntime.Instance.CurrentApp.ObjectContainer.Registered(controllerFactoryType))
                 {
-                    EAppRuntime.Instance.App.ObjectContainer.RegisterType(controllerFactoryType);
+                    EAppRuntime.Instance.CurrentApp.ObjectContainer.RegisterType(controllerFactoryType);
                 }
 
-                this.controllerFactory = (IControllerFactory)EAppRuntime.Instance.App.ObjectContainer.Resolve(controllerFactoryType);
+                this.controllerFactory = (IControllerFactory)EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve(controllerFactoryType);
             }
             else
             {

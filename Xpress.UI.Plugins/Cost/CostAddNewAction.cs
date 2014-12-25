@@ -21,7 +21,7 @@ namespace Xpress.UI.Plugins.Cost
 
             CostManagerFactory costManagerFactory = CostManagerFactory.GetInstance(currentCostType);
 
-            object currentCostManagerObject = EAppRuntime.Instance.App.ObjectContainer.Resolve(costManagerFactory.CurrentCostManagerType);
+            object currentCostManagerObject = EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve(costManagerFactory.CurrentCostManagerType);
 
             ProxyGenerator proxyGenerator = new ProxyGenerator();
 

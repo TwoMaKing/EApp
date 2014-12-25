@@ -16,12 +16,12 @@ namespace Xpress.Core.Common
 
         public static Image GetResourceImage(ValueImage valueImage)
         {
-            if (!EAppRuntime.Instance.App.ResourceManagers.ContainsKey(valueImage.ResourceManagerName))
+            if (!EAppRuntime.Instance.CurrentApp.ResourceManagers.ContainsKey(valueImage.ResourceManagerName))
             {
                 return null;
             }
 
-            return EAppRuntime.Instance.App.ResourceManagers[valueImage.ResourceManagerName].GetImage(valueImage.ImageName);
+            return EAppRuntime.Instance.CurrentApp.ResourceManagers[valueImage.ResourceManagerName].GetImage(valueImage.ImageName);
         }
     }
 }

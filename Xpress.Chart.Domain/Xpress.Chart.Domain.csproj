@@ -45,13 +45,17 @@
     <Compile Include="Models\Topic.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ICommentRepository.cs" />
+    <Compile Include="Repositories\IPostRepository.cs" />
+    <Compile Include="Repositories\ITopicRepository.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Services\DomainService.cs" />
     <Compile Include="Services\IDomainService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EApp.Infrastructure\EApp.Infrastructure.csproj">
-      <Project>{571A4C88-AD4D-4DB4-831D-6400B9D88609}</Project>
-      <Name>EApp.Infrastructure</Name>
+    <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
+      <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
+      <Name>EApp.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\EApp.Repositories.SqlServer\EApp.Repositories.SqlServer.csproj">
       <Project>{69820BD8-912B-461F-BDC2-AFA43E318953}</Project>

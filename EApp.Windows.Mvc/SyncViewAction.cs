@@ -45,7 +45,7 @@ namespace EApp.Windows.Mvc
 
         public void Action(string actionName, string controllerName, ICollection<object> actionParameters)
         {
-            IControllerFactory controllerFactory = EAppRuntime.Instance.App.WinMvcControllerBuilder.GetControllerFactory();
+            IControllerFactory controllerFactory = EAppRuntime.Instance.CurrentApp.WinMvcControllerBuilder.GetControllerFactory();
 
             Type controllerType = controllerFactory.GetControllerType(controllerName);
 

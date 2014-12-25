@@ -43,6 +43,8 @@
     <Compile Include="CommentRepository.cs" />
     <Compile Include="PostRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TopicRepository.cs" />
+    <Compile Include="UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EApp.Common\EApp.Common.csproj">
@@ -56,10 +58,6 @@
     <ProjectReference Include="..\EApp.Data\EApp.Data.csproj">
       <Project>{0C072ED7-DAB6-4657-B92B-65EB54810774}</Project>
       <Name>EApp.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EApp.Infrastructure\EApp.Infrastructure.csproj">
-      <Project>{571A4C88-AD4D-4DB4-831D-6400B9D88609}</Project>
-      <Name>EApp.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\EApp.Repositories.SqlServer\EApp.Repositories.SqlServer.csproj">
       <Project>{69820BD8-912B-461F-BDC2-AFA43E318953}</Project>

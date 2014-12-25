@@ -131,7 +131,7 @@ namespace EApp.Plugin.Generic
 
         protected virtual IPlugin CreatePluginInstance() 
         {
-            return (IPlugin)EAppRuntime.Instance.App.ObjectContainer.Resolve<IPlugin>(this.PluginItem.Name);
+            return (IPlugin)EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve<IPlugin>(this.PluginItem.Name);
         }
 
         protected virtual bool OnPluginLoading() 

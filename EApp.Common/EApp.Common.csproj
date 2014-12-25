@@ -65,6 +65,7 @@
     <Reference Include="System.Data.SQLite">
       <HintPath>..\packages\Database\System.Data.SQLite.DLL</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -92,6 +93,12 @@
     <Compile Include="Network\Downloader.cs" />
     <Compile Include="Network\NetworkUtil.cs" />
     <Compile Include="Network\WebSocket.cs" />
+    <Compile Include="Serialization\ObjectBinarySerializer.cs" />
+    <Compile Include="Serialization\ObjectDataContractSerializer.cs" />
+    <Compile Include="Serialization\IObjectSerializer.cs" />
+    <Compile Include="Serialization\ObjectJsonSerializer.cs" />
+    <Compile Include="Serialization\ObjectSerializerFactory.cs" />
+    <Compile Include="Serialization\ObjectXmlSerializer.cs" />
     <Compile Include="Util\CommonHelper.cs" />
     <Compile Include="Util\Convertor.cs" />
     <Compile Include="Util\LocalizationUtil.cs" />

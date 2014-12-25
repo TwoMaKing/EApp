@@ -58,10 +58,6 @@
       <Project>{0C072ED7-DAB6-4657-B92B-65EB54810774}</Project>
       <Name>EApp.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EApp.Infrastructure\EApp.Infrastructure.csproj">
-      <Project>{571A4C88-AD4D-4DB4-831D-6400B9D88609}</Project>
-      <Name>EApp.Infrastructure</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,15 +6,21 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using EApp.Core;
+using EApp.Core.DomainDriven.Domain;
+using EApp.Core.DomainDriven.Repository;
 using EApp.Core.QuerySepcifications;
-using EApp.Infrastructure.Domain;
-using EApp.Infrastructure.Repository;
+using EApp.Data;
+using EApp.Common.Util;
 
 namespace EApp.Repositories.SqlServer
 {
+    
+
     public abstract class SqlServerRepository<TEntity> : Repository<TEntity>, IUnitOfWorkRepository 
         where TEntity : class, IEntity
     {
+        protected delegate void AppendChildToEntity(TEntity t, int childEntityId);
+
         private ISqlServerRepositoryContext sqlServerRepositoryContext;
 
         public SqlServerRepository(ISqlServerRepositoryContext repositoryContext) : base(repositoryContext) 
@@ -90,6 +96,47 @@ namespace EApp.Repositories.SqlServer
 
             this.DoDelete(itemToBeDeleted);
         }
+
+        protected override TEntity DoFindByKey(int id)
+        {
+            TEntity currentEntity = default(TEntity);
+
+            string querySqlById = this.GetEntityQuerySqlById();
+
+            using(IDataReader reader = DbGateway.Default.ExecuteReader(querySqlById, new object[] { id }))
+            {
+                if (reader.Read())
+                {
+                    currentEntity = this.BuildEntityFromDataReader(reader);
+
+                    if (currentEntity != null)
+                    {
+                        Dictionary<string, AppendChildToEntity> childCallbacks = this.BuildChildCallbacks();
+
+                        if (childCallbacks != null &&
+                            childCallbacks.Count > 0)
+                        {
+                            foreach (KeyValuePair<string, AppendChildToEntity> callbackItem in childCallbacks)
+                            {
+                                int childEntityId = Convertor.ConvertToInteger(reader[callbackItem.Key]).Value;
+
+                                callbackItem.Value(currentEntity, childEntityId);
+                            }
+                        }
+                    }
+                }
+
+                reader.Close();
+            }
+
+            return currentEntity;
+        }
+
+        protected abstract string GetEntityQuerySqlById();
+
+        protected abstract TEntity BuildEntityFromDataReader(IDataReader dataReader);
+
+        protected abstract Dictionary<string, AppendChildToEntity> BuildChildCallbacks();
 
         #region IUnitOfWorkRepository members
 

@@ -24,7 +24,7 @@ namespace Xpress.UI
 
             EAppRuntime.Instance.Create();
 
-            EAppRuntime.Instance.App.PluginHost.Run();
+            EAppRuntime.Instance.CurrentApp.PluginHost.Run();
         }
     }
 }

@@ -21,27 +21,27 @@ namespace Xpress.Core.Logic
 
         public static BaseCostManager<TCostLineItem> GetCostManager<TCostLineItem>() where TCostLineItem : CostLineItemBase
         {
-            string costManagerTypeName = EAppRuntime.Instance.App.ConfigSource.Config.MiscSettings[typeof(TCostLineItem).Name].value;
+            string costManagerTypeName = EAppRuntime.Instance.CurrentApp.ConfigSource.Config.MiscSettings[typeof(TCostLineItem).Name].value;
 
             specifiedCostManagerType = Type.GetType(costManagerTypeName);
 
-            if (!EAppRuntime.Instance.App.ObjectContainer.Registered(specifiedCostManagerType))
+            if (!EAppRuntime.Instance.CurrentApp.ObjectContainer.Registered(specifiedCostManagerType))
             {
-                EAppRuntime.Instance.App.ObjectContainer.RegisterType(specifiedCostManagerType, ObjectLifetimeMode.Singleton);
+                EAppRuntime.Instance.CurrentApp.ObjectContainer.RegisterType(specifiedCostManagerType, ObjectLifetimeMode.Singleton);
             }
 
-            return (BaseCostManager<TCostLineItem>)EAppRuntime.Instance.App.ObjectContainer.Resolve(specifiedCostManagerType);
+            return (BaseCostManager<TCostLineItem>)EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve(specifiedCostManagerType);
         }
 
         public static CostManagerFactory GetInstance(CostLineType costType)
         {
-            string costManagerTypeName = EAppRuntime.Instance.App.ConfigSource.Config.MiscSettings[costType.ToString()].value;
+            string costManagerTypeName = EAppRuntime.Instance.CurrentApp.ConfigSource.Config.MiscSettings[costType.ToString()].value;
 
             specifiedCostManagerType = Type.GetType(costManagerTypeName);
 
-            if (!EAppRuntime.Instance.App.ObjectContainer.Registered(specifiedCostManagerType))
+            if (!EAppRuntime.Instance.CurrentApp.ObjectContainer.Registered(specifiedCostManagerType))
             {
-                EAppRuntime.Instance.App.ObjectContainer.RegisterType(specifiedCostManagerType, ObjectLifetimeMode.Singleton);
+                EAppRuntime.Instance.CurrentApp.ObjectContainer.RegisterType(specifiedCostManagerType, ObjectLifetimeMode.Singleton);
             }
 
             return costManagerFactory;

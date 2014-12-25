@@ -4,8 +4,8 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
-using EApp.Infrastructure.Repository;
-using EApp.Infrastructure.UnitOfWork;
+using EApp.Core.DomainDriven.Repository;
+using EApp.Core.DomainDriven.UnitOfWork;
 
 namespace EApp.Repositories.SqlServer
 {

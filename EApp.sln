@@ -1,13 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chat", "Xpress.Chat\Xpress.Chat.csproj", "{B83FD7E2-C2FA-45E3-AE88-17DBAFAB45F2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.Domain", "Xpress.Chart.Domain\Xpress.Chart.Domain.csproj", "{EDFF63AB-3B20-41E6-869D-26AA995DE025}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Services", "EApp.Services\EApp.Services.csproj", "{94B46061-4430-4283-8173-81DCDBA659AC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Infrastructure", "EApp.Infrastructure\EApp.Infrastructure.csproj", "{571A4C88-AD4D-4DB4-831D-6400B9D88609}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Common", "EApp.Common\EApp.Common.csproj", "{0CB524D0-68CB-47B8-8B9F-9915CBE19F31}"
 EndProject
@@ -39,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Repositories.EntityFra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.Repositories", "Xpress.Chart.Repositories\Xpress.Chart.Repositories.csproj", "{88554C06-0A93-4EE2-BF13-670433414698}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.ServiceContracts", "Xpress.Chart.Services\Xpress.Chart.ServiceContracts.csproj", "{A2327927-2E7F-4DF7-83D8-BB617A3BB72D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.ServiceContracts", "Xpress.Chart.ServiceContracts\Xpress.Chart.ServiceContracts.csproj", "{A2327927-2E7F-4DF7-83D8-BB617A3BB72D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Life", "Xpress.Life\Xpress.Life.csproj", "{7C3BCAC6-0329-42E3-846E-2C3AAECAF03B}"
 EndProject
@@ -48,6 +44,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.DataObjects", "Xpress.Chart.DataObjects\Xpress.Chart.DataObjects.csproj", "{55CA50AC-5C76-44B4-9579-FF9090E1D905}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Data", "EApp.Data\EApp.Data.csproj", "{0C072ED7-DAB6-4657-B92B-65EB54810774}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Mvvm", "EApp.Mvvm\EApp.Mvvm.csproj", "{E5BEF0B3-3307-4591-A2B9-3EBD3FEAED53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.Services", "Xpress.Chart.Services\Xpress.Chart.Services.csproj", "{285FF342-90C9-4D5C-ACA9-1CEC9E81131A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,16 +59,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B83FD7E2-C2FA-45E3-AE88-17DBAFAB45F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B83FD7E2-C2FA-45E3-AE88-17DBAFAB45F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B83FD7E2-C2FA-45E3-AE88-17DBAFAB45F2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{B83FD7E2-C2FA-45E3-AE88-17DBAFAB45F2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{B83FD7E2-C2FA-45E3-AE88-17DBAFAB45F2}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B83FD7E2-C2FA-45E3-AE88-17DBAFAB45F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B83FD7E2-C2FA-45E3-AE88-17DBAFAB45F2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B83FD7E2-C2FA-45E3-AE88-17DBAFAB45F2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B83FD7E2-C2FA-45E3-AE88-17DBAFAB45F2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{B83FD7E2-C2FA-45E3-AE88-17DBAFAB45F2}.Release|x86.ActiveCfg = Release|Any CPU
 		{EDFF63AB-3B20-41E6-869D-26AA995DE025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EDFF63AB-3B20-41E6-869D-26AA995DE025}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDFF63AB-3B20-41E6-869D-26AA995DE025}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -89,16 +79,6 @@ Global
 		{94B46061-4430-4283-8173-81DCDBA659AC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{94B46061-4430-4283-8173-81DCDBA659AC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{94B46061-4430-4283-8173-81DCDBA659AC}.Release|x86.ActiveCfg = Release|Any CPU
-		{571A4C88-AD4D-4DB4-831D-6400B9D88609}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{571A4C88-AD4D-4DB4-831D-6400B9D88609}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{571A4C88-AD4D-4DB4-831D-6400B9D88609}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{571A4C88-AD4D-4DB4-831D-6400B9D88609}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{571A4C88-AD4D-4DB4-831D-6400B9D88609}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{571A4C88-AD4D-4DB4-831D-6400B9D88609}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{571A4C88-AD4D-4DB4-831D-6400B9D88609}.Release|Any CPU.Build.0 = Release|Any CPU
-		{571A4C88-AD4D-4DB4-831D-6400B9D88609}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{571A4C88-AD4D-4DB4-831D-6400B9D88609}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{571A4C88-AD4D-4DB4-831D-6400B9D88609}.Release|x86.ActiveCfg = Release|Any CPU
 		{0CB524D0-68CB-47B8-8B9F-9915CBE19F31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0CB524D0-68CB-47B8-8B9F-9915CBE19F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CB524D0-68CB-47B8-8B9F-9915CBE19F31}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -289,16 +269,35 @@ Global
 		{0C072ED7-DAB6-4657-B92B-65EB54810774}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0C072ED7-DAB6-4657-B92B-65EB54810774}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0C072ED7-DAB6-4657-B92B-65EB54810774}.Release|x86.ActiveCfg = Release|Any CPU
+		{E5BEF0B3-3307-4591-A2B9-3EBD3FEAED53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5BEF0B3-3307-4591-A2B9-3EBD3FEAED53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5BEF0B3-3307-4591-A2B9-3EBD3FEAED53}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E5BEF0B3-3307-4591-A2B9-3EBD3FEAED53}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E5BEF0B3-3307-4591-A2B9-3EBD3FEAED53}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E5BEF0B3-3307-4591-A2B9-3EBD3FEAED53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5BEF0B3-3307-4591-A2B9-3EBD3FEAED53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5BEF0B3-3307-4591-A2B9-3EBD3FEAED53}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E5BEF0B3-3307-4591-A2B9-3EBD3FEAED53}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E5BEF0B3-3307-4591-A2B9-3EBD3FEAED53}.Release|x86.ActiveCfg = Release|Any CPU
+		{285FF342-90C9-4D5C-ACA9-1CEC9E81131A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{285FF342-90C9-4D5C-ACA9-1CEC9E81131A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{285FF342-90C9-4D5C-ACA9-1CEC9E81131A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{285FF342-90C9-4D5C-ACA9-1CEC9E81131A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{285FF342-90C9-4D5C-ACA9-1CEC9E81131A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{285FF342-90C9-4D5C-ACA9-1CEC9E81131A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{285FF342-90C9-4D5C-ACA9-1CEC9E81131A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{285FF342-90C9-4D5C-ACA9-1CEC9E81131A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{285FF342-90C9-4D5C-ACA9-1CEC9E81131A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{285FF342-90C9-4D5C-ACA9-1CEC9E81131A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{EDFF63AB-3B20-41E6-869D-26AA995DE025} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{3FF46FD1-492A-4DE9-BA07-4C5F1ACEA60E} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{6A170104-5120-4E18-AF57-1D89F3CA2D74} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{73F121D1-019B-40A5-9171-73B1030375F5} = {69953842-655B-4E4C-9CB0-284F0390D323}
-		{B83FD7E2-C2FA-45E3-AE88-17DBAFAB45F2} = {69953842-655B-4E4C-9CB0-284F0390D323}
+		{EDFF63AB-3B20-41E6-869D-26AA995DE025} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{EE878E3B-F721-444F-954F-562B192463E1} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{8CC54AD5-B722-41D8-98C6-5C1C6FCA1869} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{88554C06-0A93-4EE2-BF13-670433414698} = {69953842-655B-4E4C-9CB0-284F0390D323}
@@ -306,5 +305,6 @@ Global
 		{7C3BCAC6-0329-42E3-846E-2C3AAECAF03B} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{331B4A2C-5544-4D0E-B471-ABADA28B2496} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{55CA50AC-5C76-44B4-9579-FF9090E1D905} = {69953842-655B-4E4C-9CB0-284F0390D323}
+		{285FF342-90C9-4D5C-ACA9-1CEC9E81131A} = {69953842-655B-4E4C-9CB0-284F0390D323}
 	EndGlobalSection
 EndGlobal

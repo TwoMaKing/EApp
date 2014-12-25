@@ -20,7 +20,7 @@ namespace Xpress.Mvc
 
             EAppRuntime.Instance.Create();
 
-            EAppRuntime.Instance.App.WinMvcControllerBuilder.SetControllerFactory(new DefaultControllerFactory());
+            EAppRuntime.Instance.CurrentApp.WinMvcControllerBuilder.SetControllerFactory(new DefaultControllerFactory());
 
             Application.Run(new Cost());
         }

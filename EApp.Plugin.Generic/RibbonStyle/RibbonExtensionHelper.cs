@@ -68,7 +68,7 @@ namespace EApp.Plugin.Generic.RibbonStyle
                 return;
             }
 
-            Image buttonImage = EAppRuntime.Instance.App.ResourceManagers["Common"].GetImage(modulePluginItem.IconResourceName) ;
+            Image buttonImage = EAppRuntime.Instance.CurrentApp.ResourceManagers["Common"].GetImage(modulePluginItem.IconResourceName) ;
 
             AddRibbonButton(ribbon,
                             modulePluginItem.Navigation.Text,

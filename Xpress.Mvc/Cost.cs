@@ -4,7 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Drawing;
+using System.Dynamic;
 using System.Linq;
+//using System.Linq.Dynamic;
+using System.Linq.Expressions;
+
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -13,6 +18,7 @@ using EApp.Core.Application;
 using EApp.Core.Configuration;
 using EApp.Data;
 using EApp.Windows.Mvc;
+using Microsoft.CSharp.RuntimeBinder;
 using Xpress.Mvc.Logic;
 using Xpress.Mvc.Models;
 
@@ -33,7 +39,11 @@ namespace Xpress.Mvc
 
         private void btnAddNew_Click(object sender, EventArgs e)
         {
-            this.View.Action("AddCost");
+
+            var o = GetOrderByQueryRequest(new OrderQueryRequest() { Id = 1000, HostInfo = "Test" });
+
+
+            //this.View.Action("AddCost");
 
 
             //Create Instance 1: DbGateway db = new DbGateway("MySql")
@@ -109,6 +119,8 @@ namespace Xpress.Mvc
             catch (Exception ex)
             {
                 trans.Rollback();
+
+                throw ex;
             }
             finally
             {
@@ -138,11 +150,108 @@ namespace Xpress.Mvc
 
                 string userPassword = dr["user_password"].ToString();
 
-                //dr.Close();
-
-                //dr.Dispose();
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                    dr.Dispose();
+                }
             }
 
+            IDataReader dr1 = DbGateway.Default.SelectReader("user",
+                                                             new string[] { "user_name", "user_email", "user_password" },
+                                                             "user_id > @id",
+                                                             new object[] { 1 },
+                                                             "user_name desc");
+
+            while (dr1.Read())
+            {
+                string userPassword = dr1["user_password"].ToString();
+            }
+
+            if (!dr1.IsClosed)
+            {
+                dr1.Close();
+                dr1.Dispose();
+            }
+
+            DataSet ds1 = DbGateway.Default.SelectDataSet("user",
+                                                           new string[] { "user_name", "user_email", "user_password" },
+                                                           "user_id > @id",
+                                                           new object[] { 1 },
+                                                           "user_name desc");
+
+            string passwordString = ds1.Tables[0].Rows[1]["user_password"].ToString();
+
+        }
+
+        private Order GetOrderByQueryRequest(OrderQueryRequest queryRequest)
+        {
+            return null;
+
+            //dynamic orderQueryRequest = new ExpandoObject();
+
+            //// ExpandoObject implements the IDictionary<string, object> interface so it can be casted to IDictionary<string, object>
+            //IDictionary<string, object> memberDictionary = (IDictionary<string, object>)orderQueryRequest;
+
+            //System.Reflection.PropertyInfo[] properties = typeof(OrderQueryRequest).GetProperties(System.Reflection.BindingFlags.Public | 
+            //                                        System.Reflection.BindingFlags.Instance);
+
+            //foreach (System.Reflection.PropertyInfo propertyItem in properties)
+            //{
+            //    memberDictionary.Add(propertyItem.Name, propertyItem.GetValue(queryRequest, null));
+            //}
+
+            //var id = orderQueryRequest.Id;
+
+            //var hostInfo = orderQueryRequest.HostInfo;
+
+
+            //System.Linq.Dynamic.DynamicProperty p = new System.Linq.Dynamic.DynamicProperty("Id", typeof(int));
+
+            //Type orderQueryRequestType = System.Linq.Dynamic.DynamicExpression.CreateClass(p);
+
+            ////object o = Activator.CreateInstance(orderQueryRequestType);
+
+            //NewExpression instance = Expression.New(orderQueryRequestType);
+
+            //Expression pe = Expression.Call(instance, orderQueryRequestType.GetProperty("Id").GetSetMethod(), Expression.Constant(1000));
+
+            //LabelTarget lt = Expression.Label(orderQueryRequestType, "ret");
+
+            //Expression r = Expression.Return(lt, instance, orderQueryRequestType);
+
+            //Expression.Lambda(e).Compile().DynamicInvoke();
+            
+            //Func<object> de = Expression.Lambda<Func<object>>(r).Compile();
+
+            //object v = de();
+            
+            //System.Linq.Dynamic.DynamicExpression.Parse(typeof(int), Expression.Equal(
+
+            //return null;
+
+            //ConstructorInfo ci = typeof(ExpandoObject).GetConstructor(Type.EmptyTypes);
+
+            //PropertyInfo pid = typeof(CostLine).GetProperty("Id");
+
+            //NewExpression instance = DynamicExpression.New(ci);
+
+            //Binder
+
+            //CallSiteBinder idBinder = Binder.SetMember(CSharpBinderFlags.None, "Id", typeof(ExpandoObject),
+            //    new CSharpArgumentInfo[] { CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null) });
+
+            //DynamicExpression de = DynamicExpression.MakeDynamic(typeof(Func<ExpandoObject>), idBinder);
+
+            //DynamicExpression.Lambda<Func<CallSiteBinder, ExpandoObject>>(de).Compile()(idBinder);
+
+            //MemberExpression m = DynamicExpression.Property(instance, "Id");
+
+            //DynamicExpression.Equal(m, DynamicExpression.Constant(id));
+
+            //var o = Expression.Lambda<Func<dynamic>>(instance).Compile()();
+
+            //return null;
         }
 
         private IAsyncTask exportTask;
@@ -173,6 +282,11 @@ namespace Xpress.Mvc
         private void btnCancel_Click(object sender, EventArgs e)
         {
             exportTask.CancelAsync();
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            MessageBox.Show("a");
         }
     }
 }

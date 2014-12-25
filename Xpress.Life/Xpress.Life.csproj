@@ -36,6 +36,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -171,6 +177,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -227,6 +235,13 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\angular-ui\angular-ui-router.js" />
+    <Content Include="Scripts\angular\angular-animate.js" />
+    <Content Include="Scripts\angular\angular-resource.js" />
+    <Content Include="Scripts\angular\angular-sanitize.js" />
+    <Content Include="Scripts\angular\angular.js" />
+    <Content Include="Scripts\bootstrap\bootstrap.js" />
+    <Content Include="Scripts\bootstrap\npm.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -287,6 +302,48 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EApp.Common\EApp.Common.csproj">
+      <Project>{0CB524D0-68CB-47B8-8B9F-9915CBE19F31}</Project>
+      <Name>EApp.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
+      <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
+      <Name>EApp.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Data\EApp.Data.csproj">
+      <Project>{0C072ED7-DAB6-4657-B92B-65EB54810774}</Project>
+      <Name>EApp.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Repositories.SqlServer\EApp.Repositories.SqlServer.csproj">
+      <Project>{69820BD8-912B-461F-BDC2-AFA43E318953}</Project>
+      <Name>EApp.Repositories.SqlServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xpress.Chart.Application\Xpress.Chart.Application.csproj">
+      <Project>{331B4A2C-5544-4D0E-B471-ABADA28B2496}</Project>
+      <Name>Xpress.Chart.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xpress.Chart.DataObjects\Xpress.Chart.DataObjects.csproj">
+      <Project>{55CA50AC-5C76-44B4-9579-FF9090E1D905}</Project>
+      <Name>Xpress.Chart.DataObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xpress.Chart.Domain\Xpress.Chart.Domain.csproj">
+      <Project>{EDFF63AB-3B20-41E6-869D-26AA995DE025}</Project>
+      <Name>Xpress.Chart.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xpress.Chart.Repositories\Xpress.Chart.Repositories.csproj">
+      <Project>{88554C06-0A93-4EE2-BF13-670433414698}</Project>
+      <Name>Xpress.Chart.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xpress.Chart.ServiceContracts\Xpress.Chart.ServiceContracts.csproj">
+      <Project>{A2327927-2E7F-4DF7-83D8-BB617A3BB72D}</Project>
+      <Name>Xpress.Chart.ServiceContracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\bootstrap\bootstrap-theme.css.map" />
+    <None Include="Content\bootstrap\bootstrap.css.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

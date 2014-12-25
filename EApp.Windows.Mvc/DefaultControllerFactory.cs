@@ -12,32 +12,32 @@ namespace EApp.Windows.Mvc
     {
         public virtual IController CreateController(string controllerName)
         {
-            if (!EAppRuntime.Instance.App.ObjectContainer.Registered<IController>(controllerName))
+            if (!EAppRuntime.Instance.CurrentApp.ObjectContainer.Registered<IController>(controllerName))
             {
                 throw new InfrastructureException("");
             }
 
-            return EAppRuntime.Instance.App.ObjectContainer.Resolve<IController>(controllerName);
+            return EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve<IController>(controllerName);
         }
 
         public virtual IController CreateController(Type controllerType)
         {
-            if (!EAppRuntime.Instance.App.ObjectContainer.Registered(controllerType))
+            if (!EAppRuntime.Instance.CurrentApp.ObjectContainer.Registered(controllerType))
             {
-                EAppRuntime.Instance.App.ObjectContainer.RegisterType(controllerType);
+                EAppRuntime.Instance.CurrentApp.ObjectContainer.RegisterType(controllerType);
             }
 
-            return (IController)EAppRuntime.Instance.App.ObjectContainer.Resolve(controllerType);
+            return (IController)EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve(controllerType);
         }
 
         public Type GetControllerType(string controllerName)
         {
-            if (EAppRuntime.Instance.App.ConfigSource != null &&
-                EAppRuntime.Instance.App.ConfigSource.Config != null &&
-                EAppRuntime.Instance.App.ConfigSource.Config.WindowsMvc != null &&
-                EAppRuntime.Instance.App.ConfigSource.Config.WindowsMvc.Controllers != null)
+            if (EAppRuntime.Instance.CurrentApp.ConfigSource != null &&
+                EAppRuntime.Instance.CurrentApp.ConfigSource.Config != null &&
+                EAppRuntime.Instance.CurrentApp.ConfigSource.Config.WindowsMvc != null &&
+                EAppRuntime.Instance.CurrentApp.ConfigSource.Config.WindowsMvc.Controllers != null)
             {
-                string controllerTypeName = EAppRuntime.Instance.App.ConfigSource.Config.WindowsMvc.Controllers[controllerName].Type;
+                string controllerTypeName = EAppRuntime.Instance.CurrentApp.ConfigSource.Config.WindowsMvc.Controllers[controllerName].Type;
 
                 return Type.GetType(controllerTypeName);
             }

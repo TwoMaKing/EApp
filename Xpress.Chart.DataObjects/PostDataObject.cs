@@ -14,10 +14,10 @@ namespace Xpress.Chart.DataObjects
         public string TopicName { get; set; }
 
         [DataMember()]
-        public int AuthorName { get; set; }
+        public string AuthorName { get; set; }
 
         [DataMember()]
-        public int Content { get; set; }
+        public string Content { get; set; }
 
         [DataMember()]
         public DateTime CreationDateTime { get; set; }

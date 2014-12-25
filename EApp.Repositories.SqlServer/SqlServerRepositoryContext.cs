@@ -5,10 +5,10 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using EApp.Core;
+using EApp.Core.DomainDriven.Domain;
+using EApp.Core.DomainDriven.Repository;
 using EApp.Core.QuerySepcifications;
 using EApp.Data;
-using EApp.Infrastructure.Domain;
-using EApp.Infrastructure.Repository;
 
 namespace EApp.Repositories.SqlServer
 {

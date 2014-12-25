@@ -119,10 +119,6 @@
       <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
       <Name>EApp.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EApp.Infrastructure\EApp.Infrastructure.csproj">
-      <Project>{571A4C88-AD4D-4DB4-831D-6400B9D88609}</Project>
-      <Name>EApp.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Xpress.Core\Xpress.Core.csproj">
       <Project>{73F121D1-019B-40A5-9171-73B1030375F5}</Project>
       <Name>Xpress.Core</Name>

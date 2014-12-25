@@ -57,12 +57,12 @@ namespace EApp.UI.Controls.UIHandler
 
         public static void SetDataGridViewCellImage(DataGridViewImageCell imageCell, ValueImage valueImage)
         {
-            if (!EAppRuntime.Instance.App.ResourceManagers.ContainsKey(valueImage.ResourceManagerName))
+            if (!EAppRuntime.Instance.CurrentApp.ResourceManagers.ContainsKey(valueImage.ResourceManagerName))
             {
                 return;
             }
 
-            imageCell.Value = EAppRuntime.Instance.App.ResourceManagers[valueImage.ResourceManagerName].GetImage(valueImage.ImageName);
+            imageCell.Value = EAppRuntime.Instance.CurrentApp.ResourceManagers[valueImage.ResourceManagerName].GetImage(valueImage.ImageName);
         }
 
     }

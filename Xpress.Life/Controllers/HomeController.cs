@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Xpress.Chart.Application;
+using Xpress.Chart.ServiceContracts;
 
 namespace Xpress.Life.Controllers
 {
     public class HomeController : Controller
     {
+        private IPostService postService; //= new PostService();
+
         public ActionResult Index()
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
@@ -28,5 +32,14 @@ namespace Xpress.Life.Controllers
 
             return View();
         }
+
+        [HttpPost()]
+        public ActionResult PublishPost(int topic, string content) 
+        {
+
+
+            return View();
+        }
+
     }
 }

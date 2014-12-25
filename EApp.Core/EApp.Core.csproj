@@ -46,7 +46,33 @@
     <Compile Include="Application\AppInitEventArgs.cs" />
     <Compile Include="Application\EAppRuntime.cs" />
     <Compile Include="Application\IApp.cs" />
+    <Compile Include="DomainDriven\Commands\ICommand.cs" />
+    <Compile Include="DomainDriven\Commands\ICommandHandler.cs" />
+    <Compile Include="DomainDriven\Domain\EntityBase.cs" />
+    <Compile Include="DomainDriven\Domain\Events\DomainEvent.cs" />
+    <Compile Include="DomainDriven\Domain\Events\DomainEventAggregator.cs" />
+    <Compile Include="DomainDriven\Domain\Events\IDomainEvent.cs" />
+    <Compile Include="DomainDriven\Domain\Events\IDomainEventHandler.cs" />
+    <Compile Include="DomainDriven\Domain\IAggregateRoot.cs" />
+    <Compile Include="DomainDriven\Domain\IEntity.cs" />
+    <Compile Include="DomainDriven\Domain\PropertyChangedEventArgs.cs" />
+    <Compile Include="DomainDriven\Domain\ValueObject.cs" />
+    <Compile Include="DomainDriven\Events\ActionDelegateEventHandler.cs" />
+    <Compile Include="DomainDriven\Bus\EventBus.cs" />
+    <Compile Include="DomainDriven\Bus\IBus.cs" />
+    <Compile Include="DomainDriven\Bus\IEventBus.cs" />
+    <Compile Include="DomainDriven\Events\EventAggregator.cs" />
+    <Compile Include="DomainDriven\Events\IEvent.cs" />
+    <Compile Include="DomainDriven\Events\IEventAggregator.cs" />
+    <Compile Include="DomainDriven\Events\IEventHandler.cs" />
+    <Compile Include="DomainDriven\Repository\IRepository.cs" />
+    <Compile Include="DomainDriven\Repository\IRepositoryContext.cs" />
+    <Compile Include="DomainDriven\Repository\IUnitOfWorkRepository.cs" />
+    <Compile Include="DomainDriven\Repository\Repository.cs" />
+    <Compile Include="DomainDriven\Repository\RepositoryContext.cs" />
+    <Compile Include="DomainDriven\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="ExpressionParser.cs" />
+    <Compile Include="DomainDriven\IHandler.cs" />
     <Compile Include="QueryPaging\IPagingResult.cs" />
     <Compile Include="QueryPaging\IQueryPaging.cs" />
     <Compile Include="QueryPaging\PagingResult.cs" />
@@ -140,6 +166,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

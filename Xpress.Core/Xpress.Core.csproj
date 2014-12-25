@@ -89,10 +89,6 @@
       <Project>{EDFF63AB-3B20-41E6-869D-26AA995DE025}</Project>
       <Name>Xpress.Chart.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EApp.Infrastructure\EApp.Infrastructure.csproj">
-      <Project>{571A4C88-AD4D-4DB4-831D-6400B9D88609}</Project>
-      <Name>EApp.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
       <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
       <Name>EApp.Core</Name>

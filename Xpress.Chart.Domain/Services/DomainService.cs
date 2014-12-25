@@ -2,29 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EApp.Infrastructure.Domain;
-using EApp.Infrastructure.Domain.Events;
-using EApp.Infrastructure.Events;
-using EApp.Infrastructure.Repository;
-using EApp.Infrastructure.UnitOfWork;
+using EApp.Core.DomainDriven.Domain;
+using EApp.Core.DomainDriven.Domain.Events;
+using EApp.Core.DomainDriven.Events;
+using EApp.Core.DomainDriven.Repository;
+using EApp.Core.DomainDriven.UnitOfWork;
+using EApp.Repositories.SqlServer;
 using Xpress.Chart.Domain;
 using Xpress.Chart.Domain.Models;
-using EApp.Repositories.SqlServer;
+using Xpress.Chart.Domain.Repositories;
 
 namespace Xpress.Chart.Domain.Services
 {
     public class DomainService : IDomainService
     {
         private IRepositoryContext repositoryContext;
-        private IRepository<Post> postRepository;
+        private IPostRepository postRepository;
+        private ICommentRepository commentRepository;
 
-        public DomainService(
-            IRepositoryContext repositoryContext,
-            IRepository<Post> postRepository) 
+        public DomainService(IRepositoryContext repositoryContext,
+                             IPostRepository postRepository,
+                             ICommentRepository commentRepository) 
         {
             this.repositoryContext = repositoryContext;
             this.postRepository = postRepository;
-            
+            this.commentRepository = commentRepository;
 
         }
 
