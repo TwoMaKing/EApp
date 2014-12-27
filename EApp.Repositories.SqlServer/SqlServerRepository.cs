@@ -15,7 +15,6 @@ using EApp.Common.Util;
 namespace EApp.Repositories.SqlServer
 {
     
-
     public abstract class SqlServerRepository<TEntity> : Repository<TEntity>, IUnitOfWorkRepository 
         where TEntity : class, IEntity
     {
@@ -23,9 +22,12 @@ namespace EApp.Repositories.SqlServer
 
         private ISqlServerRepositoryContext sqlServerRepositoryContext;
 
-        public SqlServerRepository(ISqlServerRepositoryContext repositoryContext) : base(repositoryContext) 
+        public SqlServerRepository(IRepositoryContext repositoryContext) : base(repositoryContext) 
         {
-            sqlServerRepositoryContext = this.RepositoryContext as ISqlServerRepositoryContext;
+            if (repositoryContext is ISqlServerRepositoryContext)
+            {
+                this.sqlServerRepositoryContext = repositoryContext as ISqlServerRepositoryContext;
+            }
         }
 
         protected DbTransaction SqlServerTranscation
@@ -38,7 +40,7 @@ namespace EApp.Repositories.SqlServer
 
         protected override void DoAdd(TEntity item)
         {
-            this.RepositoryContext.RegisterAdded(item, this);
+            this.sqlServerRepositoryContext.RegisterAdded(item, this);
         }
 
         protected override void DoAdd(IEnumerable<TEntity> items)

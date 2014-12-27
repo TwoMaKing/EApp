@@ -71,6 +71,7 @@
     <Compile Include="DomainDriven\Repository\Repository.cs" />
     <Compile Include="DomainDriven\Repository\RepositoryContext.cs" />
     <Compile Include="DomainDriven\UnitOfWork\IUnitOfWork.cs" />
+    <Compile Include="DynamicQueryable.cs" />
     <Compile Include="ExpressionParser.cs" />
     <Compile Include="DomainDriven\IHandler.cs" />
     <Compile Include="QueryPaging\IPagingResult.cs" />

@@ -11,6 +11,7 @@ using Xpress.Chart.Domain.Repositories;
 using Xpress.Chart.Domain.Services;
 using Xpress.Chart.Repositories;
 using Xpress.Chart.ServiceContracts;
+using System.Threading.Tasks;
 
 namespace Xpress.Chart.Application
 {
@@ -52,6 +53,8 @@ namespace Xpress.Chart.Application
             this.postRepository.Add(post);
 
             this.RepositoryContext.Commit();
+
+            this.RepositoryContext.Dispose();
 
             return new PostDataObject() { TopicName = topic.Name, 
                                           AuthorName = author.NickName, 

@@ -101,6 +101,11 @@ namespace EApp.Common.IOC
             this.SetLifetimeManager(bindingInSyntax, lifeitme);
         }
 
+        public T Resolve<T>()
+        {
+            return this.kernel.TryGet<T>();
+        }
+
         public T Resolve<T>(string name)
         {
             return this.kernel.TryGet<T>(name);

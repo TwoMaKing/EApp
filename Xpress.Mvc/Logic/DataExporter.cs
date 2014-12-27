@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using EApp.Common.AsynComponent;
 using EApp.Data;
+using Xpress.Mvc.Models;
 
 namespace Xpress.Mvc.Logic
 {
@@ -120,4 +121,5 @@ namespace Xpress.Mvc.Logic
             }
         }
     }
+
 }

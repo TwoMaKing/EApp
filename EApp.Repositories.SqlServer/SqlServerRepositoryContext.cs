@@ -35,13 +35,39 @@ namespace EApp.Repositories.SqlServer
 
         public override void Commit()
         {
-            
+            if (this.AddedCollection != null &&
+                this.AddedCollection.Count > 0)
+            {
+                foreach (KeyValuePair<IEntity, IUnitOfWorkRepository> addedUnitOfWorkRepository in this.AddedCollection)
+                {
+                    addedUnitOfWorkRepository.Value.PersistAddedItem(addedUnitOfWorkRepository.Key);
+                }
+            }
 
+            if (this.ModifiedCollection != null &&
+                this.ModifiedCollection.Count > 0)
+            {
+                foreach (KeyValuePair<IEntity, IUnitOfWorkRepository> modifiedUnitOfWorkRepository in this.ModifiedCollection)
+                {
+                    modifiedUnitOfWorkRepository.Value.PersistModifiedItem(modifiedUnitOfWorkRepository.Key);
+                }
+            }
+
+            if (this.DeletedCollection != null &&
+                this.DeletedCollection.Count > 0)
+            {
+                foreach (KeyValuePair<IEntity, IUnitOfWorkRepository> deletedUnitOfWorkRepository in this.DeletedCollection)
+                {
+                    deletedUnitOfWorkRepository.Value.PersistDeletedItem(deletedUnitOfWorkRepository.Key);
+                }
+            }
+
+            this.dbTransaction.Commit();
         }
 
         public override void Rollback()
         {
-            
+            this.dbTransaction.Rollback();   
         }
 
         protected override void Dispose(bool disposing)

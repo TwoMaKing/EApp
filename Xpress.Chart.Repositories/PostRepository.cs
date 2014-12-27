@@ -19,9 +19,10 @@ namespace Xpress.Chart.Repositories
 {
     public class PostRepository : SqlServerRepository<Post>, IPostRepository
     {
-        private const string whereByPostId = "post_id=@id"; 
+        private const string whereByPostId = "post_id=@id";
 
-        public PostRepository(ISqlServerRepositoryContext repositoryContext) : base(repositoryContext)
+        public PostRepository(IRepositoryContext repositoryContext)
+            : base(repositoryContext)
         { 
 
         }

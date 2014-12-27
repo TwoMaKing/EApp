@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using EApp.Core.Application;
 
 namespace Xpress.Life
 {
@@ -23,6 +24,8 @@ namespace Xpress.Life
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            EAppRuntime.Instance.Create();
         }
     }
 }

@@ -3,20 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using EApp.Core.Application;
 using Xpress.Chart.Application;
+using Xpress.Chart.DataObjects;
+using Xpress.Chart.Domain.Models;
 using Xpress.Chart.ServiceContracts;
 
 namespace Xpress.Life.Controllers
 {
     public class HomeController : Controller
     {
-        private IPostService postService; //= new PostService();
-
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            Session["user"] = new User() { Id = 1000, Name = "Philips", NickName = "会飞的猪猪", Email = "airsoft_ft@126.com" };
 
-            return View();
+            PostDataObject postDataObject = new PostDataObject();
+
+
+            return View(postDataObject);
         }
 
         public ActionResult About()
@@ -34,11 +38,28 @@ namespace Xpress.Life.Controllers
         }
 
         [HttpPost()]
-        public ActionResult PublishPost(int topic, string content) 
+        public ActionResult PublishPost(int topicId, string content) 
         {
+            try
+            {
+                IPostService postService = EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve<IPostService>();
 
+                PostDataObject postDataObject = postService.PublishPost(topicId, GlobalApplication.LoginUser.Id, content);
 
-            return View();
+                return View("index", postDataObject);
+
+                //return Json(new
+                //{
+                //    topic = postDataObject.TopicName,
+                //    author = postDataObject.AuthorName,
+                //    content = postDataObject.Content,
+                //    date = postDataObject.CreationDateTime
+                //});
+            }
+            catch
+            {
+                return View();   
+            }
         }
 
     }

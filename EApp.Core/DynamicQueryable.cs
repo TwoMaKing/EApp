@@ -1,11 +1,4 @@
-﻿/*
- * Expression Parser
- * Copyright (C) Microsoft Corporation.  All rights reserved.
- * This utility is from Microsoft's sample code - Dynamic Query. EApp made some
- * modification to the implementation of the Expression Parser to meet the application's
- * specific requirement.
- * 
- * */
+﻿//Copyright (C) Microsoft Corporation.  All rights reserved.
 
 using System;
 using System.Collections.Generic;
@@ -13,101 +6,124 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using EApp.Core.Exceptions;
 
-namespace EApp.Core
+namespace EApp.Core.Dynamic
 {
-    #region Helper Classes
-    /// <summary>
-    /// Represents errors that occur when parsing the strings to expressions.
-    /// </summary>
-    [Serializable]
-    [ComVisible(true)]
-    [ClassInterface(ClassInterfaceType.None)]
-    [ComDefaultInterface(typeof(_Exception))]
-    public class ExpressionParseException : InfrastructureException
+    public static class DynamicQueryable
     {
-        #region Ctor
-        /// <summary>
-        /// Initializes a new instance of the <c>ParseException</c> class.
-        /// </summary>
-        public ExpressionParseException() : base() { }
-        /// <summary>
-        /// Initializes a new instance of the <c>ParseException</c> class with the specified
-        /// error message.
-        /// </summary>
-        /// <param name="message">The message that describes the error.</param>
-        public ExpressionParseException(string message) : base(message) { }
-        /// <summary>
-        /// Initializes a new instance of the <c>ParseException</c> class with the specified
-        /// error message and the inner exception that is the cause of this exception.
-        /// </summary>
-        /// <param name="message">The message that describes the error.</param>
-        /// <param name="innerException">The inner exception that is the cause of this exception.</param>
-        public ExpressionParseException(string message, Exception innerException) : base(message, innerException) { }
-        /// <summary>
-        /// Initializes a new instance of the <c>ParseException</c> class with the specified
-        /// string formatter and the arguments that are used for formatting the message which
-        /// describes the error.
-        /// </summary>
-        /// <param name="format">The string formatter which is used for formatting the error message.</param>
-        /// <param name="args">The arguments that are used by the formatter to build the error message.</param>
-        public ExpressionParseException(string format, params object[] args) : base(string.Format(format, args)) { }
-        #endregion
+        public static IQueryable<T> Where<T>(this IQueryable<T> source, string predicate, params object[] values)
+        {
+            return (IQueryable<T>)Where((IQueryable)source, predicate, values);
+        }
+
+        public static IQueryable Where(this IQueryable source, string predicate, params object[] values)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            if (predicate == null) throw new ArgumentNullException("predicate");
+            LambdaExpression lambda = DynamicExpression.ParseLambda(source.ElementType, typeof(bool), predicate, values);
+            return source.Provider.CreateQuery(
+                Expression.Call(
+                    typeof(Queryable), "Where",
+                    new Type[] { source.ElementType },
+                    source.Expression, Expression.Quote(lambda)));
+        }
+
+        public static IQueryable Select(this IQueryable source, string selector, params object[] values)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            if (selector == null) throw new ArgumentNullException("selector");
+            LambdaExpression lambda = DynamicExpression.ParseLambda(source.ElementType, null, selector, values);
+            return source.Provider.CreateQuery(
+                Expression.Call(
+                    typeof(Queryable), "Select",
+                    new Type[] { source.ElementType, lambda.Body.Type },
+                    source.Expression, Expression.Quote(lambda)));
+        }
+
+        public static IQueryable<T> OrderBy<T>(this IQueryable<T> source, string ordering, params object[] values)
+        {
+            return (IQueryable<T>)OrderBy((IQueryable)source, ordering, values);
+        }
+
+        public static IQueryable OrderBy(this IQueryable source, string ordering, params object[] values)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            if (ordering == null) throw new ArgumentNullException("ordering");
+            ParameterExpression[] parameters = new ParameterExpression[] {
+                Expression.Parameter(source.ElementType, "") };
+            ExpressionParser parser = new ExpressionParser(parameters, ordering, values);
+            IEnumerable<DynamicOrdering> orderings = parser.ParseOrdering();
+            Expression queryExpr = source.Expression;
+            string methodAsc = "OrderBy";
+            string methodDesc = "OrderByDescending";
+            foreach (DynamicOrdering o in orderings)
+            {
+                queryExpr = Expression.Call(
+                    typeof(Queryable), o.Ascending ? methodAsc : methodDesc,
+                    new Type[] { source.ElementType, o.Selector.Type },
+                    queryExpr, Expression.Quote(Expression.Lambda(o.Selector, parameters)));
+                methodAsc = "ThenBy";
+                methodDesc = "ThenByDescending";
+            }
+            return source.Provider.CreateQuery(queryExpr);
+        }
+
+        public static IQueryable Take(this IQueryable source, int count)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            return source.Provider.CreateQuery(
+                Expression.Call(
+                    typeof(Queryable), "Take",
+                    new Type[] { source.ElementType },
+                    source.Expression, Expression.Constant(count)));
+        }
+
+        public static IQueryable Skip(this IQueryable source, int count)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            return source.Provider.CreateQuery(
+                Expression.Call(
+                    typeof(Queryable), "Skip",
+                    new Type[] { source.ElementType },
+                    source.Expression, Expression.Constant(count)));
+        }
+
+        public static IQueryable GroupBy(this IQueryable source, string keySelector, string elementSelector, params object[] values)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            if (keySelector == null) throw new ArgumentNullException("keySelector");
+            if (elementSelector == null) throw new ArgumentNullException("elementSelector");
+            LambdaExpression keyLambda = DynamicExpression.ParseLambda(source.ElementType, null, keySelector, values);
+            LambdaExpression elementLambda = DynamicExpression.ParseLambda(source.ElementType, null, elementSelector, values);
+            return source.Provider.CreateQuery(
+                Expression.Call(
+                    typeof(Queryable), "GroupBy",
+                    new Type[] { source.ElementType, keyLambda.Body.Type, elementLambda.Body.Type },
+                    source.Expression, Expression.Quote(keyLambda), Expression.Quote(elementLambda)));
+        }
+
+        public static bool Any(this IQueryable source)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            return (bool)source.Provider.Execute(
+                Expression.Call(
+                    typeof(Queryable), "Any",
+                    new Type[] { source.ElementType }, source.Expression));
+        }
+
+        public static int Count(this IQueryable source)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            return (int)source.Provider.Execute(
+                Expression.Call(
+                    typeof(Queryable), "Count",
+                    new Type[] { source.ElementType }, source.Expression));
+        }
     }
 
-    internal static class ExpressionParserRes
-    {
-        public const string DuplicateIdentifier = "The identifier '{0}' was defined more than once";
-        public const string ExpressionTypeMismatch = "Expression of type '{0}' expected";
-        public const string ExpressionExpected = "Expression expected";
-        public const string InvalidCharacterLiteral = "Character literal must contain exactly one character";
-        public const string InvalidIntegerLiteral = "Invalid integer literal '{0}'";
-        public const string InvalidRealLiteral = "Invalid real literal '{0}'";
-        public const string UnknownIdentifier = "Unknown identifier '{0}'";
-        public const string NoItInScope = "No 'it' is in scope";
-        public const string IifRequiresThreeArgs = "The 'iif' function requires three arguments";
-        public const string FirstExprMustBeBool = "The first expression must be of type 'Boolean'";
-        public const string BothTypesConvertToOther = "Both of the types '{0}' and '{1}' convert to the other";
-        public const string NeitherTypeConvertsToOther = "Neither of the types '{0}' and '{1}' converts to the other";
-        public const string MissingAsClause = "Expression is missing an 'as' clause";
-        public const string ArgsIncompatibleWithLambda = "Argument list incompatible with lambda expression";
-        public const string TypeHasNoNullableForm = "Type '{0}' has no nullable form";
-        public const string NoMatchingConstructor = "No matching constructor in type '{0}'";
-        public const string AmbiguousConstructorInvocation = "Ambiguous invocation of '{0}' constructor";
-        public const string CannotConvertValue = "A value of type '{0}' cannot be converted to type '{1}'";
-        public const string NoApplicableMethod = "No applicable method '{0}' exists in type '{1}'";
-        public const string MethodsAreInaccessible = "Methods on type '{0}' are not accessible";
-        public const string MethodIsVoid = "Method '{0}' in type '{1}' does not return a value";
-        public const string AmbiguousMethodInvocation = "Ambiguous invocation of method '{0}' in type '{1}'";
-        public const string UnknownPropertyOrField = "No property or field '{0}' exists in type '{1}'";
-        public const string NoApplicableAggregate = "No applicable aggregate method '{0}' exists";
-        public const string CannotIndexMultiDimArray = "Indexing of multi-dimensional arrays is not supported";
-        public const string InvalidIndex = "Array index must be an integer expression";
-        public const string NoApplicableIndexer = "No applicable indexer exists in type '{0}'";
-        public const string AmbiguousIndexerInvocation = "Ambiguous invocation of indexer in type '{0}'";
-        public const string IncompatibleOperand = "Operator '{0}' incompatible with operand type '{1}'";
-        public const string IncompatibleOperands = "Operator '{0}' incompatible with operand types '{1}' and '{2}'";
-        public const string UnterminatedStringLiteral = "Unterminated string literal";
-        public const string InvalidCharacter = "Syntax error '{0}'";
-        public const string DigitExpected = "Digit expected";
-        public const string SyntaxError = "Syntax error";
-        public const string TokenExpected = "{0} expected";
-        public const string ParseExceptionFormat = "{0} (at index {1})";
-        public const string ColonExpected = "':' expected";
-        public const string OpenParenExpected = "'(' expected";
-        public const string CloseParenOrOperatorExpected = "')' or operator expected";
-        public const string CloseParenOrCommaExpected = "')' or ',' expected";
-        public const string DotOrOpenParenExpected = "'.' or '(' expected";
-        public const string OpenBracketExpected = "'[' expected";
-        public const string CloseBracketOrCommaExpected = "']' or ',' expected";
-        public const string IdentifierExpected = "Identifier expected";
-    }
-
-    internal abstract class DynamicClass
+    public abstract class DynamicClass
     {
         public override string ToString()
         {
@@ -124,6 +140,71 @@ namespace EApp.Core
             sb.Append("}");
             return sb.ToString();
         }
+    }
+
+    public class DynamicProperty
+    {
+        string name;
+        Type type;
+
+        public DynamicProperty(string name, Type type)
+        {
+            if (name == null) throw new ArgumentNullException("name");
+            if (type == null) throw new ArgumentNullException("type");
+            this.name = name;
+            this.type = type;
+        }
+
+        public string Name
+        {
+            get { return name; }
+        }
+
+        public Type Type
+        {
+            get { return type; }
+        }
+    }
+
+    public static class DynamicExpression
+    {
+        public static Expression Parse(Type resultType, string expression, params object[] values)
+        {
+            ExpressionParser parser = new ExpressionParser(null, expression, values);
+            return parser.Parse(resultType);
+        }
+
+        public static LambdaExpression ParseLambda(Type itType, Type resultType, string expression, params object[] values)
+        {
+            return ParseLambda(new ParameterExpression[] { Expression.Parameter(itType, "") }, resultType, expression, values);
+        }
+
+        public static LambdaExpression ParseLambda(ParameterExpression[] parameters, Type resultType, string expression, params object[] values)
+        {
+            ExpressionParser parser = new ExpressionParser(parameters, expression, values);
+            return Expression.Lambda(parser.Parse(resultType), parameters);
+        }
+
+        public static Expression<Func<T, S>> ParseLambda<T, S>(string expression, params object[] values)
+        {
+            return (Expression<Func<T, S>>)ParseLambda(typeof(T), typeof(S), expression, values);
+        }
+
+        public static Type CreateClass(params DynamicProperty[] properties)
+        {
+            return ClassFactory.Instance.GetDynamicClass(properties);
+        }
+
+        public static Type CreateClass(IEnumerable<DynamicProperty> properties)
+        {
+            return ClassFactory.Instance.GetDynamicClass(properties);
+        }
+    }
+
+    internal class DynamicOrdering
+    {
+        public Expression Selector;
+        public bool Ascending;
     }
 
     internal class Signature : IEquatable<Signature>
@@ -337,68 +418,26 @@ namespace EApp.Core
         }
     }
 
-    internal static class DynamicExpression
+    public sealed class ParseException : Exception
     {
-        internal static Expression Parse(Type resultType, string expression, params object[] values)
+        int position;
+
+        public ParseException(string message, int position)
+            : base(message)
         {
-            ExpressionParser parser = new ExpressionParser(null, expression, values);
-            return parser.Parse(resultType);
+            this.position = position;
         }
 
-        internal static LambdaExpression ParseLambda(Type itType, Type resultType, string expression, params object[] values)
+        public int Position
         {
-            return ParseLambda(new ParameterExpression[] { Expression.Parameter(itType, "") }, resultType, expression, values);
+            get { return position; }
         }
 
-        internal static LambdaExpression ParseLambda(ParameterExpression[] parameters, Type resultType, string expression, params object[] values)
+        public override string ToString()
         {
-            ExpressionParser parser = new ExpressionParser(parameters, expression, values);
-            return Expression.Lambda(parser.Parse(resultType), parameters);
-        }
-
-        internal static Expression<Func<T, S>> ParseLambda<T, S>(string expression, params object[] values)
-        {
-            return (Expression<Func<T, S>>)ParseLambda(typeof(T), typeof(S), expression, values);
-        }
-
-        internal static Type CreateClass(params DynamicProperty[] properties)
-        {
-            return ClassFactory.Instance.GetDynamicClass(properties);
-        }
-
-        internal static Type CreateClass(IEnumerable<DynamicProperty> properties)
-        {
-            return ClassFactory.Instance.GetDynamicClass(properties);
+            return string.Format(Res.ParseExceptionFormat, Message, position);
         }
     }
-
-    internal class DynamicProperty
-    {
-        string name;
-        Type type;
-
-        public DynamicProperty(string name, Type type)
-        {
-            if (name == null) throw new ArgumentNullException("name");
-            if (type == null) throw new ArgumentNullException("type");
-            this.name = name;
-            this.type = type;
-        }
-
-        public string Name
-        {
-            get { return name; }
-        }
-
-        public Type Type
-        {
-            get { return type; }
-        }
-    }
-
-    #endregion
-
-    #region ExpressionParser
 
     internal class ExpressionParser
     {
@@ -637,7 +676,7 @@ namespace EApp.Core
         void AddSymbol(string name, object value)
         {
             if (symbols.ContainsKey(name))
-                throw ParseError(ExpressionParserRes.DuplicateIdentifier, name);
+                throw ParseError(Res.DuplicateIdentifier, name);
             symbols.Add(name, value);
         }
 
@@ -647,36 +686,36 @@ namespace EApp.Core
             Expression expr = ParseExpression();
             if (resultType != null)
                 if ((expr = PromoteExpression(expr, resultType, true)) == null)
-                    throw ParseError(exprPos, ExpressionParserRes.ExpressionTypeMismatch, GetTypeName(resultType));
-            ValidateToken(TokenId.End, ExpressionParserRes.SyntaxError);
+                    throw ParseError(exprPos, Res.ExpressionTypeMismatch, GetTypeName(resultType));
+            ValidateToken(TokenId.End, Res.SyntaxError);
             return expr;
         }
 
-        //#pragma warning disable 0219
-        //        public IEnumerable<DynamicOrdering> ParseOrdering()
-        //        {
-        //            List<DynamicOrdering> orderings = new List<DynamicOrdering>();
-        //            while (true)
-        //            {
-        //                Expression expr = ParseExpression();
-        //                bool ascending = true;
-        //                if (TokenIdentifierIs("asc") || TokenIdentifierIs("ascending"))
-        //                {
-        //                    NextToken();
-        //                }
-        //                else if (TokenIdentifierIs("desc") || TokenIdentifierIs("descending"))
-        //                {
-        //                    NextToken();
-        //                    ascending = false;
-        //                }
-        //                orderings.Add(new DynamicOrdering { Selector = expr, Ascending = ascending });
-        //                if (token.id != TokenId.Comma) break;
-        //                NextToken();
-        //            }
-        //            ValidateToken(TokenId.End, Res.SyntaxError);
-        //            return orderings;
-        //        }
-        //#pragma warning restore 0219
+#pragma warning disable 0219
+        public IEnumerable<DynamicOrdering> ParseOrdering()
+        {
+            List<DynamicOrdering> orderings = new List<DynamicOrdering>();
+            while (true)
+            {
+                Expression expr = ParseExpression();
+                bool ascending = true;
+                if (TokenIdentifierIs("asc") || TokenIdentifierIs("ascending"))
+                {
+                    NextToken();
+                }
+                else if (TokenIdentifierIs("desc") || TokenIdentifierIs("descending"))
+                {
+                    NextToken();
+                    ascending = false;
+                }
+                orderings.Add(new DynamicOrdering { Selector = expr, Ascending = ascending });
+                if (token.id != TokenId.Comma) break;
+                NextToken();
+            }
+            ValidateToken(TokenId.End, Res.SyntaxError);
+            return orderings;
+        }
+#pragma warning restore 0219
 
         // ?: operator
         Expression ParseExpression()
@@ -687,7 +726,7 @@ namespace EApp.Core
             {
                 NextToken();
                 Expression expr1 = ParseExpression();
-                ValidateToken(TokenId.Colon, ExpressionParserRes.ColonExpected);
+                ValidateToken(TokenId.Colon, Res.ColonExpected);
                 NextToken();
                 Expression expr2 = ParseExpression();
                 expr = GenerateConditional(expr, expr1, expr2, errorPos);
@@ -934,7 +973,7 @@ namespace EApp.Core
                 case TokenId.OpenParen:
                     return ParseParenExpression();
                 default:
-                    throw ParseError(ExpressionParserRes.ExpressionExpected);
+                    throw ParseError(Res.ExpressionExpected);
             }
         }
 
@@ -954,7 +993,7 @@ namespace EApp.Core
             if (quote == '\'')
             {
                 if (s.Length != 1)
-                    throw ParseError(ExpressionParserRes.InvalidCharacterLiteral);
+                    throw ParseError(Res.InvalidCharacterLiteral);
                 NextToken();
                 return CreateLiteral(s[0], s);
             }
@@ -970,7 +1009,7 @@ namespace EApp.Core
             {
                 ulong value;
                 if (!UInt64.TryParse(text, out value))
-                    throw ParseError(ExpressionParserRes.InvalidIntegerLiteral, text);
+                    throw ParseError(Res.InvalidIntegerLiteral, text);
                 NextToken();
                 if (value <= (ulong)Int32.MaxValue) return CreateLiteral((int)value, text);
                 if (value <= (ulong)UInt32.MaxValue) return CreateLiteral((uint)value, text);
@@ -981,7 +1020,7 @@ namespace EApp.Core
             {
                 long value;
                 if (!Int64.TryParse(text, out value))
-                    throw ParseError(ExpressionParserRes.InvalidIntegerLiteral, text);
+                    throw ParseError(Res.InvalidIntegerLiteral, text);
                 NextToken();
                 if (value >= Int32.MinValue && value <= Int32.MaxValue)
                     return CreateLiteral((int)value, text);
@@ -1005,7 +1044,7 @@ namespace EApp.Core
                 double d;
                 if (Double.TryParse(text, out d)) value = d;
             }
-            if (value == null) throw ParseError(ExpressionParserRes.InvalidRealLiteral, text);
+            if (value == null) throw ParseError(Res.InvalidRealLiteral, text);
             NextToken();
             return CreateLiteral(value, text);
         }
@@ -1019,10 +1058,10 @@ namespace EApp.Core
 
         Expression ParseParenExpression()
         {
-            ValidateToken(TokenId.OpenParen, ExpressionParserRes.OpenParenExpected);
+            ValidateToken(TokenId.OpenParen, Res.OpenParenExpected);
             NextToken();
             Expression e = ParseExpression();
-            ValidateToken(TokenId.CloseParen, ExpressionParserRes.CloseParenOrOperatorExpected);
+            ValidateToken(TokenId.CloseParen, Res.CloseParenOrOperatorExpected);
             NextToken();
             return e;
         }
@@ -1057,13 +1096,13 @@ namespace EApp.Core
                 return expr;
             }
             if (it != null) return ParseMemberAccess(null, it);
-            throw ParseError(ExpressionParserRes.UnknownIdentifier, token.text);
+            throw ParseError(Res.UnknownIdentifier, token.text);
         }
 
         Expression ParseIt()
         {
             if (it == null)
-                throw ParseError(ExpressionParserRes.NoItInScope);
+                throw ParseError(Res.NoItInScope);
             NextToken();
             return it;
         }
@@ -1074,14 +1113,14 @@ namespace EApp.Core
             NextToken();
             Expression[] args = ParseArgumentList();
             if (args.Length != 3)
-                throw ParseError(errorPos, ExpressionParserRes.IifRequiresThreeArgs);
+                throw ParseError(errorPos, Res.IifRequiresThreeArgs);
             return GenerateConditional(args[0], args[1], args[2], errorPos);
         }
 
         Expression GenerateConditional(Expression test, Expression expr1, Expression expr2, int errorPos)
         {
             if (test.Type != typeof(bool))
-                throw ParseError(errorPos, ExpressionParserRes.FirstExprMustBeBool);
+                throw ParseError(errorPos, Res.FirstExprMustBeBool);
             if (expr1.Type != expr2.Type)
             {
                 Expression expr1as2 = expr2 != nullLiteral ? PromoteExpression(expr1, expr2.Type, true) : null;
@@ -1099,8 +1138,8 @@ namespace EApp.Core
                     string type1 = expr1 != nullLiteral ? expr1.Type.Name : "null";
                     string type2 = expr2 != nullLiteral ? expr2.Type.Name : "null";
                     if (expr1as2 != null && expr2as1 != null)
-                        throw ParseError(errorPos, ExpressionParserRes.BothTypesConvertToOther, type1, type2);
-                    throw ParseError(errorPos, ExpressionParserRes.NeitherTypeConvertsToOther, type1, type2);
+                        throw ParseError(errorPos, Res.BothTypesConvertToOther, type1, type2);
+                    throw ParseError(errorPos, Res.NeitherTypeConvertsToOther, type1, type2);
                 }
             }
             return Expression.Condition(test, expr1, expr2);
@@ -1109,7 +1148,7 @@ namespace EApp.Core
         Expression ParseNew()
         {
             NextToken();
-            ValidateToken(TokenId.OpenParen, ExpressionParserRes.OpenParenExpected);
+            ValidateToken(TokenId.OpenParen, Res.OpenParenExpected);
             NextToken();
             List<DynamicProperty> properties = new List<DynamicProperty>();
             List<Expression> expressions = new List<Expression>();
@@ -1127,7 +1166,7 @@ namespace EApp.Core
                 else
                 {
                     MemberExpression me = expr as MemberExpression;
-                    if (me == null) throw ParseError(exprPos, ExpressionParserRes.MissingAsClause);
+                    if (me == null) throw ParseError(exprPos, Res.MissingAsClause);
                     propName = me.Member.Name;
                 }
                 expressions.Add(expr);
@@ -1135,7 +1174,7 @@ namespace EApp.Core
                 if (token.id != TokenId.Comma) break;
                 NextToken();
             }
-            ValidateToken(TokenId.CloseParen, ExpressionParserRes.CloseParenOrCommaExpected);
+            ValidateToken(TokenId.CloseParen, Res.CloseParenOrCommaExpected);
             NextToken();
             Type type = DynamicExpression.CreateClass(properties);
             MemberBinding[] bindings = new MemberBinding[properties.Count];
@@ -1151,7 +1190,7 @@ namespace EApp.Core
             Expression[] args = ParseArgumentList();
             MethodBase method;
             if (FindMethod(lambda.Type, "Invoke", false, args, out method) != 1)
-                throw ParseError(errorPos, ExpressionParserRes.ArgsIncompatibleWithLambda);
+                throw ParseError(errorPos, Res.ArgsIncompatibleWithLambda);
             return Expression.Invoke(lambda, args);
         }
 
@@ -1162,7 +1201,7 @@ namespace EApp.Core
             if (token.id == TokenId.Question)
             {
                 if (!type.IsValueType || IsNullableType(type))
-                    throw ParseError(errorPos, ExpressionParserRes.TypeHasNoNullableForm, GetTypeName(type));
+                    throw ParseError(errorPos, Res.TypeHasNoNullableForm, GetTypeName(type));
                 type = typeof(Nullable<>).MakeGenericType(type);
                 NextToken();
             }
@@ -1175,14 +1214,14 @@ namespace EApp.Core
                     case 0:
                         if (args.Length == 1)
                             return GenerateConversion(args[0], type, errorPos);
-                        throw ParseError(errorPos, ExpressionParserRes.NoMatchingConstructor, GetTypeName(type));
+                        throw ParseError(errorPos, Res.NoMatchingConstructor, GetTypeName(type));
                     case 1:
                         return Expression.New((ConstructorInfo)method, args);
                     default:
-                        throw ParseError(errorPos, ExpressionParserRes.AmbiguousConstructorInvocation, GetTypeName(type));
+                        throw ParseError(errorPos, Res.AmbiguousConstructorInvocation, GetTypeName(type));
                 }
             }
-            ValidateToken(TokenId.Dot, ExpressionParserRes.DotOrOpenParenExpected);
+            ValidateToken(TokenId.Dot, Res.DotOrOpenParenExpected);
             NextToken();
             return ParseMemberAccess(type, null);
         }
@@ -1203,7 +1242,7 @@ namespace EApp.Core
             if (exprType.IsAssignableFrom(type) || type.IsAssignableFrom(exprType) ||
                 exprType.IsInterface || type.IsInterface)
                 return Expression.Convert(expr, type);
-            throw ParseError(errorPos, ExpressionParserRes.CannotConvertValue,
+            throw ParseError(errorPos, Res.CannotConvertValue,
                 GetTypeName(exprType), GetTypeName(type));
         }
 
@@ -1229,18 +1268,18 @@ namespace EApp.Core
                 switch (FindMethod(type, id, instance == null, args, out mb))
                 {
                     case 0:
-                        throw ParseError(errorPos, ExpressionParserRes.NoApplicableMethod,
+                        throw ParseError(errorPos, Res.NoApplicableMethod,
                             id, GetTypeName(type));
                     case 1:
                         MethodInfo method = (MethodInfo)mb;
                         if (!IsPredefinedType(method.DeclaringType))
-                            throw ParseError(errorPos, ExpressionParserRes.MethodsAreInaccessible, GetTypeName(method.DeclaringType));
+                            throw ParseError(errorPos, Res.MethodsAreInaccessible, GetTypeName(method.DeclaringType));
                         if (method.ReturnType == typeof(void))
-                            throw ParseError(errorPos, ExpressionParserRes.MethodIsVoid,
+                            throw ParseError(errorPos, Res.MethodIsVoid,
                                 id, GetTypeName(method.DeclaringType));
                         return Expression.Call(instance, (MethodInfo)method, args);
                     default:
-                        throw ParseError(errorPos, ExpressionParserRes.AmbiguousMethodInvocation,
+                        throw ParseError(errorPos, Res.AmbiguousMethodInvocation,
                             id, GetTypeName(type));
                 }
             }
@@ -1248,7 +1287,7 @@ namespace EApp.Core
             {
                 MemberInfo member = FindPropertyOrField(type, id, instance == null);
                 if (member == null)
-                    throw ParseError(errorPos, ExpressionParserRes.UnknownPropertyOrField,
+                    throw ParseError(errorPos, Res.UnknownPropertyOrField,
                         id, GetTypeName(type));
                 return member is PropertyInfo ?
                     Expression.Property(instance, (PropertyInfo)member) :
@@ -1283,7 +1322,7 @@ namespace EApp.Core
             it = outerIt;
             MethodBase signature;
             if (FindMethod(typeof(IEnumerableSignatures), methodName, false, args, out signature) != 1)
-                throw ParseError(errorPos, ExpressionParserRes.NoApplicableAggregate, methodName);
+                throw ParseError(errorPos, Res.NoApplicableAggregate, methodName);
             Type[] typeArgs;
             if (signature.Name == "Min" || signature.Name == "Max")
             {
@@ -1306,10 +1345,10 @@ namespace EApp.Core
 
         Expression[] ParseArgumentList()
         {
-            ValidateToken(TokenId.OpenParen, ExpressionParserRes.OpenParenExpected);
+            ValidateToken(TokenId.OpenParen, Res.OpenParenExpected);
             NextToken();
             Expression[] args = token.id != TokenId.CloseParen ? ParseArguments() : new Expression[0];
-            ValidateToken(TokenId.CloseParen, ExpressionParserRes.CloseParenOrCommaExpected);
+            ValidateToken(TokenId.CloseParen, Res.CloseParenOrCommaExpected);
             NextToken();
             return args;
         }
@@ -1329,18 +1368,18 @@ namespace EApp.Core
         Expression ParseElementAccess(Expression expr)
         {
             int errorPos = token.pos;
-            ValidateToken(TokenId.OpenBracket, ExpressionParserRes.OpenParenExpected);
+            ValidateToken(TokenId.OpenBracket, Res.OpenParenExpected);
             NextToken();
             Expression[] args = ParseArguments();
-            ValidateToken(TokenId.CloseBracket, ExpressionParserRes.CloseBracketOrCommaExpected);
+            ValidateToken(TokenId.CloseBracket, Res.CloseBracketOrCommaExpected);
             NextToken();
             if (expr.Type.IsArray)
             {
                 if (expr.Type.GetArrayRank() != 1 || args.Length != 1)
-                    throw ParseError(errorPos, ExpressionParserRes.CannotIndexMultiDimArray);
+                    throw ParseError(errorPos, Res.CannotIndexMultiDimArray);
                 Expression index = PromoteExpression(args[0], typeof(int), true);
                 if (index == null)
-                    throw ParseError(errorPos, ExpressionParserRes.InvalidIndex);
+                    throw ParseError(errorPos, Res.InvalidIndex);
                 return Expression.ArrayIndex(expr, index);
             }
             else
@@ -1349,12 +1388,12 @@ namespace EApp.Core
                 switch (FindIndexer(expr.Type, args, out mb))
                 {
                     case 0:
-                        throw ParseError(errorPos, ExpressionParserRes.NoApplicableIndexer,
+                        throw ParseError(errorPos, Res.NoApplicableIndexer,
                             GetTypeName(expr.Type));
                     case 1:
                         return Expression.Call(expr, (MethodInfo)mb, args);
                     default:
-                        throw ParseError(errorPos, ExpressionParserRes.AmbiguousIndexerInvocation,
+                        throw ParseError(errorPos, Res.AmbiguousIndexerInvocation,
                             GetTypeName(expr.Type));
                 }
             }
@@ -1435,7 +1474,7 @@ namespace EApp.Core
             Expression[] args = new Expression[] { expr };
             MethodBase method;
             if (FindMethod(signatures, "F", false, args, out method) != 1)
-                throw ParseError(errorPos, ExpressionParserRes.IncompatibleOperand,
+                throw ParseError(errorPos, Res.IncompatibleOperand,
                     opName, GetTypeName(args[0].Type));
             expr = args[0];
         }
@@ -1452,7 +1491,7 @@ namespace EApp.Core
 
         Exception IncompatibleOperandsError(string opName, Expression left, Expression right, int pos)
         {
-            return ParseError(pos, ExpressionParserRes.IncompatibleOperands,
+            return ParseError(pos, Res.IncompatibleOperands,
                 opName, GetTypeName(left.Type), GetTypeName(right.Type));
         }
 
@@ -2091,7 +2130,7 @@ namespace EApp.Core
                         NextChar();
                         while (textPos < textLen && ch != quote) NextChar();
                         if (textPos == textLen)
-                            throw ParseError(textPos, ExpressionParserRes.UnterminatedStringLiteral);
+                            throw ParseError(textPos, Res.UnterminatedStringLiteral);
                         NextChar();
                     } while (ch == quote);
                     t = TokenId.StringLiteral;
@@ -2142,7 +2181,7 @@ namespace EApp.Core
                         t = TokenId.End;
                         break;
                     }
-                    throw ParseError(textPos, ExpressionParserRes.InvalidCharacter, ch);
+                    throw ParseError(textPos, Res.InvalidCharacter, ch);
             }
             token.id = t;
             token.text = text.Substring(tokenPos, textPos - tokenPos);
@@ -2156,7 +2195,7 @@ namespace EApp.Core
 
         string GetIdentifier()
         {
-            ValidateToken(TokenId.Identifier, ExpressionParserRes.IdentifierExpected);
+            ValidateToken(TokenId.Identifier, Res.IdentifierExpected);
             string id = token.text;
             if (id.Length > 1 && id[0] == '@') id = id.Substring(1);
             return id;
@@ -2164,7 +2203,7 @@ namespace EApp.Core
 
         void ValidateDigit()
         {
-            if (!Char.IsDigit(ch)) throw ParseError(textPos, ExpressionParserRes.DigitExpected);
+            if (!Char.IsDigit(ch)) throw ParseError(textPos, Res.DigitExpected);
         }
 
         void ValidateToken(TokenId t, string errorMessage)
@@ -2174,7 +2213,7 @@ namespace EApp.Core
 
         void ValidateToken(TokenId t)
         {
-            if (token.id != t) throw ParseError(ExpressionParserRes.SyntaxError);
+            if (token.id != t) throw ParseError(Res.SyntaxError);
         }
 
         Exception ParseError(string format, params object[] args)
@@ -2184,7 +2223,7 @@ namespace EApp.Core
 
         Exception ParseError(int pos, string format, params object[] args)
         {
-            return new ExpressionParseException(string.Format(System.Globalization.CultureInfo.CurrentCulture, format, args), pos);
+            return new ParseException(string.Format(System.Globalization.CultureInfo.CurrentCulture, format, args), pos);
         }
 
         static Dictionary<string, object> CreateKeywords()
@@ -2200,6 +2239,54 @@ namespace EApp.Core
             return d;
         }
     }
-    #endregion
-}
 
+    static class Res
+    {
+        public const string DuplicateIdentifier = "The identifier '{0}' was defined more than once";
+        public const string ExpressionTypeMismatch = "Expression of type '{0}' expected";
+        public const string ExpressionExpected = "Expression expected";
+        public const string InvalidCharacterLiteral = "Character literal must contain exactly one character";
+        public const string InvalidIntegerLiteral = "Invalid integer literal '{0}'";
+        public const string InvalidRealLiteral = "Invalid real literal '{0}'";
+        public const string UnknownIdentifier = "Unknown identifier '{0}'";
+        public const string NoItInScope = "No 'it' is in scope";
+        public const string IifRequiresThreeArgs = "The 'iif' function requires three arguments";
+        public const string FirstExprMustBeBool = "The first expression must be of type 'Boolean'";
+        public const string BothTypesConvertToOther = "Both of the types '{0}' and '{1}' convert to the other";
+        public const string NeitherTypeConvertsToOther = "Neither of the types '{0}' and '{1}' converts to the other";
+        public const string MissingAsClause = "Expression is missing an 'as' clause";
+        public const string ArgsIncompatibleWithLambda = "Argument list incompatible with lambda expression";
+        public const string TypeHasNoNullableForm = "Type '{0}' has no nullable form";
+        public const string NoMatchingConstructor = "No matching constructor in type '{0}'";
+        public const string AmbiguousConstructorInvocation = "Ambiguous invocation of '{0}' constructor";
+        public const string CannotConvertValue = "A value of type '{0}' cannot be converted to type '{1}'";
+        public const string NoApplicableMethod = "No applicable method '{0}' exists in type '{1}'";
+        public const string MethodsAreInaccessible = "Methods on type '{0}' are not accessible";
+        public const string MethodIsVoid = "Method '{0}' in type '{1}' does not return a value";
+        public const string AmbiguousMethodInvocation = "Ambiguous invocation of method '{0}' in type '{1}'";
+        public const string UnknownPropertyOrField = "No property or field '{0}' exists in type '{1}'";
+        public const string NoApplicableAggregate = "No applicable aggregate method '{0}' exists";
+        public const string CannotIndexMultiDimArray = "Indexing of multi-dimensional arrays is not supported";
+        public const string InvalidIndex = "Array index must be an integer expression";
+        public const string NoApplicableIndexer = "No applicable indexer exists in type '{0}'";
+        public const string AmbiguousIndexerInvocation = "Ambiguous invocation of indexer in type '{0}'";
+        public const string IncompatibleOperand = "Operator '{0}' incompatible with operand type '{1}'";
+        public const string IncompatibleOperands = "Operator '{0}' incompatible with operand types '{1}' and '{2}'";
+        public const string UnterminatedStringLiteral = "Unterminated string literal";
+        public const string InvalidCharacter = "Syntax error '{0}'";
+        public const string DigitExpected = "Digit expected";
+        public const string SyntaxError = "Syntax error";
+        public const string TokenExpected = "{0} expected";
+        public const string ParseExceptionFormat = "{0} (at index {1})";
+        public const string ColonExpected = "':' expected";
+        public const string OpenParenExpected = "'(' expected";
+        public const string CloseParenOrOperatorExpected = "')' or operator expected";
+        public const string CloseParenOrCommaExpected = "')' or ',' expected";
+        public const string DotOrOpenParenExpected = "'.' or '(' expected";
+        public const string OpenBracketExpected = "'[' expected";
+        public const string CloseBracketOrCommaExpected = "']' or ',' expected";
+        public const string IdentifierExpected = "Identifier expected";
+    }
+
+    //var query = db.Customers.Where("City == @0 and Orders.Count >= @1", "London", 10).OrderBy("CompanyName").Select("New(CompanyName as Name, Phone)");
+}

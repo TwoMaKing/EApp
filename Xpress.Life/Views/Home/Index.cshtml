@@ -1,22 +1,45 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model Xpress.Chart.DataObjects.PostDataObject
+@{
+    
+    
 }
 @section featured {
     <section class="featured">
         <div class="content-wrapper">
+            @using (Html.BeginForm("PublishPost", "Home", new {topicId = 1000}, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken();
+                                        
+                <div>
+                    <textarea name="content" rows="0" cols="0" style="width: 500px; height: 200px; overflow: hidden">
 
-            <textarea id="messageBox">
-
-
-            
-            </textarea>
-
-            <div>
-            
-            </div>
-
+                    </textarea>
+                </div>
+                <div>
+                    <input type="submit" value="发布" />
+                </div>
+            }
         </div>
     </section>
 }
-<h3>We suggest the following:</h3>
+<div class="content-wrapper">
+    <div>
+        <div>
+            @Model.AuthorName
+        </div>
+        <div>
+            <p>
+                @Model.Content
+            </p>
+            <div>
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    
+  
+    
 
+</script>

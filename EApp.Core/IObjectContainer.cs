@@ -68,6 +68,8 @@ namespace EApp.Core
 
         void RegisterType<TFrom, TTo>(string name, ObjectLifetimeMode lifeitme) where TTo : TFrom;
 
+        T Resolve<T>();
+
         T Resolve<T>(string name);
 
         object Resolve(Type t);

@@ -22,6 +22,7 @@ namespace EApp.Common.IOC
         public void InitializeFromConfigFile(string configSectionName)
         {
             UnityConfigurationSection section = (UnityConfigurationSection)ConfigurationManager.GetSection(configSectionName);
+            
             section.Configure(this.unityContainer);
         }
 
@@ -83,6 +84,11 @@ namespace EApp.Common.IOC
         public void RegisterType<TFrom, TTo>(string name, ObjectLifetimeMode lifeitme) where TTo : TFrom
         {
             this.unityContainer.RegisterType<TFrom, TTo>(name, this.GetLifetimeManager(lifeitme));
+        }
+
+        public T Resolve<T>()
+        {
+            return this.unityContainer.Resolve<T>();
         }
 
         public T Resolve<T>(string name)
@@ -149,6 +155,5 @@ namespace EApp.Common.IOC
                 return new PerThreadLifetimeManager();
             }
         }
-
     }
 }

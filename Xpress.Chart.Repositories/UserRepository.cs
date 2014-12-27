@@ -22,7 +22,7 @@ namespace Xpress.Chart.Repositories
     {
         private const string whereById = "user_id=@id";
 
-        public UserRepository(ISqlServerRepositoryContext repositoryContext) : base(repositoryContext) { }
+        public UserRepository(IRepositoryContext repositoryContext) : base(repositoryContext) { }
 
         protected override void PersistAddedItem(User entity)
         {
@@ -38,30 +38,6 @@ namespace Xpress.Chart.Repositories
         {
             throw new NotImplementedException();
         }
-
-        //protected override User DoFindByKey(int id)
-        //{
-        //    User user = null;
-
-        //    using (IDataReader reader = DbGateway.Default.ExecuteReader("select * from user where " + whereById, new object[] { id }))
-        //    {
-        //        if (reader.Read())
-        //        {
-        //            user = new User();
-
-        //            user.Id = Convertor.ConvertToInteger(reader["user_id"]).Value;
-        //            user.Name = reader["user_name"].ToString();
-        //            user.NickName = reader["user_nick_name"].ToString();
-        //            user.Email = reader["user_email"].ToString();
-        //            user.Password = reader["user_password"].ToString();
-        //        }
-
-        //        reader.Close();
-        //        reader.Dispose();
-        //    }
-
-        //    return user;
-        //}
 
         protected override User DoFind(ISpecification<User> specification)
         {
@@ -80,7 +56,7 @@ namespace Xpress.Chart.Repositories
 
         protected override string GetEntityQuerySqlById()
         {
-            return "select * from user where user_id = @id";
+            return "select * from [user] where [user_id] = @id";
         }
 
         protected override User BuildEntityFromDataReader(IDataReader dataReader)

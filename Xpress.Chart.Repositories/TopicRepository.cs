@@ -22,7 +22,7 @@ namespace Xpress.Chart.Repositories
     {
         private const string whereById = "topic_id=@id";
 
-        public TopicRepository(ISqlServerRepositoryContext repositoryContext) : base(repositoryContext) { }
+        public TopicRepository(IRepositoryContext repositoryContext) : base(repositoryContext) { }
 
         protected override void PersistAddedItem(Topic entity)
         {

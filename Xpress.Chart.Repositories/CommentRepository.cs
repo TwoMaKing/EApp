@@ -19,7 +19,7 @@ namespace Xpress.Chart.Repositories
 {
     public class CommentRepository : SqlServerRepository<Comment>, ICommentRepository
     {
-        public CommentRepository(ISqlServerRepositoryContext repositoryContext) : base(repositoryContext) { }
+        public CommentRepository(IRepositoryContext repositoryContext) : base(repositoryContext) { }
 
         protected override void PersistAddedItem(Comment entity)
         {
