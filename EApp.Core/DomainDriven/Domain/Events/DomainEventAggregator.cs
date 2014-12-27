@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EApp.Core.DomainDriven.Events;
+using EApp.Core.Application;
 
 
 namespace EApp.Core.DomainDriven.Domain.Events
@@ -11,7 +12,7 @@ namespace EApp.Core.DomainDriven.Domain.Events
     {
         private readonly static DomainEventAggregator instance = new DomainEventAggregator();
 
-        public DomainEventAggregator Instance 
+        public static DomainEventAggregator Instance 
         {
             get 
             {

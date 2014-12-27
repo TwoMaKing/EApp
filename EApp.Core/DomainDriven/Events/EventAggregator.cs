@@ -31,7 +31,6 @@ namespace EApp.Core.DomainDriven.Events
 
         public EventAggregator() 
         { 
-        
         }
 
         public void Subscribe<TEvent>(IEventHandler<TEvent> eventHandler) where TEvent : IEvent
@@ -180,13 +179,10 @@ namespace EApp.Core.DomainDriven.Events
                     }
 
                     IEventHandler<TEvent> eventHandler = handlerObject as IEventHandler<TEvent>;
-
-                    //eventHandler.Handle(t);
-
+                    // Async Operation
                     Task.Factory.StartNew((o) => eventHandler.Handle((TEvent)o), t);
                 }
             }
-
         }
     }
 }

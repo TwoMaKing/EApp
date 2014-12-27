@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using EApp.Core;
 using EApp.Core.Application;
 using Xpress.Chart.Application;
 using Xpress.Chart.DataObjects;
@@ -37,12 +38,14 @@ namespace Xpress.Life.Controllers
             return View();
         }
 
-        [HttpPost()]
+        
         public ActionResult PublishPost(int topicId, string content) 
         {
             try
             {
-                IPostService postService = EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve<IPostService>();
+                //IPostService postService = EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve<IPostService>();
+
+                IPostService postService = ServiceLocator.Instance.GetService<IPostService>();
 
                 PostDataObject postDataObject = postService.PublishPost(topicId, GlobalApplication.LoginUser.Id, content);
 

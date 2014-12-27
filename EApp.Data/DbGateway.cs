@@ -58,7 +58,7 @@ namespace EApp.Data
                 throw new ConfigException("Please provide a connection string including name, provider and connection string.");
             }
 
-            string connectionStringName = ConfigurationManager.ConnectionStrings[1].Name;
+            string connectionStringName = ConfigurationManager.ConnectionStrings[0].Name;
 
             DbProvider dbProvider = DbProviderFactory.CreateDbProvider(connectionStringName);
 
