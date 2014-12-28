@@ -184,5 +184,10 @@ namespace EApp.Core.DomainDriven.Events
                 }
             }
         }
+
+        public void Publish<TEvent>(TEvent t, Action<TEvent, bool, Exception> callback, TimeSpan? timeout)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
