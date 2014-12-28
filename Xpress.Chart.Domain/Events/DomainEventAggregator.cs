@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EApp.Core;
 using EApp.Core.Application;
 using EApp.Core.DomainDriven.Domain.Events;
 using EApp.Core.DomainDriven.Events;
@@ -20,9 +21,9 @@ namespace Xpress.Chart.Domain.Events
         private readonly static DomainEventAggregator instance = new DomainEventAggregator();
 
         public DomainEventAggregator()
-        { 
-            IDomainEventHandler<PostDomainEvent> postDomainEventHandler = 
-                EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve<IDomainEventHandler<PostDomainEvent>>();
+        {
+            IDomainEventHandler<PostDomainEvent>  postDomainEventHandler = 
+                ServiceLocator.Instance.GetService<IDomainEventHandler<PostDomainEvent>>();
 
             this.Subscribe<PostDomainEvent>(postDomainEventHandler);
         }

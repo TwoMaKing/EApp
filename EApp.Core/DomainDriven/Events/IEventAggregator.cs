@@ -38,5 +38,6 @@ namespace EApp.Core.DomainDriven.Events
 
         void Publish<TEvent>(TEvent t) where TEvent : IEvent;
 
+        void Publish<TEvent>(TEvent t, Action<TEvent, bool, Exception> callback, TimeSpan? timeout);
     }
 }

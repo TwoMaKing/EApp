@@ -59,7 +59,7 @@ namespace Xpress.Life.Controllers
                 //    date = postDataObject.CreationDateTime
                 //});
             }
-            catch
+            catch (Exception e)
             {
                 return View();   
             }

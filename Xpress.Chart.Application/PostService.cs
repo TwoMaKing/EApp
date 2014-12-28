@@ -47,8 +47,6 @@ namespace Xpress.Chart.Application
 
         public PostDataObject PublishPost(int topicId, int authorId, string content)
         {
-            //还没调试，如果不行就用 PublishPostWithCommonSync(topicId, authorId, content);
-
             return PublishPostWithAsyncDomainEventHandler(topicId, authorId, content); 
                 
                 //PublishPostWithCommonSync(topicId, authorId, content);
@@ -97,7 +95,7 @@ namespace Xpress.Chart.Application
 
             Post post = Post.Create(topic, author, content);
 
-            //用 异步Domain Event Handler 来 保存
+            //用 多线程 异步 并行 Domain Event Handler 来 保存
             DomainEventAggregator.Instance.Publish<PostDomainEvent>
                 (
                     new PostDomainEvent(post)
@@ -116,6 +114,30 @@ namespace Xpress.Chart.Application
         
         }
 
+        /// <summary>
+        /// 将 Post 送入 Rabbit 消息 队列，由另一个处理消息队列的系统来 进行Post的更新操作！
+        /// </summary>
+        private PostDataObject PublishPostWithRabbitMessageQueue(int topicId, int authorId, string content)
+        {
+            //可从 分布式缓存中读取
+            Topic topic = this.topicRepository.FindByKey(topicId);
+
+            //可从 分布式缓存中读取
+            User author = this.userRepository.FindByKey(authorId);
+
+            Post post = Post.Create(topic, author, content);
+
+            // 领域模型业务的真正实现，而不是一个 贫血的模型是 一个充血的模型.
+            post.Publish();
+
+            return new PostDataObject()
+            {
+                TopicName = topic.Name,
+                AuthorName = author.NickName,
+                Content = post.Content,
+                CreationDateTime = post.CreationDateTime
+            };
+        }
 
     }
 }

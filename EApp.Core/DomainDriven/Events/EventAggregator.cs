@@ -179,7 +179,7 @@ namespace EApp.Core.DomainDriven.Events
                     }
 
                     IEventHandler<TEvent> eventHandler = handlerObject as IEventHandler<TEvent>;
-                    // Async Operation
+                    // Async parallel Operation
                     Task.Factory.StartNew((o) => eventHandler.Handle((TEvent)o), t);
                 }
             }
