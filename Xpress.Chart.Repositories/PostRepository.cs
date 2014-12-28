@@ -4,16 +4,18 @@ using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using EApp.Common.Util;
+using EApp.Core;
 using EApp.Core.DomainDriven.Domain;
 using EApp.Core.DomainDriven.Repository;
 using EApp.Core.DomainDriven.UnitOfWork;
+using EApp.Core.QueryPaging;
 using EApp.Core.QuerySepcifications;
 using EApp.Data;
 using EApp.Repositories.SqlServer;
 using Xpress.Chart.Domain;
 using Xpress.Chart.Domain.Models;
 using Xpress.Chart.Domain.Repositories;
-using EApp.Core.QueryPaging;
 
 namespace Xpress.Chart.Repositories
 {
@@ -57,7 +59,7 @@ namespace Xpress.Chart.Repositories
             throw new NotImplementedException();
         }
 
-        protected override IQueryable<Post> DoFindAll(Expression<Func<Post, bool>> expression)
+        protected override IEnumerable<Post> DoFindAll(Expression<Func<Post, bool>> expression)
         {
             throw new NotImplementedException();
         }
@@ -74,28 +76,45 @@ namespace Xpress.Chart.Repositories
 
         protected override Post BuildEntityFromDataReader(IDataReader dataReader)
         {
-            throw new NotImplementedException();
+            Post post = new Post();
+            post.Id = Convertor.ConvertToInteger(dataReader["post_id"]).Value;
+            post.Content = dataReader["post_content"].ToString();
+            post.CreationDateTime = Convertor.ConvertToDateTime(dataReader["post_creation_datetime"]).Value;
+
+            return post;
         }
 
         protected override Dictionary<string, AppendChildToEntity> BuildChildCallbacks()
         {
             Dictionary<string, AppendChildToEntity> childCallbacks = new Dictionary<string, AppendChildToEntity>();
 
-            childCallbacks.Add("", AppendTopicToPost);
-            childCallbacks.Add("", AppendAuthorToPost);
+            childCallbacks.Add("post_topic_id", AppendTopicToPost);
+            childCallbacks.Add("post_author_id", AppendAuthorToPost);
 
             return childCallbacks;
         }
 
         private void AppendTopicToPost(Post post, int topicId)
-        { 
-            
+        {
+            ITopicRepository topicReposiotry = ServiceLocator.Instance.GetService<ITopicRepository>();
+
+            Topic topic = topicReposiotry.FindByKey(topicId);
+
+            post.Topic = topic;
         }
 
         private void AppendAuthorToPost(Post post, int authorId)
         {
+            IUserRepository userReposiotry = ServiceLocator.Instance.GetService<IUserRepository>();
 
+            User user = userReposiotry.FindByKey(authorId);
+
+            post.Author = user;
         }
 
+        public IEnumerable<Post> GetPostsPublishedByUser(User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

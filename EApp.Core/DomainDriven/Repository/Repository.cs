@@ -71,7 +71,7 @@ namespace EApp.Core.DomainDriven.Repository
             return this.DoFind(specification);
         }
 
-        public IQueryable<TEntity> FindAll()
+        public IEnumerable<TEntity> FindAll()
         {
             return this.DoFindAll(new AnySepcification<TEntity>().GetExpression());
         }
@@ -81,7 +81,7 @@ namespace EApp.Core.DomainDriven.Repository
             return this.DoFindAll(new AnySepcification<TEntity>().GetExpression(), pageNumber, pageSize);
         }
 
-        public IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>> expression)
+        public IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> expression)
         {
             return this.DoFindAll(expression);
         }
@@ -91,7 +91,7 @@ namespace EApp.Core.DomainDriven.Repository
             return this.DoFindAll(expression, pageNumber, pageSize);
         }
 
-        public IQueryable<TEntity> FindAll(ISpecification<TEntity> specification)
+        public IEnumerable<TEntity> FindAll(ISpecification<TEntity> specification)
         {
             return this.DoFindAll(specification.GetExpression());
         }
@@ -121,7 +121,7 @@ namespace EApp.Core.DomainDriven.Repository
 
         protected abstract TEntity DoFind(ISpecification<TEntity> specification);
 
-        protected abstract IQueryable<TEntity> DoFindAll(Expression<Func<TEntity, bool>> expression);
+        protected abstract IEnumerable<TEntity> DoFindAll(Expression<Func<TEntity, bool>> expression);
 
         protected abstract IPagingResult<TEntity> DoFindAll(Expression<Func<TEntity, bool>> expression, int pageNumber, int pageSize);
 

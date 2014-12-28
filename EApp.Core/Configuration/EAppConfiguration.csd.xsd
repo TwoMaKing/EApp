@@ -51,6 +51,16 @@
 					<xs:documentation>The SerializationFormats.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element minOccurs="0" name="cacheManagers" type="tns:EApp.Core.Configuration.CacheManagerElementCollectionCT">
+				<xs:annotation>
+					<xs:documentation>The CacheManagers.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="0" name="redis" type="tns:EApp.Core.Configuration.RedisElementCT">
+				<xs:annotation>
+					<xs:documentation>The Redis.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="EApp.Core.Configuration.CurrentObjectContainerElementCT">
@@ -305,6 +315,54 @@
 		<xs:attribute name="default" use="optional" type="xs:string">
 			<xs:annotation>
 				<xs:documentation>The Default.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="EApp.Core.Configuration.CacheManagerElementCollectionCT">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="cacheManager" type="tns:EApp.Core.Configuration.NameTypeElementCT">
+				<xs:annotation>
+					<xs:documentation>The NameTypeElement Configuration Element.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="default" use="optional" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The Default.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="EApp.Core.Configuration.RedisElementCT">
+		<xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="writeHosts" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The WriteHosts.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="readOnlyHosts" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The ReadOnlyHosts.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxWritePoolSize" use="optional" type="xs:int">
+			<xs:annotation>
+				<xs:documentation>The MaxWritePoolSize.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxReadPoolSize" use="optional" type="xs:int">
+			<xs:annotation>
+				<xs:documentation>The MaxReadPoolSize.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="autoStart" use="optional" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>The AutoStart.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="timeOutSeconds" use="optional" type="xs:int">
+			<xs:annotation>
+				<xs:documentation>The TimeOutSeconds.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>

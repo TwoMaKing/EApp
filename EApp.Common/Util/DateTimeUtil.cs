@@ -10,12 +10,10 @@ namespace EApp.Common.Util
     {
         private DateTimeUtil() { }
 
-        private static System.Globalization.CultureInfo cultureInfo =
-            new CultureInfo("en-US", false);
+        private static CultureInfo cultureInfo = CultureInfo.CurrentCulture;
 
         //date time formatter
-        private static System.Globalization.DateTimeFormatInfo timeFormat =
-            cultureInfo.DateTimeFormat;
+        private static DateTimeFormatInfo timeFormat = cultureInfo.DateTimeFormat;
 
         private static string[] shortMonthArray = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
@@ -56,22 +54,48 @@ namespace EApp.Common.Util
 
         public static DateTime? ToDateTime(string time)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(time) ||
-                    string.IsNullOrWhiteSpace(time))
-                {
-                    return null;
-                }
-
-                DateTime date = DateTime.Parse(time, timeFormat);
-
-                return ToDateTime(date);
-            }
-            catch
+            if (string.IsNullOrEmpty(time) ||
+                string.IsNullOrWhiteSpace(time))
             {
                 return null;
             }
+
+            DateTime resultDateTime;
+
+            bool parsedSuccessfully = DateTime.TryParse(time.ToString(),
+                                                        timeFormat,
+                                                        DateTimeStyles.None,
+                                                        out resultDateTime);
+
+            if (!parsedSuccessfully)
+            {
+                return null;
+            }
+
+            return ToDateTime(resultDateTime);
+        }
+
+        public static DateTime? ToDateTime(object time)
+        {
+            if (time == null ||
+                time == DBNull.Value)
+            {
+                return null;
+            }
+
+            DateTime resultDateTime;
+
+            bool parsedSuccessfully = DateTime.TryParse(time.ToString(), 
+                                                        DateTimeFormatInfo.InvariantInfo, 
+                                                        DateTimeStyles.None, 
+                                                        out resultDateTime);
+
+            if (!parsedSuccessfully)
+            {
+                return null;
+            }
+
+            return ToDateTime(resultDateTime);
         }
 
         public static DateTime? ToDateTime(DateTime? time)

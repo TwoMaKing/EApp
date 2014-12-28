@@ -60,6 +60,8 @@ namespace EApp.Common.Serialization
                 {
                     objectSerializer = (IObjectSerializer)EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve(objectSerializerType,
                                                                                                                   objectSerializerTypeName);
+
+                    objectSerializerDictionary.Add(objectSerializerTypeName, objectSerializer);
                 }
                 else
                 {

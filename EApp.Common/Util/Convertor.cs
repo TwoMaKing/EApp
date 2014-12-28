@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -46,6 +47,34 @@ namespace EApp.Common.Util
             }
 
             return intValue;
+        }
+
+        public static DateTime? ConvertToDateTime(object value)
+        {
+            return Convertor.ConvertToDateTime(value, CultureInfo.CurrentCulture.DateTimeFormat);
+        }
+
+        public static DateTime? ConvertToDateTime(object value, IFormatProvider formatProvider) 
+        {
+            if (value == null ||
+                value == DBNull.Value)
+            {
+                return null;
+            }
+
+            DateTime resultDateTime;
+
+            bool parsedSuccessfully = DateTime.TryParse(value.ToString(),
+                                                        formatProvider, 
+                                                        DateTimeStyles.None, 
+                                                        out resultDateTime);
+
+            if (!parsedSuccessfully)
+            {
+                return null;
+            }
+
+            return DateTimeUtil.ToDateTime(resultDateTime);
         }
 
     }

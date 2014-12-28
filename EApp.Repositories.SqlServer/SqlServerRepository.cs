@@ -5,12 +5,13 @@ using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using EApp.Common.Cache;
+using EApp.Common.Util;
 using EApp.Core;
 using EApp.Core.DomainDriven.Domain;
 using EApp.Core.DomainDriven.Repository;
 using EApp.Core.QuerySepcifications;
 using EApp.Data;
-using EApp.Common.Util;
 
 namespace EApp.Repositories.SqlServer
 {
@@ -21,6 +22,8 @@ namespace EApp.Repositories.SqlServer
         protected delegate void AppendChildToEntity(TEntity t, int childEntityId);
 
         private ISqlServerRepositoryContext sqlServerRepositoryContext;
+
+        private ICacheManager cacheManager = CacheFactory.GetCacheManager();
 
         public SqlServerRepository(IRepositoryContext repositoryContext) : base(repositoryContext) 
         {
@@ -101,6 +104,13 @@ namespace EApp.Repositories.SqlServer
 
         protected override TEntity DoFindByKey(int id)
         {
+            string cacheEntityId = typeof(TEntity).Name + "_" + id.ToString();
+
+            if (this.cacheManager.ContainsKey(cacheEntityId)) 
+            {
+                return this.cacheManager.GetItem<TEntity>(cacheEntityId);
+            }
+
             TEntity currentEntity = default(TEntity);
 
             string querySqlById = this.GetEntityQuerySqlById();
@@ -120,7 +130,9 @@ namespace EApp.Repositories.SqlServer
                         {
                             foreach (KeyValuePair<string, AppendChildToEntity> callbackItem in childCallbacks)
                             {
-                                int childEntityId = Convertor.ConvertToInteger(reader[callbackItem.Key]).Value;
+                                string childEntityForeignKey = reader[callbackItem.Key].ToString();
+
+                                int childEntityId = Convertor.ConvertToInteger(childEntityForeignKey).Value;
 
                                 callbackItem.Value(currentEntity, childEntityId);
                             }
@@ -130,6 +142,8 @@ namespace EApp.Repositories.SqlServer
 
                 reader.Close();
             }
+
+            this.cacheManager.AddItem<TEntity>(cacheEntityId, currentEntity);
 
             return currentEntity;
         }

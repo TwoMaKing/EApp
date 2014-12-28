@@ -281,6 +281,58 @@ namespace EApp.Core.Configuration
             }
         }
         #endregion
+        
+        #region CacheManagers Property
+        /// <summary>
+        /// The XML name of the <see cref="CacheManagers"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string CacheManagersPropertyName = "cacheManagers";
+        
+        /// <summary>
+        /// Gets or sets the CacheManagers.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The CacheManagers.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::EApp.Core.Configuration.EAppConfigurationSection.CacheManagersPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public virtual global::EApp.Core.Configuration.CacheManagerElementCollection CacheManagers
+        {
+            get
+            {
+                return ((global::EApp.Core.Configuration.CacheManagerElementCollection)(base[global::EApp.Core.Configuration.EAppConfigurationSection.CacheManagersPropertyName]));
+            }
+            set
+            {
+                base[global::EApp.Core.Configuration.EAppConfigurationSection.CacheManagersPropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region Redis Property
+        /// <summary>
+        /// The XML name of the <see cref="Redis"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string RedisPropertyName = "redis";
+        
+        /// <summary>
+        /// Gets or sets the Redis.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The Redis.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::EApp.Core.Configuration.EAppConfigurationSection.RedisPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public virtual global::EApp.Core.Configuration.RedisElement Redis
+        {
+            get
+            {
+                return ((global::EApp.Core.Configuration.RedisElement)(base[global::EApp.Core.Configuration.EAppConfigurationSection.RedisPropertyName]));
+            }
+            set
+            {
+                base[global::EApp.Core.Configuration.EAppConfigurationSection.RedisPropertyName] = value;
+            }
+        }
+        #endregion
     }
 }
 namespace EApp.Core.Configuration
@@ -2360,6 +2412,380 @@ namespace EApp.Core.Configuration
             set
             {
                 base[global::EApp.Core.Configuration.SerializationFormatElementCollection.DefaultPropertyName] = value;
+            }
+        }
+        #endregion
+    }
+}
+namespace EApp.Core.Configuration
+{
+    
+    
+    /// <summary>
+    /// A collection of NameTypeElement instances.
+    /// </summary>
+    [global::System.Configuration.ConfigurationCollectionAttribute(typeof(global::EApp.Core.Configuration.NameTypeElement), CollectionType=global::System.Configuration.ConfigurationElementCollectionType.BasicMapAlternate, AddItemName=global::EApp.Core.Configuration.CacheManagerElementCollection.NameTypeElementPropertyName)]
+    public partial class CacheManagerElementCollection : global::System.Configuration.ConfigurationElementCollection
+    {
+        
+        #region Constants
+        /// <summary>
+        /// The XML name of the individual <see cref="global::EApp.Core.Configuration.NameTypeElement"/> instances in this collection.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string NameTypeElementPropertyName = "cacheManager";
+        #endregion
+        
+        #region Overrides
+        /// <summary>
+        /// Gets the type of the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
+        /// </summary>
+        /// <returns>The <see cref="global::System.Configuration.ConfigurationElementCollectionType"/> of this collection.</returns>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public override global::System.Configuration.ConfigurationElementCollectionType CollectionType
+        {
+            get
+            {
+                return global::System.Configuration.ConfigurationElementCollectionType.BasicMapAlternate;
+            }
+        }
+        
+        /// <summary>
+        /// Gets the name used to identify this collection of elements
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        protected override string ElementName
+        {
+            get
+            {
+                return global::EApp.Core.Configuration.CacheManagerElementCollection.NameTypeElementPropertyName;
+            }
+        }
+        
+        /// <summary>
+        /// Indicates whether the specified <see cref="global::System.Configuration.ConfigurationElement"/> exists in the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
+        /// </summary>
+        /// <param name="elementName">The name of the element to verify.</param>
+        /// <returns>
+        /// <see langword="true"/> if the element exists in the collection; otherwise, <see langword="false"/>.
+        /// </returns>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        protected override bool IsElementName(string elementName)
+        {
+            return (elementName == global::EApp.Core.Configuration.CacheManagerElementCollection.NameTypeElementPropertyName);
+        }
+        
+        /// <summary>
+        /// Gets the element key for the specified configuration element.
+        /// </summary>
+        /// <param name="element">The <see cref="global::System.Configuration.ConfigurationElement"/> to return the key for.</param>
+        /// <returns>
+        /// An <see cref="object"/> that acts as the key for the specified <see cref="global::System.Configuration.ConfigurationElement"/>.
+        /// </returns>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        protected override object GetElementKey(global::System.Configuration.ConfigurationElement element)
+        {
+            return ((global::EApp.Core.Configuration.NameTypeElement)(element)).Name;
+        }
+        
+        /// <summary>
+        /// Creates a new <see cref="global::EApp.Core.Configuration.NameTypeElement"/>.
+        /// </summary>
+        /// <returns>
+        /// A new <see cref="global::EApp.Core.Configuration.NameTypeElement"/>.
+        /// </returns>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        protected override global::System.Configuration.ConfigurationElement CreateNewElement()
+        {
+            return new global::EApp.Core.Configuration.NameTypeElement();
+        }
+        #endregion
+        
+        #region Indexer
+        /// <summary>
+        /// Gets the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> to retrieve.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public global::EApp.Core.Configuration.NameTypeElement this[int index]
+        {
+            get
+            {
+                return ((global::EApp.Core.Configuration.NameTypeElement)(base.BaseGet(index)));
+            }
+        }
+        
+        /// <summary>
+        /// Gets the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> with the specified key.
+        /// </summary>
+        /// <param name="name">The key of the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> to retrieve.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public global::EApp.Core.Configuration.NameTypeElement this[object name]
+        {
+            get
+            {
+                return ((global::EApp.Core.Configuration.NameTypeElement)(base.BaseGet(name)));
+            }
+        }
+        #endregion
+        
+        #region Add
+        /// <summary>
+        /// Adds the specified <see cref="global::EApp.Core.Configuration.NameTypeElement"/> to the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
+        /// </summary>
+        /// <param name="cacheManager">The <see cref="global::EApp.Core.Configuration.NameTypeElement"/> to add.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public void Add(global::EApp.Core.Configuration.NameTypeElement cacheManager)
+        {
+            base.BaseAdd(cacheManager);
+        }
+        #endregion
+        
+        #region Remove
+        /// <summary>
+        /// Removes the specified <see cref="global::EApp.Core.Configuration.NameTypeElement"/> from the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
+        /// </summary>
+        /// <param name="cacheManager">The <see cref="global::EApp.Core.Configuration.NameTypeElement"/> to remove.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public void Remove(global::EApp.Core.Configuration.NameTypeElement cacheManager)
+        {
+            base.BaseRemove(this.GetElementKey(cacheManager));
+        }
+        #endregion
+        
+        #region GetItem
+        /// <summary>
+        /// Gets the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> to retrieve.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public global::EApp.Core.Configuration.NameTypeElement GetItemAt(int index)
+        {
+            return ((global::EApp.Core.Configuration.NameTypeElement)(base.BaseGet(index)));
+        }
+        
+        /// <summary>
+        /// Gets the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> with the specified key.
+        /// </summary>
+        /// <param name="name">The key of the <see cref="global::EApp.Core.Configuration.NameTypeElement"/> to retrieve.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public global::EApp.Core.Configuration.NameTypeElement GetItemByKey(string name)
+        {
+            return ((global::EApp.Core.Configuration.NameTypeElement)(base.BaseGet(((object)(name)))));
+        }
+        #endregion
+        
+        #region IsReadOnly override
+        /// <summary>
+        /// Gets a value indicating whether the element is read-only.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
+        #endregion
+        
+        #region Default Property
+        /// <summary>
+        /// The XML name of the <see cref="Default"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string DefaultPropertyName = "default";
+        
+        /// <summary>
+        /// Gets or sets the Default.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The Default.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::EApp.Core.Configuration.CacheManagerElementCollection.DefaultPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public virtual string Default
+        {
+            get
+            {
+                return ((string)(base[global::EApp.Core.Configuration.CacheManagerElementCollection.DefaultPropertyName]));
+            }
+            set
+            {
+                base[global::EApp.Core.Configuration.CacheManagerElementCollection.DefaultPropertyName] = value;
+            }
+        }
+        #endregion
+    }
+}
+namespace EApp.Core.Configuration
+{
+    
+    
+    /// <summary>
+    /// The RedisElement Configuration Element.
+    /// </summary>
+    public partial class RedisElement : global::System.Configuration.ConfigurationElement
+    {
+        
+        #region IsReadOnly override
+        /// <summary>
+        /// Gets a value indicating whether the element is read-only.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
+        #endregion
+        
+        #region WriteHosts Property
+        /// <summary>
+        /// The XML name of the <see cref="WriteHosts"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string WriteHostsPropertyName = "writeHosts";
+        
+        /// <summary>
+        /// Gets or sets the WriteHosts.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The WriteHosts.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::EApp.Core.Configuration.RedisElement.WriteHostsPropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
+        public virtual string WriteHosts
+        {
+            get
+            {
+                return ((string)(base[global::EApp.Core.Configuration.RedisElement.WriteHostsPropertyName]));
+            }
+            set
+            {
+                base[global::EApp.Core.Configuration.RedisElement.WriteHostsPropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region ReadOnlyHosts Property
+        /// <summary>
+        /// The XML name of the <see cref="ReadOnlyHosts"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string ReadOnlyHostsPropertyName = "readOnlyHosts";
+        
+        /// <summary>
+        /// Gets or sets the ReadOnlyHosts.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The ReadOnlyHosts.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::EApp.Core.Configuration.RedisElement.ReadOnlyHostsPropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
+        public virtual string ReadOnlyHosts
+        {
+            get
+            {
+                return ((string)(base[global::EApp.Core.Configuration.RedisElement.ReadOnlyHostsPropertyName]));
+            }
+            set
+            {
+                base[global::EApp.Core.Configuration.RedisElement.ReadOnlyHostsPropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region MaxWritePoolSize Property
+        /// <summary>
+        /// The XML name of the <see cref="MaxWritePoolSize"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string MaxWritePoolSizePropertyName = "maxWritePoolSize";
+        
+        /// <summary>
+        /// Gets or sets the MaxWritePoolSize.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The MaxWritePoolSize.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::EApp.Core.Configuration.RedisElement.MaxWritePoolSizePropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false, DefaultValue=60)]
+        public virtual int MaxWritePoolSize
+        {
+            get
+            {
+                return ((int)(base[global::EApp.Core.Configuration.RedisElement.MaxWritePoolSizePropertyName]));
+            }
+            set
+            {
+                base[global::EApp.Core.Configuration.RedisElement.MaxWritePoolSizePropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region MaxReadPoolSize Property
+        /// <summary>
+        /// The XML name of the <see cref="MaxReadPoolSize"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string MaxReadPoolSizePropertyName = "maxReadPoolSize";
+        
+        /// <summary>
+        /// Gets or sets the MaxReadPoolSize.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The MaxReadPoolSize.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::EApp.Core.Configuration.RedisElement.MaxReadPoolSizePropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false, DefaultValue=60)]
+        public virtual int MaxReadPoolSize
+        {
+            get
+            {
+                return ((int)(base[global::EApp.Core.Configuration.RedisElement.MaxReadPoolSizePropertyName]));
+            }
+            set
+            {
+                base[global::EApp.Core.Configuration.RedisElement.MaxReadPoolSizePropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region AutoStart Property
+        /// <summary>
+        /// The XML name of the <see cref="AutoStart"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string AutoStartPropertyName = "autoStart";
+        
+        /// <summary>
+        /// Gets or sets the AutoStart.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The AutoStart.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::EApp.Core.Configuration.RedisElement.AutoStartPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false, DefaultValue="True")]
+        public virtual bool AutoStart
+        {
+            get
+            {
+                return ((bool)(base[global::EApp.Core.Configuration.RedisElement.AutoStartPropertyName]));
+            }
+            set
+            {
+                base[global::EApp.Core.Configuration.RedisElement.AutoStartPropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region TimeOutSeconds Property
+        /// <summary>
+        /// The XML name of the <see cref="TimeOutSeconds"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string TimeOutSecondsPropertyName = "timeOutSeconds";
+        
+        /// <summary>
+        /// Gets or sets the TimeOutSeconds.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The TimeOutSeconds.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::EApp.Core.Configuration.RedisElement.TimeOutSecondsPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false, DefaultValue=3600)]
+        public virtual int TimeOutSeconds
+        {
+            get
+            {
+                return ((int)(base[global::EApp.Core.Configuration.RedisElement.TimeOutSecondsPropertyName]));
+            }
+            set
+            {
+                base[global::EApp.Core.Configuration.RedisElement.TimeOutSecondsPropertyName] = value;
             }
         }
         #endregion

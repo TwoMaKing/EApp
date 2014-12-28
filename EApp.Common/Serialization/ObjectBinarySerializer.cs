@@ -63,5 +63,6 @@ namespace EApp.Common.Serialization
                 }
             }
         }
+
     }
 }

@@ -29,6 +29,13 @@ namespace EApp.Repositories.SqlServer
         {
             get 
             {
+                if (this.dbConnection.State == ConnectionState.Closed)
+                {
+                    this.dbConnection = DbGateway.Default.OpenConnection();
+
+                    this.dbTransaction = this.dbConnection.BeginTransaction();
+                }
+
                 return this.dbTransaction;
             }
         }

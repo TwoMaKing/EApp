@@ -15,6 +15,6 @@ namespace Xpress.Chart.Domain.Repositories
 {
     public interface IPostRepository : IRepository<Post>
     {
-
+        IEnumerable<Post> GetPostsPublishedByUser(User user);
     }
 }

@@ -44,7 +44,7 @@ namespace Xpress.Chart.Repositories
             throw new NotImplementedException();
         }
 
-        protected override IQueryable<Topic> DoFindAll(Expression<Func<Topic, bool>> expression)
+        protected override IEnumerable<Topic> DoFindAll(Expression<Func<Topic, bool>> expression)
         {
             throw new NotImplementedException();
         }

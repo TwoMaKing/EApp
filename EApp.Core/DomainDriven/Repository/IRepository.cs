@@ -68,7 +68,7 @@ namespace EApp.Core.DomainDriven.Repository
         /// Find all of aggregate roots from repository.
         /// </summary>
         /// <returns></returns>
-        IQueryable<TEntity> FindAll();
+        IEnumerable<TEntity> FindAll();
 
         /// <summary>
         /// Find all of aggregate roots matching paging condition from repository.
@@ -78,7 +78,7 @@ namespace EApp.Core.DomainDriven.Repository
         /// <summary>
         /// Find all of entites matching query expression from repository.
         /// </summary>
-        IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>> expression);
+        IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> expression);
 
         /// <summary>
         /// Find all of entities matching query expression and paging condition from repository.
@@ -90,7 +90,7 @@ namespace EApp.Core.DomainDriven.Repository
         /// <summary>
         /// Find all of aggregate roots by the specification from repository,
         /// </summary>
-        IQueryable<TEntity> FindAll(ISpecification<TEntity> specification);
+        IEnumerable<TEntity> FindAll(ISpecification<TEntity> specification);
 
         /// <summary>
         /// Find all of specific Aggregate Root by the specification and paging condition from repository

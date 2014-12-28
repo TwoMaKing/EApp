@@ -46,7 +46,7 @@ namespace Xpress.Chart.Repositories
             throw new NotImplementedException();
         }
 
-        protected override IQueryable<Comment> DoFindAll(Expression<Func<Comment, bool>> expression)
+        protected override IEnumerable<Comment> DoFindAll(Expression<Func<Comment, bool>> expression)
         {
             throw new NotImplementedException();
         }
@@ -67,6 +67,11 @@ namespace Xpress.Chart.Repositories
         }
 
         protected override Dictionary<string, SqlServerRepository<Comment>.AppendChildToEntity> BuildChildCallbacks()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Comment> GetCommentsByPost(Post post)
         {
             throw new NotImplementedException();
         }

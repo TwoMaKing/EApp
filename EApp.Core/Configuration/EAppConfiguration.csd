@@ -53,6 +53,16 @@
             <configurationElementCollectionMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/SerializationFormatElementCollection" />
           </type>
         </elementProperty>
+        <elementProperty name="CacheManagers" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="cacheManagers" isReadOnly="false">
+          <type>
+            <configurationElementCollectionMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/CacheManagerElementCollection" />
+          </type>
+        </elementProperty>
+        <elementProperty name="Redis" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="redis" isReadOnly="false">
+          <type>
+            <configurationElementMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/RedisElement" />
+          </type>
+        </elementProperty>
       </elementProperties>
     </configurationSection>
     <configurationElement name="CurrentObjectContainerElement">
@@ -296,6 +306,52 @@
         <configurationElementMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/NameTypeElement" />
       </itemType>
     </configurationElementCollection>
+    <configurationElementCollection name="CacheManagerElementCollection" xmlItemName="cacheManager" codeGenOptions="Indexer, AddMethod, RemoveMethod, GetItemMethods">
+      <attributeProperties>
+        <attributeProperty name="Default" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="default" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/String" />
+          </type>
+        </attributeProperty>
+      </attributeProperties>
+      <itemType>
+        <configurationElementMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/NameTypeElement" />
+      </itemType>
+    </configurationElementCollection>
+    <configurationElement name="RedisElement">
+      <attributeProperties>
+        <attributeProperty name="WriteHosts" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="writeHosts" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/String" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="ReadOnlyHosts" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="readOnlyHosts" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/String" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="MaxWritePoolSize" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="maxWritePoolSize" isReadOnly="false" defaultValue="60">
+          <type>
+            <externalTypeMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/Int32" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="MaxReadPoolSize" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="maxReadPoolSize" isReadOnly="false" defaultValue="60">
+          <type>
+            <externalTypeMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/Int32" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="AutoStart" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="autoStart" isReadOnly="false" defaultValue="&quot;True&quot;">
+          <type>
+            <externalTypeMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/Boolean" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="TimeOutSeconds" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="timeOutSeconds" isReadOnly="false" defaultValue="3600">
+          <type>
+            <externalTypeMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/Int32" />
+          </type>
+        </attributeProperty>
+      </attributeProperties>
+    </configurationElement>
   </configurationElements>
   <propertyValidators>
     <validators />

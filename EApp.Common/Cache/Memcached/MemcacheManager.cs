@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EApp.Common.Cache
 {
-    public class RedisStrategy : ICacheStrategy
+    public class MemcacheManager : ICacheManager
     {
         public void AddItem(string key, object obj)
         {
@@ -17,7 +17,27 @@ namespace EApp.Common.Cache
             throw new NotImplementedException();
         }
 
+        public void AddItem<T>(string key, T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddItem<T>(string key, T item, int expire)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ContainsKey(string key)
+        {
+            throw new NotImplementedException();
+        }
+
         public object GetItem(string key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T GetItem<T>(string key)
         {
             throw new NotImplementedException();
         }

@@ -15,5 +15,6 @@ namespace Xpress.Chart.Domain.Repositories
 {
     public interface ICommentRepository : IRepository<Comment>
     {
+        IEnumerable<Comment> GetCommentsByPost(Post post);
     }
 }

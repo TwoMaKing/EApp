@@ -58,6 +58,18 @@
     <Reference Include="Ninject">
       <HintPath>..\packages\NInject\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="ServiceStack.Common">
+      <HintPath>..\packages\Redis\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\packages\Redis\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Redis">
+      <HintPath>..\packages\Redis\ServiceStack.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\packages\Redis\ServiceStack.Text.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -76,9 +88,10 @@
   <ItemGroup>
     <Compile Include="AsynComponent\AsyncTask.cs" />
     <Compile Include="AsynComponent\IAsyncTask.cs" />
-    <Compile Include="Cache\ICacheStrategy.cs" />
-    <Compile Include="Cache\Memcached\MemcacheStrategy.cs" />
-    <Compile Include="Cache\Redis\RedisStrategy.cs" />
+    <Compile Include="Cache\CacheFactory.cs" />
+    <Compile Include="Cache\ICacheManager.cs" />
+    <Compile Include="Cache\Memcached\MemcacheManager.cs" />
+    <Compile Include="Cache\Redis\RedisManager.cs" />
     <Compile Include="Compression\GZip\GZipper.cs" />
     <Compile Include="Exceptions\ConfigException.cs" />
     <Compile Include="Exceptions\EAppException.cs" />
