@@ -33,7 +33,7 @@
             this.btnExport = new System.Windows.Forms.Button();
             this.rbMessage = new System.Windows.Forms.RichTextBox();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.btnQuery = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,21 +83,22 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // dateTimePicker1
+            // btnQuery
             // 
-            this.dateTimePicker1.Checked = false;
-            this.dateTimePicker1.Location = new System.Drawing.Point(482, 217);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(232, 20);
-            this.dateTimePicker1.TabIndex = 5;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            this.btnQuery.Location = new System.Drawing.Point(100, 215);
+            this.btnQuery.Name = "btnQuery";
+            this.btnQuery.Size = new System.Drawing.Size(75, 23);
+            this.btnQuery.TabIndex = 6;
+            this.btnQuery.Text = "Query";
+            this.btnQuery.UseVisualStyleBackColor = true;
+            this.btnQuery.Click += new System.EventHandler(this.btnQuery_Click);
             // 
             // Cost
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(804, 550);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.btnQuery);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.rbMessage);
             this.Controls.Add(this.btnExport);
@@ -117,7 +118,7 @@
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.RichTextBox rbMessage;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Button btnQuery;
     }
 }
 

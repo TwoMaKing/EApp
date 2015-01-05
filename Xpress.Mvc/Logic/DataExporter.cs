@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using EApp.Common.AsynComponent;
+using EApp.Common.Query;
 using EApp.Data;
 using Xpress.Mvc.Models;
 
@@ -121,5 +123,122 @@ namespace Xpress.Mvc.Logic
             }
         }
     }
+
+
+    public interface ISortable<T>
+    {
+        Expression<Func<T, bool>> WherePredicate { get; }
+
+        Expression<Func<T, dynamic>> SortPredicate { get; }
+
+        SortOrder Order { get; }
+    }
+
+    /// <summary>
+    /// 全年 价格 排序 
+    /// </summary>
+    public class AnnualPriceSortale : ISortable<CostLine>
+    {
+        private SortOrder order;
+
+        public AnnualPriceSortale(SortOrder order)
+        {
+            this.order = order;
+        }
+
+        public Expression<Func<CostLine, bool>> WherePredicate
+        {
+            get { return c => c.Type.Equals("Annual"); }
+        }
+
+        public Expression<Func<CostLine, dynamic>> SortPredicate
+        {
+            get { return c => c.Price; }
+        }
+
+        public SortOrder Order
+        {
+            get { return this.order; }
+        }
+    }
+
+    /// <summary>
+    /// 非全年价格排序
+    /// </summary>
+    public class NonAnnualPriceSortale : ISortable<CostLine>
+    {
+        private SortOrder order;
+
+        public NonAnnualPriceSortale(SortOrder order)
+        {
+            this.order = order;
+        }
+
+        public Expression<Func<CostLine, bool>> WherePredicate
+        {
+            get { return c => c.Type.Equals("Non-Annual"); }
+        }
+
+        public Expression<Func<CostLine, dynamic>> SortPredicate
+        {
+            get { return c => c.Price; }
+        }
+
+        public SortOrder Order
+        {
+            get { return this.order; }
+        }
+    }
+
+    public class AnnualPopularitySortale : ISortable<CostLine>
+    {
+        private SortOrder order;
+
+        private AnnualPopularitySortale(SortOrder order) 
+        {
+            this.order = order;
+        }
+
+        public Expression<Func<CostLine, bool>> WherePredicate
+        {
+            get { return c => c.Type.Equals("Annual"); }
+        }
+
+        public Expression<Func<CostLine, dynamic>> SortPredicate
+        {
+            get { return c => c.Popularity; }
+        }
+
+        public SortOrder Order
+        {
+            get { return this.order; }
+        }
+    }
+
+    public class NonAnnualPopularitySortale : ISortable<CostLine>
+    {
+        private SortOrder order;
+
+        private NonAnnualPopularitySortale(SortOrder order)
+        {
+            this.order = order;
+        }
+
+        public Expression<Func<CostLine, bool>> WherePredicate
+        {
+            get { return c => c.Type.Equals("Non-Annual"); }
+        }
+
+        public Expression<Func<CostLine, dynamic>> SortPredicate
+        {
+            get { return c => c.Popularity; }
+        }
+
+        public SortOrder Order
+        {
+            get { return this.order; }
+        }
+    }
+
 
 }

@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="DynamicQueryable.cs" />
     <Compile Include="Logic\DataExporter.cs" />
+    <Compile Include="Logic\SortByExtension.cs" />
     <Compile Include="MainMvvm.cs">
       <SubType>Form</SubType>
     </Compile>

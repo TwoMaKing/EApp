@@ -7,8 +7,6 @@ using System.Text;
 namespace EApp.Core.QuerySepcifications
 {
     /// <summary>
-    /// Refer to the Apworks framework
-    /// 
     /// Represents the parameter rebinder used for rebinding the parameters
     /// for the given expressions. This is part of the solution which solves
     /// the expression parameter problem when going to Entity Framework by using

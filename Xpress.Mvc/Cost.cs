@@ -8,12 +8,12 @@ using System.Dynamic;
 using System.Linq;
 //using System.Linq.Dynamic;
 using System.Linq.Expressions;
-
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
-using System.Windows.Forms;
 using EApp.Common.AsynComponent;
+using EApp.Common.Lambda;
+using EApp.Common.Query;
 using EApp.Core.Application;
 using EApp.Core.Configuration;
 using EApp.Data;
@@ -21,6 +21,7 @@ using EApp.Windows.Mvc;
 using Microsoft.CSharp.RuntimeBinder;
 using Xpress.Mvc.Logic;
 using Xpress.Mvc.Models;
+
 
 namespace Xpress.Mvc
 {
@@ -39,9 +40,30 @@ namespace Xpress.Mvc
 
         private void btnAddNew_Click(object sender, EventArgs e)
         {
+            List<CostLine> costLines = new List<CostLine>();
+            for (int i = 0; i < 10; i++) 
+            {
+                CostLine line = new CostLine();
+                line.Id = i + 1000;
+                line.Name = "Cost " + i.ToString();
+                Random random = new Random(i);
+                line.Price = random.Next();
+                Random random1 = new Random(i);
+                line.Popularity = random.Next();
+                line.Type = (i % 2 == 0) ? "Annual" : "Non-Annual";
 
-            var o = GetOrderByQueryRequest(new OrderQueryRequest() { Id = 1000, HostInfo = "Test" });
+                costLines.Add(line);
+            }
 
+            ISortable<CostLine> sortAction = new NonAnnualPriceSortale(SortOrder.Descending);
+
+            IEnumerable<CostLine> orderedLines = costLines.Where(sortAction.WherePredicate.Compile()).SortBy
+                                                 (sortAction.SortPredicate.Compile(), sortAction.Order);
+
+
+            List<CostLine> orderedLineList = orderedLines.ToList();
+
+            //var o = GetOrderByQueryRequest(new OrderQueryRequest() { Id = 1000, HostInfo = "Test" })
 
             //this.View.Action("AddCost");
 
@@ -284,9 +306,37 @@ namespace Xpress.Mvc
             exportTask.CancelAsync();
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        private void btnQuery_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("a");
+            List<Product> productList = new List<Product>();
+            for (int i = 0; i < 10; i++)
+            {
+                Product product = new Product();
+                product.Id = i + 1000;
+                product.Name = "Cost " + i.ToString();
+                Random random = new Random(i);
+
+                product.Quotation = new Quotation();
+                product.Quotation.Info = new Information();
+                product.Quotation.StartingPrice = 1000 + i;
+                product.Quotation.Info.Number = product.Id;
+
+                product.AnnualQuotation = new AnnualQuotation();
+                product.AnnualQuotation.StartingPrice = 5000 + i;
+
+                product.RecommandLevel = i;
+                product.Type = (i % 2 == 0) ? productType.Annual :
+                                              productType.NonAnnual;
+
+                productList.Add(product);
+            }
+
+            QueryBuilder<Product> qb = new QueryBuilder<Product>();
+
+            IList<Product> pList = qb.Filter(p => p.Id > 1000).
+                                   And(p => p.Quotation.StartingPrice > 1002).
+                                   ToList(productList.AsQueryable());
+          
         }
     }
 }
