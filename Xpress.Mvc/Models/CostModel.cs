@@ -88,4 +88,11 @@ namespace Xpress.Mvc.Models
         public int Number { get; set; }
     }
 
+    public class ProductRequest
+    {
+        public int OrderType { get; set; }
+
+        public bool IsAnnualCover { get; set; }
+    }
+
 }

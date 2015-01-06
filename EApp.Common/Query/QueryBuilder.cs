@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using EApp.Common.Lambda;
 using EApp.Common.Util;
 using EApp.Core.DomainDriven.Domain;
+using EApp.Core.DynamicQuery;
 using EApp.Core.QueryPaging;
 using EApp.Core.QuerySepcifications;
-
 
 namespace EApp.Common.Query
 {
     public class QueryBuilder<TEntity, TIdentityKey> : IQueryBuilder<TEntity, TIdentityKey>
         where TEntity : class, IEntity<TIdentityKey>
     {
+
         protected ISpecification<TEntity> Specification { get; set; }
 
         protected OrderByBuilder orderByBuilder = new OrderByBuilder();
@@ -64,7 +66,6 @@ namespace EApp.Common.Query
                                                                           TPropertyType minValue,
                                                                           TPropertyType maxValue) where TPropertyType : struct
         {
-
             Expression leftExpression = expressionBuilder.Create<TPropertyType>(propertyExpression, Operator.GreaterThanEqual, minValue);
 
             Expression rightExpression = expressionBuilder.Create<TPropertyType>(propertyExpression, Operator.LessThanEqual, maxValue);
@@ -148,19 +149,39 @@ namespace EApp.Common.Query
         public IQueryBuilder<TEntity, TIdentityKey> OrderBy<TPropertyType>(Expression<Func<TEntity, TPropertyType>> predicate, 
                                                                            SortOrder sortOrder = SortOrder.Ascending)
         {
-            this.orderByBuilder.Add(predicate.Name, sortOrder);
+            this.orderByBuilder.Add(LambdaUtil.GetMemberName(predicate), sortOrder);
 
             return this;
         }
 
-        public IList<TEntity> ToList(IQueryable<TEntity> querySource)
+        public IList<TEntity> ToList(IEnumerable<TEntity> querySource)
         {
-            return querySource.Where(this.QueryPredicate).ToList();
+            if (querySource == null)
+            {
+                return null;
+            }
+
+            IQueryable<TEntity> list = querySource.AsQueryable().Where(this.QueryPredicate);
+
+            return this.OrderBy(list).ToList();
         }
 
-        public IPagingResult<TEntity> ToPagedList(IQueryable<TEntity> querySource, int pageNumber, int pageSize)
+        public IPagingResult<TEntity> ToPagedList(IEnumerable<TEntity> querySource, int? pageNumber, int? pageSize)
         {
-            throw new NotImplementedException();
+            return new PagingResult<TEntity>(null, null, pageNumber, pageSize, null);
         }
+
+        private IQueryable<TEntity> OrderBy(IQueryable<TEntity> queryable)
+        {
+            if (this.orderByBuilder == null ||
+                this.orderByBuilder.OrderByItems == null ||
+                this.orderByBuilder.OrderByItems.Count.Equals(0))
+            {
+                return queryable;
+            }
+
+            return queryable.OrderBy(this.orderByBuilder.ToString());
+        }
+
     }
 }

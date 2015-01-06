@@ -142,6 +142,31 @@ namespace EApp.Common.Lambda
 
         #endregion
 
+        #region GetInstanceMemberName
+
+        public static string GetMemberName(LambdaExpression expression) 
+        {
+            if (!(expression.Body is MemberExpression))
+            {
+                return null;
+            }
+
+            MemberExpression memberExpression = expression.Body as MemberExpression;
+
+            string hierarchyPropertyName = memberExpression.Member.Name;
+
+            while (memberExpression.Expression is MemberExpression)
+            {
+                memberExpression = memberExpression.Expression as MemberExpression;
+
+                hierarchyPropertyName = memberExpression.Member.Name + "." + hierarchyPropertyName;
+            }
+
+            return hierarchyPropertyName;
+        }
+
+        #endregion
+
         #region GetCriteriaCount(获取谓词条件的个数)
 
         /// <summary>

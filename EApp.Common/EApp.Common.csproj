@@ -113,7 +113,9 @@
     <Compile Include="Query\OrderByItem.cs" />
     <Compile Include="Query\QueryBuilder%27.cs" />
     <Compile Include="Query\QueryBuilder.cs" />
+    <Compile Include="Query\QueryBuilderExtension.cs" />
     <Compile Include="Query\QueryBuilderHelper.cs" />
+    <Compile Include="Query\SortByExtension.cs" />
     <Compile Include="Serialization\ObjectBinarySerializer.cs" />
     <Compile Include="Serialization\ObjectDataContractSerializer.cs" />
     <Compile Include="Serialization\IObjectSerializer.cs" />
@@ -122,7 +124,7 @@
     <Compile Include="Serialization\ObjectXmlSerializer.cs" />
     <Compile Include="Util\CommonHelper.cs" />
     <Compile Include="Util\Convertor.cs" />
-    <Compile Include="Lambda\Lambda.cs" />
+    <Compile Include="Lambda\LambdaUtil.cs" />
     <Compile Include="Util\LocalizationUtil.cs" />
     <Compile Include="Util\DateTimeUtil.cs" />
     <Compile Include="Encrypt\DESEncrypt.cs" />

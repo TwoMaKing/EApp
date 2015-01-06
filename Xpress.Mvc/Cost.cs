@@ -14,6 +14,7 @@ using System.Threading;
 using EApp.Common.AsynComponent;
 using EApp.Common.Lambda;
 using EApp.Common.Query;
+using EApp.Core;
 using EApp.Core.Application;
 using EApp.Core.Configuration;
 using EApp.Data;
@@ -331,12 +332,25 @@ namespace Xpress.Mvc
                 productList.Add(product);
             }
 
-            QueryBuilder<Product> qb = new QueryBuilder<Product>();
+            ProductRequest request = new ProductRequest();
+            request.IsAnnualCover = true;
+            request.OrderType = 1;
 
-            IList<Product> pList = qb.Filter(p => p.Id > 1000).
+            IQueryBuilder<Product> qb = new QueryBuilder<Product>();
+
+            var annualPriceCases = new Dictionary<int, Expression<Func<Product, bool>>>();
+
+            annualPriceCases.Add(1, p => p.Quotation.StartingPrice > 1003);
+
+            annualPriceCases.Add(2, p => p.Quotation.StartingPrice > 1004);
+
+            IList<Product> pList1 =  qb.Switch(()=>request.OrderType, annualPriceCases).ToList(productList);
+
+            IList<Product> pList2 = qb.Filter(p => p.Id > 1000).
                                    And(p => p.Quotation.StartingPrice > 1002).
+                                   OrderBy(p=>p.AnnualQuotation.StartingPrice).
                                    ToList(productList.AsQueryable());
-          
+            
         }
     }
 }

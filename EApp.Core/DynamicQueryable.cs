@@ -9,7 +9,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 
-namespace EApp.Core.Dynamic
+namespace EApp.Core.DynamicQuery
 {
     public static class DynamicQueryable
     {

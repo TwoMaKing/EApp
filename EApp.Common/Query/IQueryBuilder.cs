@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using EApp.Core;
 using EApp.Core.DomainDriven.Domain;
 using EApp.Core.QueryPaging;
 
@@ -46,7 +47,7 @@ namespace EApp.Common.Query
         Descending = 2,
     }
 
-    public interface IQueryBuilder<TEntity, TIdentityKey> where TEntity : class, IEntity<TIdentityKey>
+    public interface IQueryBuilder<TEntity, TIdentityKey> : IQuery<TEntity, TIdentityKey> where TEntity : class, IEntity<TIdentityKey>
     {
         Expression<Func<TEntity, bool>> QueryPredicate { get; }
 
@@ -74,8 +75,5 @@ namespace EApp.Common.Query
 
         IQueryBuilder<TEntity, TIdentityKey> OrderBy<TPropertyType>(Expression<Func<TEntity, TPropertyType>> predicate, SortOrder sortOrder = SortOrder.Ascending);
 
-        IPagingResult<TEntity> ToPagedList(IQueryable<TEntity> querySource, int pageNumber, int pageSize);
-
-        IList<TEntity> ToList(IQueryable<TEntity> querySource);
     }
 }
