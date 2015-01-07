@@ -362,7 +362,6 @@ namespace Xpress.Mvc
                           () => qb.SwitchOrderBy(() => request.OrderType, nonAnnualOrderPredicateCases, nonAnnualPriceSortOrderCases))
                           .ToList(productList);
 
-
             var annualPriceCases = new Dictionary<int, Expression<Func<Product, bool>>>();
 
             annualPriceCases.Add(1, p => p.Quotation.StartingPrice > 1003);

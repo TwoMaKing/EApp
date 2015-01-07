@@ -42,41 +42,37 @@ namespace EApp.Common.Query
                                                           Func<IQuery<TEntity>> ifFalse)
                                                           where TEntity : class, IEntity
         {
-            bool testing = test.Compile()();
+            ParameterExpression testParameter = Expression.Parameter(typeof(bool), "test");
 
-            return testing ? ifTrue() : ifFalse();
+            ParameterExpression variable = Expression.Variable(typeof(Func<IQuery<TEntity>>), "query");
 
-            //ParameterExpression testParameter = Expression.Parameter(typeof(bool), "test");
+            LabelTarget labelTarget = Expression.Label(typeof(Func<IQuery<TEntity>>));
 
-            //ParameterExpression variable = Expression.Variable(typeof(Func<IQuery<TEntity>>), "query");
+            ConditionalExpression conditionalExpression =
+                Expression.IfThenElse(testParameter,
+                Expression.Assign(variable, Expression.Constant(ifTrue)),
+                Expression.Assign(variable, Expression.Constant(ifFalse)));
 
-            //LabelTarget labelTarget = Expression.Label(typeof(Func<IQuery<TEntity>>));
+            GotoExpression returnExpression = Expression.Return(labelTarget, variable);
 
-            //ConditionalExpression conditionalExpression =
-            //    Expression.IfThenElse(testParameter, 
-            //    Expression.Equal(variable, Expression.Constant(ifTrue)),
-            //    Expression.Equal(variable, Expression.Constant(ifFalse)));
+            LabelExpression labelExpression = Expression.Label(labelTarget, variable);
 
-            //GotoExpression returnExpression = Expression.Return(labelTarget, variable);
+            //生成BlockExpression
 
-            //LabelExpression labelExpression = Expression.Label(labelTarget);
+            BlockExpression blocks = Expression.Block(
 
-            ////生成BlockExpression
+                new ParameterExpression[] { variable },
 
-            //BlockExpression blocks = Expression.Block(
+                conditionalExpression,
 
-            //    new ParameterExpression[] { variable },
+                returnExpression,
 
-            //    conditionalExpression,
+                labelExpression);
 
-            //    returnExpression,
+            Expression<Func<bool, Func<IQuery<TEntity>>>> funcQueryExpression =
+                Expression.Lambda<Func<bool, Func<IQuery<TEntity>>>>(blocks, testParameter);
 
-            //    labelExpression);
-
-            //Expression<Func<bool, Func<IQuery<TEntity>>>> funcQueryExpression =
-            //    Expression.Lambda<Func<bool, Func<IQuery<TEntity>>>>(blocks, testParameter);
-
-            //return funcQueryExpression.Compile()(test.Compile()())();
+            return funcQueryExpression.Compile()(test.Compile()())();
         }
 
         public static IQuery<TEntity> Switch<TEntity, TSwitchValueType>(
