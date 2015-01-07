@@ -56,14 +56,6 @@ namespace Xpress.Mvc
                 costLines.Add(line);
             }
 
-            ISortable<CostLine> sortAction = new NonAnnualPriceSortale(SortOrder.Descending);
-
-            IEnumerable<CostLine> orderedLines = costLines.Where(sortAction.WherePredicate.Compile()).SortBy
-                                                 (sortAction.SortPredicate.Compile(), sortAction.Order);
-
-
-            List<CostLine> orderedLineList = orderedLines.ToList();
-
             //var o = GetOrderByQueryRequest(new OrderQueryRequest() { Id = 1000, HostInfo = "Test" })
 
             //this.View.Action("AddCost");
@@ -337,6 +329,39 @@ namespace Xpress.Mvc
             request.OrderType = 1;
 
             IQueryBuilder<Product> qb = new QueryBuilder<Product>();
+
+            var annualPriceOrderPredicateCases = new Dictionary<int, Expression<Func<Product, dynamic>>>();
+            var annualPriceSortOrderCases = new Dictionary<int, SortOrder>();
+
+            annualPriceOrderPredicateCases.Add(0, (p)=>p.AnnualQuotation != null ? p.AnnualQuotation.StartingPrice : p.Id);
+            annualPriceOrderPredicateCases.Add(1, (p)=>p.AnnualQuotation != null ? p.AnnualQuotation.StartingPrice : p.Id);
+            annualPriceOrderPredicateCases.Add(2, (p)=>p.RecommandLevel);
+
+            annualPriceSortOrderCases.Add(0, SortOrder.Ascending);
+            annualPriceSortOrderCases.Add(1, SortOrder.Descending);
+            annualPriceSortOrderCases.Add(2, SortOrder.Descending);
+
+            //qb.SwitchOrderBy(() => request.OrderType, annualPriceOrderPredicateCases, annualPriceSortOrderCases);
+
+            var nonAnnualOrderPredicateCases = new Dictionary<int, Expression<Func<Product, dynamic>>>();
+            var nonAnnualPriceSortOrderCases = new Dictionary<int, SortOrder>();
+
+            nonAnnualOrderPredicateCases.Add(1, p => p.Quotation != null ? p.Quotation.StartingPrice : p.Id);
+            nonAnnualOrderPredicateCases.Add(2, p => p.Quotation != null ? p.Quotation.StartingPrice : p.Id);
+            nonAnnualOrderPredicateCases.Add(3, p => p.RecommandLevel);
+
+            nonAnnualPriceSortOrderCases.Add(0, SortOrder.Ascending);
+            nonAnnualPriceSortOrderCases.Add(1, SortOrder.Descending);
+            nonAnnualPriceSortOrderCases.Add(2, SortOrder.Descending);
+
+            //qb.SwitchOrderBy(() => request.OrderType, nonAnnualOrderPredicateCases, nonAnnualPriceSortOrderCases);
+
+            IList<Product> pListOrdered = 
+            qb.IfThenElse(() => request.IsAnnualCover,
+                          () => qb.SwitchOrderBy(() => request.OrderType, annualPriceOrderPredicateCases, annualPriceSortOrderCases),
+                          () => qb.SwitchOrderBy(() => request.OrderType, nonAnnualOrderPredicateCases, nonAnnualPriceSortOrderCases))
+                          .ToList(productList);
+
 
             var annualPriceCases = new Dictionary<int, Expression<Func<Product, bool>>>();
 

@@ -73,7 +73,7 @@ namespace EApp.Common.Query
 
         IQueryBuilder<TEntity, TIdentityKey> OrderBy(string propertyName, SortOrder sortOrder = SortOrder.Ascending);
 
-        IQueryBuilder<TEntity, TIdentityKey> OrderBy<TPropertyType>(Expression<Func<TEntity, TPropertyType>> predicate, SortOrder sortOrder = SortOrder.Ascending);
+        IQueryBuilder<TEntity, TIdentityKey> OrderBy(Expression<Func<TEntity, dynamic>> predicate, SortOrder sortOrder = SortOrder.Ascending);
 
     }
 }

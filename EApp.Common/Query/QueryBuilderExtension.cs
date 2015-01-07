@@ -37,17 +37,46 @@ namespace EApp.Common.Query
         }
 
         public static IQuery<TEntity> IfThenElse<TEntity>(this IQueryBuilder<TEntity> queryBuilder,
-                                                          Expression<Func<dynamic, bool>> test, 
+                                                          Expression<Func<bool>> test, 
                                                           Func<IQuery<TEntity>> ifTrue,
                                                           Func<IQuery<TEntity>> ifFalse)
                                                           where TEntity : class, IEntity
         {
-            ConditionalExpression conditionalExpression = 
-                Expression.IfThenElse(test, Expression.Constant(ifTrue), Expression.Constant(ifFalse));
+            bool testing = test.Compile()();
 
-            Func<IQuery<TEntity>> funcQuery = Expression.Lambda<Func<IQuery<TEntity>>>(conditionalExpression).Compile();
+            return testing ? ifTrue() : ifFalse();
 
-            return funcQuery();
+            //ParameterExpression testParameter = Expression.Parameter(typeof(bool), "test");
+
+            //ParameterExpression variable = Expression.Variable(typeof(Func<IQuery<TEntity>>), "query");
+
+            //LabelTarget labelTarget = Expression.Label(typeof(Func<IQuery<TEntity>>));
+
+            //ConditionalExpression conditionalExpression =
+            //    Expression.IfThenElse(testParameter, 
+            //    Expression.Equal(variable, Expression.Constant(ifTrue)),
+            //    Expression.Equal(variable, Expression.Constant(ifFalse)));
+
+            //GotoExpression returnExpression = Expression.Return(labelTarget, variable);
+
+            //LabelExpression labelExpression = Expression.Label(labelTarget);
+
+            ////生成BlockExpression
+
+            //BlockExpression blocks = Expression.Block(
+
+            //    new ParameterExpression[] { variable },
+
+            //    conditionalExpression,
+
+            //    returnExpression,
+
+            //    labelExpression);
+
+            //Expression<Func<bool, Func<IQuery<TEntity>>>> funcQueryExpression =
+            //    Expression.Lambda<Func<bool, Func<IQuery<TEntity>>>>(blocks, testParameter);
+
+            //return funcQueryExpression.Compile()(test.Compile()())();
         }
 
         public static IQuery<TEntity> Switch<TEntity, TSwitchValueType>(
@@ -252,18 +281,19 @@ namespace EApp.Common.Query
         public static IQuery<TEntity> SwitchOrderBy<TEntity, TSwitchValueType>(
                 this IQueryBuilder<TEntity> queryBuilder,
                 Func<TSwitchValueType> switchValue,
-                IDictionary<TSwitchValueType, Expression<Func<TEntity, dynamic>>> switchCasesMappingTestValues)
+                IDictionary<TSwitchValueType, Expression<Func<TEntity, dynamic>>> orderingPredicateCases,
+                IDictionary<TSwitchValueType, SortOrder> sortOrderCases)
                 where TEntity : class, IEntity
         {
-            if (switchCasesMappingTestValues == null ||
-                switchCasesMappingTestValues.Count.Equals(0))
+            if (orderingPredicateCases == null ||
+                orderingPredicateCases.Count.Equals(0))
             {
                 return queryBuilder;
             }
 
             List<SwitchCase> switchCaseList = new List<SwitchCase>();
 
-            foreach (KeyValuePair<TSwitchValueType, Expression<Func<TEntity, dynamic>>> switchCaseTestValuePair in switchCasesMappingTestValues)
+            foreach (KeyValuePair<TSwitchValueType, Expression<Func<TEntity, dynamic>>> switchCaseTestValuePair in orderingPredicateCases)
             {
                 if (switchCaseTestValuePair.Value == null)
                 {
@@ -292,7 +322,7 @@ namespace EApp.Common.Query
                  Expression.Lambda<Func<TSwitchValueType, Expression<Func<TEntity, dynamic>>>>
                  (switchExpression, switchParameterExpression).Compile()(switchVariableValue);
 
-            queryBuilder.OrderBy(queryPredicate);
+            queryBuilder.OrderBy(queryPredicate, sortOrderCases[switchVariableValue]);
 
             return queryBuilder;
         }

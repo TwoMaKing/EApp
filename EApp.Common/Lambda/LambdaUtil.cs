@@ -146,20 +146,38 @@ namespace EApp.Common.Lambda
 
         public static string GetMemberName(LambdaExpression expression) 
         {
-            if (!(expression.Body is MemberExpression))
+            string hierarchyPropertyName = string.Empty;
+
+            if (expression.Body is MemberExpression)
             {
-                return null;
+                MemberExpression memberExpression = expression.Body as MemberExpression;
+
+                hierarchyPropertyName = memberExpression.Member.Name;
+
+                while (memberExpression.Expression is MemberExpression)
+                {
+                    memberExpression = memberExpression.Expression as MemberExpression;
+
+                    hierarchyPropertyName = memberExpression.Member.Name + "." + hierarchyPropertyName;
+                }
             }
-
-            MemberExpression memberExpression = expression.Body as MemberExpression;
-
-            string hierarchyPropertyName = memberExpression.Member.Name;
-
-            while (memberExpression.Expression is MemberExpression)
+            else if (expression.Body is UnaryExpression)
             {
-                memberExpression = memberExpression.Expression as MemberExpression;
+                UnaryExpression unaryExpression = expression.Body as UnaryExpression;
 
-                hierarchyPropertyName = memberExpression.Member.Name + "." + hierarchyPropertyName;
+                if (unaryExpression.Operand is MemberExpression)
+                {
+                    MemberExpression operandMemberExpression = unaryExpression.Operand as MemberExpression;
+
+                    while (operandMemberExpression.Expression is UnaryExpression &&
+                           ((UnaryExpression)operandMemberExpression.Expression).Operand is MemberExpression)
+                    { 
+                        
+                        operandMemberExpression = (MemberExpression)
+                            ((UnaryExpression)operandMemberExpression.Expression).Operand;
+                    }
+
+                }
             }
 
             return hierarchyPropertyName;

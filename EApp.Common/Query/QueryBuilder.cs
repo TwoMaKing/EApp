@@ -21,6 +21,9 @@ namespace EApp.Common.Query
 
         protected OrderByBuilder orderByBuilder = new OrderByBuilder();
 
+        protected Dictionary<Expression<Func<TEntity, dynamic>>, SortOrder> orderByExpressionBuilder = 
+            new Dictionary<Expression<Func<TEntity, dynamic>>, SortOrder>();
+
         protected ExpressionBuilder<TEntity> expressionBuilder = new ExpressionBuilder<TEntity>();
 
         public QueryBuilder() { }
@@ -146,10 +149,15 @@ namespace EApp.Common.Query
             return this;
         }
 
-        public IQueryBuilder<TEntity, TIdentityKey> OrderBy<TPropertyType>(Expression<Func<TEntity, TPropertyType>> predicate, 
-                                                                           SortOrder sortOrder = SortOrder.Ascending)
+        public IQueryBuilder<TEntity, TIdentityKey> OrderBy(Expression<Func<TEntity, dynamic>> predicate, 
+                                                            SortOrder sortOrder = SortOrder.Ascending)
         {
-            this.orderByBuilder.Add(LambdaUtil.GetMemberName(predicate), sortOrder);
+            if (!this.orderByExpressionBuilder.ContainsKey(predicate))
+            {
+                this.orderByExpressionBuilder.Add(predicate, sortOrder);
+            }
+
+            //this.orderByBuilder.Add(LambdaUtil.GetMemberName(predicate), sortOrder);
 
             return this;
         }
@@ -161,9 +169,14 @@ namespace EApp.Common.Query
                 return null;
             }
 
-            IQueryable<TEntity> list = querySource.AsQueryable().Where(this.QueryPredicate);
+            IQueryable<TEntity> queryList = querySource.AsQueryable();
 
-            return this.OrderBy(list).ToList();
+            if (this.QueryPredicate != null)
+            {
+                queryList = queryList.Where(this.QueryPredicate);
+            }
+
+            return this.OrderBy(queryList).ToList();
         }
 
         public IPagingResult<TEntity> ToPagedList(IEnumerable<TEntity> querySource, int? pageNumber, int? pageSize)
@@ -173,15 +186,23 @@ namespace EApp.Common.Query
 
         private IQueryable<TEntity> OrderBy(IQueryable<TEntity> queryable)
         {
-            if (this.orderByBuilder == null ||
-                this.orderByBuilder.OrderByItems == null ||
-                this.orderByBuilder.OrderByItems.Count.Equals(0))
+            if (this.orderByBuilder != null &&
+                this.orderByBuilder.OrderByItems != null &&
+                this.orderByBuilder.OrderByItems.Count > 0)
             {
-                return queryable;
+                queryable = queryable.OrderBy(this.orderByBuilder.ToString());
             }
 
-            return queryable.OrderBy(this.orderByBuilder.ToString());
-        }
+            if (this.orderByExpressionBuilder != null &&
+                this.orderByExpressionBuilder.Count > 0)
+            { 
+                foreach(KeyValuePair<Expression<Func<TEntity, dynamic>>, SortOrder> orderExpressionPair in this.orderByExpressionBuilder)
+                {
+                    queryable = queryable.SortBy(orderExpressionPair.Key.Compile(), orderExpressionPair.Value).AsQueryable(); 
+                }
+            }
 
+            return queryable;
+        }
     }
 }

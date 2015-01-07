@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EApp.Common.Query;
 
-namespace SortablePattern
+namespace EApp.Common.Query
 {
     /// <summary>
     /// 为 IEnumerable<> 定义一个扩展方法 叫SortBy
