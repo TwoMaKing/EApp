@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using EApp.Common.Query;
+using EApp.Core.Query;
 
 namespace EApp.Common.Lambda
 {
@@ -142,11 +143,11 @@ namespace EApp.Common.Lambda
 
         #endregion
 
-        #region GetInstanceMemberName
+        #region Get Instance Member Name
 
         public static string GetMemberName(LambdaExpression expression) 
         {
-            string hierarchyPropertyName = string.Empty;
+            string hierarchyPropertyName = null;
 
             if (expression.Body is MemberExpression)
             {
@@ -159,24 +160,6 @@ namespace EApp.Common.Lambda
                     memberExpression = memberExpression.Expression as MemberExpression;
 
                     hierarchyPropertyName = memberExpression.Member.Name + "." + hierarchyPropertyName;
-                }
-            }
-            else if (expression.Body is UnaryExpression)
-            {
-                UnaryExpression unaryExpression = expression.Body as UnaryExpression;
-
-                if (unaryExpression.Operand is MemberExpression)
-                {
-                    MemberExpression operandMemberExpression = unaryExpression.Operand as MemberExpression;
-
-                    while (operandMemberExpression.Expression is UnaryExpression &&
-                           ((UnaryExpression)operandMemberExpression.Expression).Operand is MemberExpression)
-                    { 
-                        
-                        operandMemberExpression = (MemberExpression)
-                            ((UnaryExpression)operandMemberExpression.Expression).Operand;
-                    }
-
                 }
             }
 

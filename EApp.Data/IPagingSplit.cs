@@ -3,7 +3,7 @@ using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EApp.Core.QueryPaging;
+using EApp.Core.Query;
 
 namespace EApp.Data
 {

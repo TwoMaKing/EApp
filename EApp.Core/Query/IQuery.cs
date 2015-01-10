@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EApp.Core.DomainDriven.Domain;
-using EApp.Core.QueryPaging;
 
-namespace EApp.Core
+namespace EApp.Core.Query
 {
     public interface IQuery<TEntity, TIdentityKey> where TEntity : class, IEntity<TIdentityKey>
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using EApp.Core.QueryPaging;
-using EApp.Core.QuerySepcifications;
 using EApp.Core.DomainDriven.Domain;
+using EApp.Core.Query;
+using EApp.Core.QuerySepcifications;
 
 namespace EApp.Core.DomainDriven.Repository
 {

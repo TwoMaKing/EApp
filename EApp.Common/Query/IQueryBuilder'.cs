@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using EApp.Core;
 using EApp.Core.DomainDriven.Domain;
+using EApp.Core.Query;
 
 namespace EApp.Common.Query
 {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using EApp.Common.Query;
+using EApp.Core.Query;
 
 namespace EApp.Common.Lambda
 {

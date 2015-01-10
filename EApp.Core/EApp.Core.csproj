@@ -84,10 +84,10 @@
     <Compile Include="DynamicQueryable.cs" />
     <Compile Include="ExpressionParser.cs" />
     <Compile Include="DomainDriven\IHandler.cs" />
-    <Compile Include="IQuery.cs" />
-    <Compile Include="QueryPaging\IPagingResult.cs" />
-    <Compile Include="QueryPaging\IQueryPaging.cs" />
-    <Compile Include="QueryPaging\PagingResult.cs" />
+    <Compile Include="Query\IQuery.cs" />
+    <Compile Include="Query\IPagingResult.cs" />
+    <Compile Include="Query\IQueryPaging.cs" />
+    <Compile Include="Query\PagingResult.cs" />
     <Compile Include="QuerySepcifications\AndNotSpecification.cs" />
     <Compile Include="QuerySepcifications\AndSpecification.cs" />
     <Compile Include="QuerySepcifications\AnySepcification.cs" />
@@ -95,13 +95,13 @@
     <Compile Include="QuerySepcifications\ExpressionFuncExtension.cs" />
     <Compile Include="QuerySepcifications\ExpressionSpecification.cs" />
     <Compile Include="QuerySepcifications\ICompositeSpecification.cs" />
-    <Compile Include="QuerySepcifications\IFinder.cs" />
     <Compile Include="QuerySepcifications\ISpecification.cs" />
     <Compile Include="QuerySepcifications\ISpecificationParser.cs" />
     <Compile Include="QuerySepcifications\NotSpecification.cs" />
     <Compile Include="QuerySepcifications\OrSpecification.cs" />
     <Compile Include="QuerySepcifications\ParameterRebinder.cs" />
     <Compile Include="QuerySepcifications\Specification.cs" />
+    <Compile Include="Query\QueryEnum.cs" />
     <Compile Include="ServiceLocator.cs" />
     <Compile Include="Transactions\DistributedTransactionHandler.cs" />
     <Compile Include="Transactions\ITransactionHandler.cs" />
@@ -139,7 +139,6 @@
     <Compile Include="Exceptions\LoadAssemblyException.cs" />
     <Compile Include="GenericCancelEventArgs.cs" />
     <Compile Include="GenericEventArgs.cs" />
-    <Compile Include="IoCFactory.cs" />
     <Compile Include="IResourceManager.cs" />
     <Compile Include="Plugin\IHost.cs" />
     <Compile Include="ILogger.cs" />

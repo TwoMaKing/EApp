@@ -8,7 +8,7 @@ using EApp.Common.Lambda;
 using EApp.Common.Util;
 using EApp.Core.DomainDriven.Domain;
 using EApp.Core.DynamicQuery;
-using EApp.Core.QueryPaging;
+using EApp.Core.Query;
 using EApp.Core.QuerySepcifications;
 
 namespace EApp.Common.Query
@@ -156,8 +156,6 @@ namespace EApp.Common.Query
             {
                 this.orderByExpressionBuilder.Add(predicate, sortOrder);
             }
-
-            //this.orderByBuilder.Add(LambdaUtil.GetMemberName(predicate), sortOrder);
 
             return this;
         }

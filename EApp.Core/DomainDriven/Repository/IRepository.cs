@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using EApp.Core.DomainDriven.Domain;
-using EApp.Core.QueryPaging;
+using EApp.Core.Query;
 using EApp.Core.QuerySepcifications;
 
 namespace EApp.Core.DomainDriven.Repository

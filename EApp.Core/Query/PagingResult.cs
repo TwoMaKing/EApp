@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EApp.Core.QueryPaging
+namespace EApp.Core.Query
 {
     public class PagingResult<T> : IPagingResult<T>
     {
