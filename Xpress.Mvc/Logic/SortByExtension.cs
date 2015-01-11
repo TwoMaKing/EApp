@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EApp.Common.Query;
+using EApp.Core.Query;
 
 namespace Xpress.Mvc.Logic
 {

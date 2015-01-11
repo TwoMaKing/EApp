@@ -9,7 +9,7 @@ using EApp.Core;
 using EApp.Core.DomainDriven.Domain;
 using EApp.Core.DomainDriven.Repository;
 using EApp.Core.DomainDriven.UnitOfWork;
-using EApp.Core.QueryPaging;
+using EApp.Core.Query;
 using EApp.Core.QuerySepcifications;
 using EApp.Data;
 using EApp.Repositories.SqlServer;

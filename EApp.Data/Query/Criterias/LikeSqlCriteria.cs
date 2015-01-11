@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EApp.Data.Query.Criterias
 {
-    public abstract class SqlCriteriaBase : ISqlCriteria
+    public class LikeSqlCriteria
     {
 
     }

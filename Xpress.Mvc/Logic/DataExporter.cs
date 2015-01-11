@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using EApp.Common.AsynComponent;
 using EApp.Common.Query;
+using EApp.Core.Query;
 using EApp.Data;
 using Xpress.Mvc.Models;
 

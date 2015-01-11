@@ -5,8 +5,10 @@ using System.Text;
 
 namespace EApp.Data.Query.Criterias
 {
-    public interface ISqlCriteria
+    public interface ICompositeSqlCriteria : ISqlCriteria
     {
-        string GetSqlCriteria();
+        ISqlCriteria Left { get; }
+
+        ISqlCriteria Right { get; }
     }
 }
