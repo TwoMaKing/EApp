@@ -41,7 +41,7 @@ namespace EApp.Data
             parms.Clear();
 
             DbParameter[] cacheParams = cache[key];
-            if (cacheParams != null & cacheParams.Length > 0)
+            if (cacheParams != null && cacheParams.Length > 0)
             {
                 if (types == null)
                 {
@@ -73,7 +73,7 @@ namespace EApp.Data
             DbParameterCollection parameters = cmd.Parameters;
             parameters.Clear();
 
-            if (names != null & names.Length > 0)
+            if (names != null && names.Length > 0)
             {
                 if (types == null)
                 {

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EApp.Data.Query.Criterias
 {
-    public abstract class CompositeSqlCriteria : SqlCriteria, ICompositeSqlCriteria
+    public abstract class CompositeSqlCriteria : OperatorSqlCriteria, ICompositeSqlCriteria
     {
         public CompositeSqlCriteria(ISqlCriteria left, ISqlCriteria right) 
         {

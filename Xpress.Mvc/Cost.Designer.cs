@@ -34,6 +34,7 @@
             this.rbMessage = new System.Windows.Forms.RichTextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnQuery = new System.Windows.Forms.Button();
+            this.btnBuilderQuery = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -93,11 +94,22 @@
             this.btnQuery.UseVisualStyleBackColor = true;
             this.btnQuery.Click += new System.EventHandler(this.btnQuery_Click);
             // 
+            // btnBuilderQuery
+            // 
+            this.btnBuilderQuery.Location = new System.Drawing.Point(209, 215);
+            this.btnBuilderQuery.Name = "btnBuilderQuery";
+            this.btnBuilderQuery.Size = new System.Drawing.Size(88, 23);
+            this.btnBuilderQuery.TabIndex = 7;
+            this.btnBuilderQuery.Text = "Builder Query";
+            this.btnBuilderQuery.UseVisualStyleBackColor = true;
+            this.btnBuilderQuery.Click += new System.EventHandler(this.btnBuilderQuery_Click);
+            // 
             // Cost
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(804, 550);
+            this.Controls.Add(this.btnBuilderQuery);
             this.Controls.Add(this.btnQuery);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.rbMessage);
@@ -119,6 +131,7 @@
         private System.Windows.Forms.RichTextBox rbMessage;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnQuery;
+        private System.Windows.Forms.Button btnBuilderQuery;
     }
 }
 

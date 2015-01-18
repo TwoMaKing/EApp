@@ -96,8 +96,8 @@ namespace EApp.Data
 
             if (assemblyAndClassType.Length.Equals(2))
             {
-                return DbProviderFactory.CreateDbProvider(assemblyAndClassType[0].Trim(), 
-                                                          assemblyAndClassType[1].Trim(), 
+                return DbProviderFactory.CreateDbProvider(assemblyAndClassType[1].Trim(), 
+                                                          assemblyAndClassType[0].Trim(), 
                                                           connectionString);
             }
             else
@@ -105,7 +105,6 @@ namespace EApp.Data
                 return DbProviderFactory.CreateDbProvider(string.Empty, providerName, connectionString);
             }
         }
-
 
         private DbCommand PrepareSqlStringCommand(string[] paramNames, DbType[] paramDbTypes, object[] paramValues, string sqlCommandText) 
         {

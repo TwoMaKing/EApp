@@ -17,7 +17,17 @@ namespace EApp.Core.Query
 
         LessThan,
 
-        LessThanEqual
+        LessThanEqual,
+
+        Contains,
+
+        StartsWith,
+
+        EndsWith,
+
+        In,
+
+        NotIn
     }
 
 

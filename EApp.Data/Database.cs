@@ -512,7 +512,7 @@ namespace EApp.Data
             {
                 return DoExecuteReader(command, CommandBehavior.CloseConnection);
             }
-            catch
+            catch (Exception e)
             {
                 try
                 {

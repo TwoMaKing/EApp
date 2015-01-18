@@ -11,7 +11,12 @@ namespace EApp.Data.Query.Criterias
 
         public override string GetSqlCriteria()
         {
-            return string.Format(" {0} or {1} ", this.Left.GetSqlCriteria(), this.Right.GetSqlCriteria());
+            return string.Format(" {0} {1} {2} ", this.Left.GetSqlCriteria(), this.GetOperatorChar(), this.Right.GetSqlCriteria());
+        }
+
+        protected override string GetOperatorChar()
+        {
+            return "OR";
         }
     }
 }

@@ -9,6 +9,8 @@ namespace EApp.Data.Query
 {
     public interface ISqlBuilder
     {
+        DbProvider DbProvider { get; }
+
         ISqlBuilder From(string table);
 
         ISqlBuilder InnerJoin(string joinTable, string fromKey, string joinKey);
@@ -53,6 +55,8 @@ namespace EApp.Data.Query
 
         ISqlBuilder GroupBy(string[] columns, string having = "");
 
+        ISqlBuilder Distinct();
+
         ISqlBuilder Top(int count);
 
         ISqlBuilder Count(string column);
@@ -61,10 +65,14 @@ namespace EApp.Data.Query
 
         ISqlBuilder Min(string column);
 
-        ISqlBuilder Select(string[] columns);
+        ISqlBuilder Sum(string column);
+
+        ISqlBuilder Select(params string[] columns);
 
         ISqlBuilder Where(string wherePredicate, IEnumerable<object> paramValues);
-
+        
+        ISqlBuilder Clear();
+        
         string GetPredicate();
 
         string GetQuerySql();

@@ -5,13 +5,14 @@ using System.Text;
 
 namespace EApp.Data.Query.Criterias
 {
-    public class EqualSqlCriteria : OperatorSqlCriteria
+    public class GreaterThanEqualSqlCriteria : OperatorSqlCriteria
     {
-        public EqualSqlCriteria(DbProvider dbProvider, string column) : base(dbProvider, column) { }
+        public GreaterThanEqualSqlCriteria(DbProvider dbProvider, string column) : base(dbProvider, column) { }
 
         protected override string GetOperatorChar()
         {
-            return "=";
+            return ">=";
         }
+
     }
 }

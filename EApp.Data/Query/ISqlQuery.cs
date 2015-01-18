@@ -8,7 +8,7 @@ using EApp.Data.Query.Criterias;
 
 namespace EApp.Data.Query
 {
-    public interface ISqlQuery
+    public interface ISqlQuery : IDisposable
     {
         ISqlBuilder SqlBuilder { get; }
 
@@ -58,19 +58,26 @@ namespace EApp.Data.Query
 
         ISqlQuery Top(int count);
 
+        ISqlQuery Distinct();
+
         ISqlQuery Count(string column);
 
         ISqlQuery Max(string column);
 
         ISqlQuery Min(string column);
 
-        ISqlQuery Select(string[] columns);
+        ISqlQuery Sum(string column);
+
+        ISqlQuery Select(params string[] columns);
 
         ISqlQuery Where(string wherePredicate, IEnumerable<object> paramValues);
+
+        ISqlQuery Clear();
 
         IDataReader ExecuteReader(IDbConnection connection, IDbTransaction transaction = null);
 
         DataSet ExecuteDataSet(IDbConnection connection, IDbTransaction transaction = null);
+
     }
 
 }

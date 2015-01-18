@@ -20,6 +20,7 @@ using EApp.Core.Application;
 using EApp.Core.Configuration;
 using EApp.Core.Query;
 using EApp.Data;
+using EApp.Data.Query;
 using EApp.Windows.Mvc;
 using Microsoft.CSharp.RuntimeBinder;
 using Xpress.Mvc.Logic;
@@ -377,6 +378,73 @@ namespace Xpress.Mvc
                                    OrderBy(p=>p.AnnualQuotation.StartingPrice).
                                    ToList(productList.AsQueryable());
             
+        }
+
+        private void btnBuilderQuery_Click(object sender, EventArgs e)
+        {
+            //using (ISqlQuery sqlQuery = new SqlQuery())
+            //{
+            //    IDataReader reader = sqlQuery.From("post")
+            //     .Equals("post_id", 1000)
+            //     .GreaterThan("post_id", 1005, true)
+            //     .Contains("post_content ", "AAAAAA")
+            //     .OrderBy("post_id", SortOrder.Descending)
+            //     .OrderBy("post_creation_datetime", SortOrder.Descending)
+            //     .GroupBy(new string[] { "post_id", "post_author_id", "post_content", "post_creation_datetime" })
+            //     .Select("post_id", "post_author_id", "post_content").ExecuteReader(DbGateway.Default);
+
+            //    while (reader.Read())
+            //    {
+            //        string postId = reader["post_id"].ToString();
+            //        string postAuthorId = reader["post_author_id"].ToString();
+            //        string content = reader["post_content"].ToString();
+            //    }
+
+            //    if (!reader.IsClosed)
+            //    {
+            //        reader.Close();
+            //    }
+            //}
+
+            using (ISqlQuery sqlQuery = new SqlQuery())
+            {
+                IDataReader reader = sqlQuery.From("post")
+                                    .Max("post_topic_id")
+                                    .Min("post_id")
+                                    .Sum("post_author_id")
+                                    .Count("*")
+                                    .Distinct()
+                                    .Top(3).GroupBy(new string[] { "post_id" }).ExecuteReader(DbGateway.Default);
+
+                while (reader.Read())
+                {
+                    string postTopicId = reader[0].ToString();
+                    string postId = reader[1].ToString();
+                    string postAuthorId = reader[2].ToString();
+                }
+
+                if (!reader.IsClosed)
+                {
+                    reader.Close();
+                }
+            }
+
+
+            //using (IDbConnection connection = DbGateway.Default.OpenConnection())
+            //{
+            //    sqlQuery.From("post")
+            //        .Equals("post_id", 1000)
+            //        .GreaterThan("post_id", 1005, true)
+            //        .Contains("post_content ", "AAAAAA")
+            //        .OrderBy("post_id", SortOrder.Descending)
+            //        .OrderBy("post_creation_datetime", SortOrder.Descending)
+            //        .Select("post_id", "post_author_id", "post_content").ExecuteReader(connection);
+
+            //    if (connection.State != ConnectionState.Closed)
+            //    {
+            //        connection.Close();
+            //    }
+            //}
         }
     }
 }

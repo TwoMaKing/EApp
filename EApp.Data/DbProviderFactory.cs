@@ -18,7 +18,6 @@ namespace EApp.Data
     /// <remarks></remarks>
     public sealed class DbProviderFactory
     {
-
         #region "private Memeber"
 
         private static DbProvider defaultDbProvider;
@@ -116,9 +115,9 @@ namespace EApp.Data
 
             try
             {
-                if (assAndClass.Length == 1)
+                if (assAndClass.Length.Equals(2))
                 {
-                    return CreateDbProvider(assAndClass[0].Trim(), assAndClass[1].Trim(), connectionString);
+                    return CreateDbProvider(assAndClass[1].Trim(), assAndClass[0].Trim(), connectionString);
                 }
                 else
                 {
@@ -128,7 +127,6 @@ namespace EApp.Data
             }
             catch (Exception ex)
             {  
-
                 return null;
             }
         }
