@@ -87,14 +87,14 @@ namespace EApp.Data.Query
 
         public ISqlBuilder LeftOuterJoin(string joinTable, string fromKey, string joinKey)
         {
-            this.leftOuterJoinTables.Add(" LEFT JOIN " + joinTable + " ON " + fromKey + " = " + joinKey);
+            this.leftOuterJoinTables.Add(" LEFT OUTER JOIN " + joinTable + " ON " + fromKey + " = " + joinKey);
 
             return this;
         }
 
         public ISqlBuilder RightOuterJoin(string joinTable, string fromKey, string joinKey)
         {
-            this.rightOuterJoinTables.Add(" RIGHT JOIN " + joinTable + " ON " + fromKey + " = " + joinKey);
+            this.rightOuterJoinTables.Add(" RIGHT OUTER JOIN " + joinTable + " ON " + fromKey + " = " + joinKey);
 
             return this;
         }
@@ -386,6 +386,24 @@ namespace EApp.Data.Query
                                 .Append(this.selectColumnsSql)
                                 .Append(" FROM ")
                                 .Append(this.fromTable);
+
+            if (this.innerJoinTables != null &&
+                this.innerJoinTables.Count > 0)
+            {
+                this.innerJoinTables.ForEach((joinSql) => this.querySqlBuilder.Append(joinSql));
+            }
+
+            if (this.leftOuterJoinTables != null &&
+                this.leftOuterJoinTables.Count > 0)
+            {
+                this.leftOuterJoinTables.ForEach((joinSql) => this.querySqlBuilder.Append(joinSql));
+            }
+
+            if (this.rightOuterJoinTables != null &&
+                this.rightOuterJoinTables.Count > 0)
+            {
+                this.rightOuterJoinTables.ForEach((joinSql) => this.querySqlBuilder.Append(joinSql));
+            }
 
             string sqlPredicate = this.GetPredicate();
 

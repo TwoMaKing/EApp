@@ -406,15 +406,40 @@ namespace Xpress.Mvc
             //    }
             //}
 
+            //using (ISqlQuery sqlQuery = new SqlQuery())
+            //{
+            //    IDataReader reader = sqlQuery.From("post")
+            //                        .Max("post_topic_id")
+            //                        .Min("post_id")
+            //                        .Sum("post_author_id")
+            //                        .Count("*")
+            //                        .Distinct()
+            //                        .Top(3).GroupBy(new string[] { "post_id" }).ExecuteReader(DbGateway.Default);
+
+            //    while (reader.Read())
+            //    {
+            //        string postTopicId = reader[0].ToString();
+            //        string postId = reader[1].ToString();
+            //        string postAuthorId = reader[2].ToString();
+            //    }
+
+            //    if (!reader.IsClosed)
+            //    {
+            //        reader.Close();
+            //    }
+            //}
+
+
             using (ISqlQuery sqlQuery = new SqlQuery())
             {
                 IDataReader reader = sqlQuery.From("post")
-                                    .Max("post_topic_id")
-                                    .Min("post_id")
-                                    .Sum("post_author_id")
-                                    .Count("*")
-                                    .Distinct()
-                                    .Top(3).GroupBy(new string[] { "post_id" }).ExecuteReader(DbGateway.Default);
+                                    .InnerJoin("topic", "post_topic_id", "topic_id")
+                                    .LeftOuterJoin("[user]", "post_author_id", "user_id")
+                                    .LessThanEquals("post_id", 1008)
+                                    .Select("post_id", "topic_name", "user_name")
+                                    .OrderBy("post_id", SortOrder.Descending)
+                                    .GroupBy(new string[] { "post_id", "topic_name", "user_name" })
+                                    .ExecuteReader(DbGateway.Default);
 
                 while (reader.Read())
                 {
@@ -428,7 +453,6 @@ namespace Xpress.Mvc
                     reader.Close();
                 }
             }
-
 
             //using (IDbConnection connection = DbGateway.Default.OpenConnection())
             //{

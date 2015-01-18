@@ -63,10 +63,6 @@ namespace EApp.Data.Query.Criterias
                 case Operator.StartsWith:
                 case Operator.EndsWith:
                     return new LikeSqlCriteria(dbProvider, dbColumn);
-                //case Operator.StartsWith:
-                //    return new StartsWithSqlCriteria(dbProvider, dbColumn);
-                //case Operator.EndsWith:
-                //    return new EndsWithSqlCriteria(dbProvider, dbColumn);
                 case Operator.In:
                     return new InSqlCriteria(dbProvider, dbColumn);
                 case Operator.NotIn:
