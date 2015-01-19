@@ -7,11 +7,11 @@ Windows application 开发框架包括
 插件式(Plugin)模块框架, 项目如下:
 
 EApp.Core: 各种框架的核心工程. EApp.Core.Plugin 是插件式模块框架的核心.
-
 EApp.Plugin.Generic: 插件式模块框架的具体实现. 
-
 EApp.UI.Controls: 自定义的 Winform UI 控件库. 比如Ribbon Menu 和 Toolbar 用于显示新增的功能模块按钮新功能可以是界面也可以是无界面的业务功能. 
-
+Xpress.UI: Demo 工程, 程序主界面入口.
+Xpress.UI.Plugins: 插件式模块工程. 主程序启动时, 可根据配置条件自动load 或lazy load插件模块.
+Xpress.Core: Demo 工程用的实体, 通用功能和模块插件配置元数据.
 
 Windows MVC 框架
 
