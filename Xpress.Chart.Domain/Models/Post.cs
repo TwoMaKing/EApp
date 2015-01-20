@@ -1,8 +1,9 @@
-﻿using System;
+﻿using EApp.Core.DomainDriven.Domain;
+using EApp.Core.DomainDriven.Domain.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EApp.Core.DomainDriven.Domain;
 
 namespace Xpress.Chart.Domain.Models
 {
@@ -84,12 +85,12 @@ namespace Xpress.Chart.Domain.Models
 
         public void Forward() 
         { 
-        
+            
         }
 
         public void Praise()
         {
-        
+
         }
 
         public void Collect() 

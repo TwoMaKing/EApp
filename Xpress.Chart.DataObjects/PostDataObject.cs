@@ -12,18 +12,6 @@ namespace Xpress.Chart.DataObjects
     [DataContract()]
     public class PostDataObject : DataTransferObjectBase<Post>
     {
-        //[DataMember()]
-        //public int TopicId { get; set; }
-
-        //[DataMember()]
-        //public int AuthorId { get; set; }
-
-        //[DataMember()]
-        //public string TopicName { get; set; }
-
-        //[DataMember()]
-        //public string AuthorName { get; set; }
-        
         [DataMember()]
         public TopicDataObject Topic { get; set; }
 
@@ -56,11 +44,6 @@ namespace Xpress.Chart.DataObjects
 
             this.Content = domainModel.Content;
             this.CreationDateTime = domainModel.CreationDateTime;
-
-            //this.AuthorId = domainModel.Author.Id;
-            //this.AuthorName = domainModel.Author.Name;
-            //this.TopicId = domainModel.Topic.Id;
-            //this.TopicName = domainModel.Topic.Name;
         }
 
         protected override Post DoMapTo()
