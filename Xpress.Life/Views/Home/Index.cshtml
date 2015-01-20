@@ -6,7 +6,7 @@
 @section featured {
     <section class="featured">
         <div class="content-wrapper">
-            @using (Html.BeginForm("PublishPost", "Home", new {topicId = 1000}, FormMethod.Post))
+            @using (Html.BeginForm("PublishPost", "Home", new {Model.TopicId}, FormMethod.Post))
             {
                 @Html.AntiForgeryToken();
                                         

@@ -16,10 +16,12 @@ namespace Xpress.Life.Controllers
     {
         public ActionResult Index()
         {
-            Session["user"] = new User() { Id = 1000, Name = "Philips", NickName = "会飞的猪猪", Email = "airsoft_ft@126.com" };
+            this.Session["user"] = new User() { Id = 1000, 
+                                           Name = "Philips", 
+                                           NickName = "会飞的猪猪", 
+                                           Email = "airsoft_ft@126.com" };
 
             PostDataObject postDataObject = new PostDataObject();
-
 
             return View(postDataObject);
         }
@@ -43,11 +45,14 @@ namespace Xpress.Life.Controllers
         {
             try
             {
-                //IPostService postService = EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve<IPostService>();
-
                 IPostService postService = ServiceLocator.Instance.GetService<IPostService>();
 
-                PostDataObject postDataObject = postService.PublishPost(topicId, GlobalApplication.LoginUser.Id, content);
+                PostDataObject postDataObject = new PostDataObject();
+                postDataObject.Author.Id = GlobalApplication.LoginUser.Id;
+                postDataObject.Topic.Id = topicId;
+                postDataObject.Content = content;
+
+                postService.PublishPost(postDataObject);
 
                 return View("index", postDataObject);
 
@@ -61,7 +66,7 @@ namespace Xpress.Life.Controllers
             }
             catch (Exception e)
             {
-                return View();   
+                throw e;
             }
         }
 

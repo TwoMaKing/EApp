@@ -104,4 +104,5 @@ namespace Xpress.Chart.Domain.Models
 
         #endregion
     }
+
 }

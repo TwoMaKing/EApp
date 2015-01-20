@@ -46,6 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
+      <Project>{ddcadbee-4c66-43bd-a1c8-76265134b9f2}</Project>
+      <Name>EApp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Xpress.Chart.DataObjects\Xpress.Chart.DataObjects.csproj">
       <Project>{55CA50AC-5C76-44B4-9579-FF9090E1D905}</Project>
       <Name>Xpress.Chart.DataObjects</Name>

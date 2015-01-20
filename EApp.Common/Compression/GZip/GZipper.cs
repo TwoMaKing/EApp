@@ -12,12 +12,13 @@ namespace EApp.Common.Compression.GZip
 {
     public class GZipper : ICompression
     {
+
         public byte[] Zip(object obj)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
-        public void ZipFile(string sourceFilePath, string targetFilePath)
+        public byte[] Zip<T>(T obj)
         {
             throw new NotImplementedException();
         }
@@ -27,7 +28,7 @@ namespace EApp.Common.Compression.GZip
             throw new NotImplementedException();
         }
 
-        public void UnzipFile(string sourceFilePath, string targetFilePath)
+        public T Unzip<T>(byte[] bytes)
         {
             throw new NotImplementedException();
         }

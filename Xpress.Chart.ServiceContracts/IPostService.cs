@@ -12,9 +12,9 @@ namespace Xpress.Chart.ServiceContracts
     public interface IPostService
     {
         [OperationContract()]
-        IEnumerable<PostDataObject> GetPosts(int pageNo, int pageSize);
+        void PublishPost(PostDataObject post);
 
         [OperationContract()]
-        PostDataObject PublishPost(int topicId, int authorId, string content);
+        IEnumerable<PostDataObject> GetPosts(QueryRequest request);
     }
 }

@@ -14,7 +14,7 @@ namespace EApp.Common.Compression
             throw new NotImplementedException();
         }
 
-        public void ZipFile(string sourceFilePath, string targetFilePath)
+        public byte[] Zip<T>(T obj)
         {
             throw new NotImplementedException();
         }
@@ -24,7 +24,7 @@ namespace EApp.Common.Compression
             throw new NotImplementedException();
         }
 
-        public void UnzipFile(string sourceFilePath, string targetFilePath)
+        public T Unzip<T>(byte[] bytes)
         {
             throw new NotImplementedException();
         }

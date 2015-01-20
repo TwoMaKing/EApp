@@ -1,13 +1,9 @@
-﻿using System;
+﻿using EApp.Core.DomainDriven.Repository;
+using EApp.Core.DomainDriven.UnitOfWork;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EApp.Core.DomainDriven.Repository;
-using EApp.Core.DomainDriven.UnitOfWork;
-using Xpress.Chart.DataObjects;
-using Xpress.Chart.Domain;
-using Xpress.Chart.Repositories;
-using Xpress.Chart.ServiceContracts;
 
 namespace Xpress.Chart.Application
 {
@@ -30,7 +26,10 @@ namespace Xpress.Chart.Application
 
         protected virtual void Dispose(bool disposing)
         { 
-        
+            if (disposing)
+            {
+                // to do...
+            }
         }
 
         public void Dispose()

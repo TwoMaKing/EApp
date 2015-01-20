@@ -10,6 +10,16 @@ namespace Xpress.Chart.DataObjects
     [DataContract()]
     public class CommentDataObject
     {
+        [DataMember()]
+        public int AuthorId { get; set; }
 
+        [DataMember()]
+        public string AuthorName { get; set; }
+
+        [DataMember()]
+        public string Content { get; set; }
+
+        [DataMember()]
+        public DateTime CreationDateTime { get; set; }
     }
 }

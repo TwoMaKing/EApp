@@ -9,12 +9,11 @@ namespace EApp.Common.Compression
     public interface ICompression
     {
         byte[] Zip(object obj);
-
-        void ZipFile(string sourceFilePath, string targetFilePath);
+        
+        byte[] Zip<T>(T obj);
 
         object Unzip(byte[] bytes);
 
-        void UnzipFile(string sourceFilePath, string targetFilePath);
-        
+        T Unzip<T>(byte[] bytes);
     }
 }

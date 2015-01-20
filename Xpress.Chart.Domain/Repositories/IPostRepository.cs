@@ -17,4 +17,5 @@ namespace Xpress.Chart.Domain.Repositories
     {
         IEnumerable<Post> GetPostsPublishedByUser(User user);
     }
+
 }

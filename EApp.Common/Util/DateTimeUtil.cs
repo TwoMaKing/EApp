@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Globalization;
 
 namespace EApp.Common.Util
@@ -20,13 +17,12 @@ namespace EApp.Common.Util
         public const string TimeFormat_MMDDYYYY = "MM/dd/yyyy";
         public const string TimeFormat_MMDDYYYYHHMMSS = "MM/dd/yyyy HH:mm:ss";
 
-        public const string TIMEFORMAT_STANDARD = "yyyy/MM/dd HH:mm:ss";
-        public const string TIMEFORMAT_STANDARD_LONG = "yyyy/MM/dd HH:mm:ss.fff";
-        public const string TIMEFORMAT_STANDARD_SHORT = "yyyy/MM/dd HH:mm";
+        public const string TimeFormat_STANDARD = "yyyy/MM/dd HH:mm:ss";
+        public const string TimeFormat_STANDARD_LONG = "yyyy/MM/dd HH:mm:ss.fff";
+        public const string TimeFormat_STANDARD_SHORT = "yyyy/MM/dd HH:mm";
         
         public const string TimeFormat_DDMMMYYYYHHMM = "dd MMM yyyy HH:mm";
         public const string TimeFormat_MMYYYY = "MM/yyyy";
-
 
         public static string ToDateTimeString(DateTime? time, string format)
         {
@@ -35,7 +31,8 @@ namespace EApp.Common.Util
                 return null;
             }
 
-            return time.Value.ToString(format, System.Globalization.DateTimeFormatInfo.InvariantInfo);
+            return time.Value.ToString(format, 
+                                       DateTimeFormatInfo.InvariantInfo);
         }
 
         /// <summary>
@@ -62,12 +59,12 @@ namespace EApp.Common.Util
 
             DateTime resultDateTime;
 
-            bool parsedSuccessfully = DateTime.TryParse(time.ToString(),
-                                                        timeFormat,
-                                                        DateTimeStyles.None,
-                                                        out resultDateTime);
+            bool parsedSucceeded = DateTime.TryParse(time.ToString(),
+                                                     timeFormat,
+                                                     DateTimeStyles.None,
+                                                     out resultDateTime);
 
-            if (!parsedSuccessfully)
+            if (!parsedSucceeded)
             {
                 return null;
             }
@@ -85,12 +82,12 @@ namespace EApp.Common.Util
 
             DateTime resultDateTime;
 
-            bool parsedSuccessfully = DateTime.TryParse(time.ToString(), 
-                                                        DateTimeFormatInfo.InvariantInfo, 
-                                                        DateTimeStyles.None, 
-                                                        out resultDateTime);
+            bool parsedSucceeded = DateTime.TryParse(time.ToString(), 
+                                                     DateTimeFormatInfo.InvariantInfo, 
+                                                     DateTimeStyles.None, 
+                                                     out resultDateTime);
 
-            if (!parsedSuccessfully)
+            if (!parsedSucceeded)
             {
                 return null;
             }

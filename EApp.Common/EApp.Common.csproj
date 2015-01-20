@@ -92,6 +92,7 @@
     <Compile Include="Cache\ICacheManager.cs" />
     <Compile Include="Cache\Memcached\MemcacheManager.cs" />
     <Compile Include="Cache\Redis\RedisManager.cs" />
+    <Compile Include="Compression\CompressionFactory.cs" />
     <Compile Include="Compression\GZip\GZipper.cs" />
     <Compile Include="Exceptions\ConfigException.cs" />
     <Compile Include="Exceptions\EAppException.cs" />
