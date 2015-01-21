@@ -5,7 +5,11 @@ using System.Text;
 
 namespace EApp.Core.DomainDriven.Commands
 {
-    public interface ICommandHandler
+     /// <summary>
+     /// Command handler to handle command
+     /// </summary>
+     /// <typeparam name="TCommand"></typeparam>
+    public interface ICommandHandler<TCommand> : IHandler<TCommand> where TCommand : class, ICommand
     {
 
     }

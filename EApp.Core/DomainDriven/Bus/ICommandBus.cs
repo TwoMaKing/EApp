@@ -6,9 +6,9 @@ using System.Text;
 namespace EApp.Core.DomainDriven.Bus
 {
     /// <summary>
-    /// The implemented classes are domain event buses. We can use event bus to publish domain event.
+    /// The implemented classes are CQRS command buses. We can use command bus to publish command.
     /// </summary>
-    public interface IEventBus : IBus
+    public interface ICommandBus : IBus
     {
 
     }

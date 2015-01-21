@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Commands.cs" />
+    <Compile Include="Commands\PostPublishCommandHandler.cs" />
     <Compile Include="Events\DomainEventAggregator.cs" />
     <Compile Include="Events\PostDomainEvent.cs" />
     <Compile Include="Events\PostDomainEventHandler.cs" />

@@ -61,6 +61,11 @@
 					<xs:documentation>The Redis.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element minOccurs="0" name="handlers" type="tns:EApp.Core.Configuration.HandlerElementCollectionCT">
+				<xs:annotation>
+					<xs:documentation>The Handlers.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="EApp.Core.Configuration.CurrentObjectContainerElementCT">
@@ -363,6 +368,34 @@
 		<xs:attribute name="timeOutSeconds" use="optional" type="xs:int">
 			<xs:annotation>
 				<xs:documentation>The TimeOutSeconds.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="EApp.Core.Configuration.HandlerElementCollectionCT">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="handlerElement" type="tns:EApp.Core.Configuration.HandlerElementCT">
+				<xs:annotation>
+					<xs:documentation>The HandlerElement Configuration Element.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EApp.Core.Configuration.HandlerElementCT">
+		<xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="name" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The Name.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="type" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The Type.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="kind" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The Kind.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>

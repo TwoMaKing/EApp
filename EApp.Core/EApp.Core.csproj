@@ -59,6 +59,15 @@
     <Compile Include="DomainDriven\Application\ApplicationService.cs" />
     <Compile Include="DomainDriven\Application\DataTransferObjectBase.cs" />
     <Compile Include="DomainDriven\Application\IDataTransferObject.cs" />
+    <Compile Include="DomainDriven\Bus\CommandBus.cs" />
+    <Compile Include="DomainDriven\Bus\ICommandBus.cs" />
+    <Compile Include="DomainDriven\ConfigurationHandlerProvider.cs" />
+    <Compile Include="DomainDriven\IHandlerProvider.cs" />
+    <Compile Include="DomainDriven\Bus\IMessageDispatcher.cs" />
+    <Compile Include="DomainDriven\Bus\MessageDispatcher.cs" />
+    <Compile Include="DomainDriven\Bus\MessageDispatcherFactory.cs" />
+    <Compile Include="DomainDriven\Commands\Command.cs" />
+    <Compile Include="DomainDriven\Commands\CommandHandler.cs" />
     <Compile Include="DomainDriven\Commands\ICommand.cs" />
     <Compile Include="DomainDriven\Commands\ICommandHandler.cs" />
     <Compile Include="DomainDriven\Domain\EntityBase.cs" />

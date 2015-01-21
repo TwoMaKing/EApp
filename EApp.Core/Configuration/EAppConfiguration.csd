@@ -63,6 +63,11 @@
             <configurationElementMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/RedisElement" />
           </type>
         </elementProperty>
+        <elementProperty name="Handlers" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="handlers" isReadOnly="false">
+          <type>
+            <configurationElementCollectionMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/HandlerElementCollection" />
+          </type>
+        </elementProperty>
       </elementProperties>
     </configurationSection>
     <configurationElement name="CurrentObjectContainerElement">
@@ -348,6 +353,30 @@
         <attributeProperty name="TimeOutSeconds" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="timeOutSeconds" isReadOnly="false" defaultValue="3600">
           <type>
             <externalTypeMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/Int32" />
+          </type>
+        </attributeProperty>
+      </attributeProperties>
+    </configurationElement>
+    <configurationElementCollection name="HandlerElementCollection" xmlItemName="handlerElement" codeGenOptions="Indexer, AddMethod, RemoveMethod, GetItemMethods">
+      <itemType>
+        <configurationElementMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/HandlerElement" />
+      </itemType>
+    </configurationElementCollection>
+    <configurationElement name="HandlerElement">
+      <attributeProperties>
+        <attributeProperty name="Name" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="name" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/String" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="Type" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="type" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/String" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="Kind" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="kind" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/6ef3f9ad-8dfe-4172-a7c4-a6c8ea1c07b5/String" />
           </type>
         </attributeProperty>
       </attributeProperties>
