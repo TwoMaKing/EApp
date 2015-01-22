@@ -46,6 +46,32 @@ namespace EApp.Core.DomainDriven.Commands
             return commandDispatcher;
         }
 
+        public CommandDispatcher(ICommandHandlerProvider commandHandlerProvider) 
+        {
+            commandHandlerTypes = commandHandlerProvider.GetCommandHandlers();
+
+            if (commandHandlerTypes != null)
+            {
+                MethodInfo registerMethod = this.GetType().GetMethod("Register", BindingFlags.Instance | BindingFlags.Public);
+
+                foreach (KeyValuePair<Type, Type> commandHandlerPair in commandHandlerTypes)
+                {
+                    if (!EAppRuntime.Instance.CurrentApp.ObjectContainer.Registered(commandHandlerPair.Value))
+                    {
+                        EAppRuntime.Instance.CurrentApp.ObjectContainer.RegisterType(commandHandlerPair.Value);
+                    }
+
+                    MethodInfo genericRegisterMethod = registerMethod.MakeGenericMethod(commandHandlerPair.Key);
+
+                    genericRegisterMethod.Invoke(this,
+                                                 new object[] 
+                                                 { 
+                                                     EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve(commandHandlerPair.Value) 
+                                                 });
+                }
+            }      
+        }
+
         public void Clear()
         {
             this.commandHandlers.Clear();

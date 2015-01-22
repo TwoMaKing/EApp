@@ -12,6 +12,12 @@ namespace Xpress.Chat.DataObjects
     [DataContract()]
     public class PostDataObject : DataTransferObjectBase<Post>
     {
+        public PostDataObject()
+        {
+            this.Topic = new TopicDataObject();
+            this.Author = new UserDataObject();
+        }
+
         [DataMember()]
         public TopicDataObject Topic { get; set; }
 

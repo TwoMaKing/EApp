@@ -19,7 +19,7 @@ namespace Xpress.Chat.Commands
             {
                 IPostRepository postRepository = (IPostRepository)repositoryContext.GetRepository<Post>();
 
-                Post post = Post.Create(null, null, message.Content);
+                Post post = message.PostDataObject.MapTo();
 
                 postRepository.Add(post);
 

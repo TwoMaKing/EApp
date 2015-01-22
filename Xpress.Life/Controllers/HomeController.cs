@@ -17,9 +17,9 @@ namespace Xpress.Life.Controllers
         public ActionResult Index()
         {
             this.Session["user"] = new User() { Id = 1000, 
-                                           Name = "Philips", 
-                                           NickName = "会飞的猪猪", 
-                                           Email = "airsoft_ft@126.com" };
+                                               Name = "Philips", 
+                                               NickName = "会飞的猪猪", 
+                                               Email = "airsoft_ft@126.com" };
 
             PostDataObject postDataObject = new PostDataObject();
 

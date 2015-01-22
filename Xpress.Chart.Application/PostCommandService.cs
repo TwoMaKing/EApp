@@ -32,6 +32,8 @@ namespace Xpress.Chat.Application
             command.AuthorId = post.Author.Id;
             command.Content = post.Content;
 
+            command.PostDataObject = post;
+
             this.ExecuteCommand(command);
         }
 
