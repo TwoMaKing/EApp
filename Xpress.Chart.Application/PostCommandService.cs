@@ -10,17 +10,17 @@ using EApp.Core.DomainDriven.Events;
 using EApp.Core.DomainDriven.LightBus;
 using EApp.Core.DomainDriven.Repository;
 using EApp.Core.DomainDriven.UnitOfWork;
-using Xpress.Chart.DataObjects;
-using Xpress.Chart.Domain;
-using Xpress.Chart.Domain.Commands;
-using Xpress.Chart.Domain.Events;
-using Xpress.Chart.Domain.Models;
-using Xpress.Chart.Domain.Repositories;
-using Xpress.Chart.Domain.Services;
-using Xpress.Chart.Repositories;
-using Xpress.Chart.ServiceContracts;
+using Xpress.Chat.Commands;
+using Xpress.Chat.DataObjects;
+using Xpress.Chat.Domain;
+using Xpress.Chat.Domain.Events;
+using Xpress.Chat.Domain.Models;
+using Xpress.Chat.Domain.Repositories;
+using Xpress.Chat.Domain.Services;
+using Xpress.Chat.Repositories;
+using Xpress.Chat.ServiceContracts;
 
-namespace Xpress.Chart.Application
+namespace Xpress.Chat.Application
 {
     public class PostCommandService : IPostCommandService
     {

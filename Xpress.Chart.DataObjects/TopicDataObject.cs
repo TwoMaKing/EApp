@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using Xpress.Chart.Domain.Models;
+using Xpress.Chat.Domain.Models;
 
-namespace Xpress.Chart.DataObjects
+namespace Xpress.Chat.DataObjects
 {
 
      [DataContract()]

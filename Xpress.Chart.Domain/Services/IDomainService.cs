@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xpress.Chart.Domain.Models;
+using Xpress.Chat.Domain.Models;
 
-namespace Xpress.Chart.Domain.Services
+namespace Xpress.Chat.Domain.Services
 {
     /// <summary>
     /// This project domain service

@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Xpress.Chat.Domain")]
+[assembly: AssemblyTitle("Xpress.Chat.Commands")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Xpress.Chat.Domain")]
-[assembly: AssemblyProduct("Xpress.Chat.Domain")]
-[assembly: AssemblyCopyright("Copyright © Xpress.Chat.Domain")]
+[assembly: AssemblyCompany("Xpress.Chat.Commands")]
+[assembly: AssemblyProduct("Xpress.Chat.Commands")]
+[assembly: AssemblyCopyright("Copyright © Xpress.Chat.Commands")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b0d1ca05-88b9-4827-b0ab-e4d23a55284a")]
+[assembly: Guid("f0f32445-0d01-41f6-b0e9-1638d7de8c5b")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -6,10 +6,10 @@ using EApp.Core;
 using EApp.Core.Application;
 using EApp.Core.DomainDriven.Commands;
 using EApp.Core.DomainDriven.Repository;
-using Xpress.Chart.Domain.Models;
-using Xpress.Chart.Domain.Repositories;
+using Xpress.Chat.Domain.Models;
+using Xpress.Chat.Domain.Repositories;
 
-namespace Xpress.Chart.Domain.Commands
+namespace Xpress.Chat.Commands
 {
     public class PostPublishCommandHandler : ICommandHandler<PostPublishCommand>
     {

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A2327927-2E7F-4DF7-83D8-BB617A3BB72D}</ProjectGuid>
+    <ProjectGuid>{55CA50AC-5C76-44B4-9579-FF9090E1D905}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xpress.Chart.ServiceContracts</RootNamespace>
-    <AssemblyName>Xpress.Chart.ServiceContracts</AssemblyName>
+    <RootNamespace>Xpress.Chat.DataObjects</RootNamespace>
+    <AssemblyName>Xpress.Chat.DataObjects</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,8 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Routing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,22 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IPostCommandService.cs" />
-    <Compile Include="IPostService.cs" />
+    <Compile Include="CommentDataObject.cs" />
+    <Compile Include="PostDataObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryRequest.cs" />
+    <Compile Include="TopicDataObject.cs" />
+    <Compile Include="UserDataObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
       <Project>{ddcadbee-4c66-43bd-a1c8-76265134b9f2}</Project>
       <Name>EApp.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Xpress.Chart.DataObjects\Xpress.Chart.DataObjects.csproj">
-      <Project>{55CA50AC-5C76-44B4-9579-FF9090E1D905}</Project>
-      <Name>Xpress.Chart.DataObjects</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Xpress.Chart.Domain\Xpress.Chart.Domain.csproj">
-      <Project>{EDFF63AB-3B20-41E6-869D-26AA995DE025}</Project>
-      <Name>Xpress.Chart.Domain</Name>
+    <ProjectReference Include="..\Xpress.Chart.Domain\Xpress.Chat.Domain.csproj">
+      <Project>{edff63ab-3b20-41e6-869d-26aa995de025}</Project>
+      <Name>Xpress.Chat.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

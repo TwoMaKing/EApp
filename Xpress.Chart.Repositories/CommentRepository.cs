@@ -11,11 +11,11 @@ using EApp.Core.Query;
 using EApp.Core.QuerySepcifications;
 using EApp.Data;
 using EApp.Repositories.SqlServer;
-using Xpress.Chart.Domain;
-using Xpress.Chart.Domain.Models;
-using Xpress.Chart.Domain.Repositories;
+using Xpress.Chat.Domain;
+using Xpress.Chat.Domain.Models;
+using Xpress.Chat.Domain.Repositories;
 
-namespace Xpress.Chart.Repositories
+namespace Xpress.Chat.Repositories
 {
     public class CommentRepository : SqlServerRepository<Comment>, ICommentRepository
     {

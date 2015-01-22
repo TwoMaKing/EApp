@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using EApp.Core.DomainDriven.Commands;
 
-namespace Xpress.Chart.Domain.Commands
+namespace Xpress.Chat.Commands
 {
     public class PostPublishCommand : Command
     {

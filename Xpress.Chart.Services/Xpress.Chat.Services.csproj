@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xpress.Chart.Services</RootNamespace>
-    <AssemblyName>Xpress.Chart.Services</AssemblyName>
+    <RootNamespace>Xpress.Chat.Services</RootNamespace>
+    <AssemblyName>Xpress.Chat.Services</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
     <FileUpgradeFlags>
@@ -86,21 +86,25 @@
       <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
       <Name>EApp.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Xpress.Chart.Application\Xpress.Chart.Application.csproj">
+    <ProjectReference Include="..\Xpress.Chart.Application\Xpress.Chat.Application.csproj">
       <Project>{331B4A2C-5544-4D0E-B471-ABADA28B2496}</Project>
-      <Name>Xpress.Chart.Application</Name>
+      <Name>Xpress.Chat.Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Xpress.Chart.DataObjects\Xpress.Chart.DataObjects.csproj">
+    <ProjectReference Include="..\Xpress.Chart.DataObjects\Xpress.Chat.DataObjects.csproj">
       <Project>{55CA50AC-5C76-44B4-9579-FF9090E1D905}</Project>
-      <Name>Xpress.Chart.DataObjects</Name>
+      <Name>Xpress.Chat.DataObjects</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Xpress.Chart.Domain\Xpress.Chart.Domain.csproj">
+    <ProjectReference Include="..\Xpress.Chart.Domain\Xpress.Chat.Domain.csproj">
       <Project>{EDFF63AB-3B20-41E6-869D-26AA995DE025}</Project>
-      <Name>Xpress.Chart.Domain</Name>
+      <Name>Xpress.Chat.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Xpress.Chart.ServiceContracts\Xpress.Chart.ServiceContracts.csproj">
+    <ProjectReference Include="..\Xpress.Chart.ServiceContracts\Xpress.Chat.ServiceContracts.csproj">
       <Project>{A2327927-2E7F-4DF7-83D8-BB617A3BB72D}</Project>
-      <Name>Xpress.Chart.ServiceContracts</Name>
+      <Name>Xpress.Chat.ServiceContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xpress.Chat.Commands\Xpress.Chat.Commands.csproj">
+      <Project>{467E249E-6656-499E-BA28-299DA422FB6B}</Project>
+      <Name>Xpress.Chat.Commands</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

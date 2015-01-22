@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0322529D-FD0D-4D5F-A3D0-A5B6296F00AE}</ProjectGuid>
+    <ProjectGuid>{88554C06-0A93-4EE2-BF13-670433414698}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xpress.Chart.Infrastructure</RootNamespace>
-    <AssemblyName>Xpress.Chart.Infrastructure</AssemblyName>
+    <RootNamespace>Xpress.Chat.Repositories</RootNamespace>
+    <AssemblyName>Xpress.Chat.Repositories</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,8 +40,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="CommentRepository.cs" />
+    <Compile Include="PostRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TopicRepository.cs" />
+    <Compile Include="UserRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EApp.Common\EApp.Common.csproj">
+      <Project>{0CB524D0-68CB-47B8-8B9F-9915CBE19F31}</Project>
+      <Name>EApp.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
+      <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
+      <Name>EApp.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Data\EApp.Data.csproj">
+      <Project>{0C072ED7-DAB6-4657-B92B-65EB54810774}</Project>
+      <Name>EApp.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Repositories.SqlServer\EApp.Repositories.SqlServer.csproj">
+      <Project>{69820BD8-912B-461F-BDC2-AFA43E318953}</Project>
+      <Name>EApp.Repositories.SqlServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xpress.Chart.Domain\Xpress.Chat.Domain.csproj">
+      <Project>{EDFF63AB-3B20-41E6-869D-26AA995DE025}</Project>
+      <Name>Xpress.Chat.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Xpress.Chart.Application
+namespace Xpress.Chat.Application
 {
     public abstract class ApplicationService : IDisposable
     {

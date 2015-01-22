@@ -5,10 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using EApp.Core;
 using EApp.Core.Application;
-using Xpress.Chart.Application;
-using Xpress.Chart.DataObjects;
-using Xpress.Chart.Domain.Models;
-using Xpress.Chart.ServiceContracts;
+using Xpress.Chat.Application;
+using Xpress.Chat.DataObjects;
+using Xpress.Chat.Domain.Models;
+using Xpress.Chat.ServiceContracts;
 
 namespace Xpress.Life.Controllers
 {

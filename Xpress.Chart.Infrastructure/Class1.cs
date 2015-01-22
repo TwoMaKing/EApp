@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Xpress.Chart.Infrastructure
+namespace Xpress.Chat.Infrastructure
 {
     public class Class1
     {

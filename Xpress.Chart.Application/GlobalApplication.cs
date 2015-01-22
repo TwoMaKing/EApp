@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
-using Xpress.Chart.Domain.Models;
+using Xpress.Chat.Domain.Models;
 
-namespace Xpress.Chart.Application
+namespace Xpress.Chat.Application
 {
     public static class GlobalApplication 
     {

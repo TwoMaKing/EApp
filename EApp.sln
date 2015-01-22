@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{69953842-655B-4E4C-9CB0-284F0390D323}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.Domain", "Xpress.Chart.Domain\Xpress.Chart.Domain.csproj", "{EDFF63AB-3B20-41E6-869D-26AA995DE025}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chat.Domain", "Xpress.Chart.Domain\Xpress.Chat.Domain.csproj", "{EDFF63AB-3B20-41E6-869D-26AA995DE025}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Common", "EApp.Common\EApp.Common.csproj", "{0CB524D0-68CB-47B8-8B9F-9915CBE19F31}"
 EndProject
@@ -31,23 +31,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Repositories.SqlServer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Repositories.EntityFramework", "EApp.Repositories.EntityFramework\EApp.Repositories.EntityFramework.csproj", "{5A6BFFC4-41C0-42CE-9186-56076D3002E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.Repositories", "Xpress.Chart.Repositories\Xpress.Chart.Repositories.csproj", "{88554C06-0A93-4EE2-BF13-670433414698}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chat.Repositories", "Xpress.Chart.Repositories\Xpress.Chat.Repositories.csproj", "{88554C06-0A93-4EE2-BF13-670433414698}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.ServiceContracts", "Xpress.Chart.ServiceContracts\Xpress.Chart.ServiceContracts.csproj", "{A2327927-2E7F-4DF7-83D8-BB617A3BB72D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chat.ServiceContracts", "Xpress.Chart.ServiceContracts\Xpress.Chat.ServiceContracts.csproj", "{A2327927-2E7F-4DF7-83D8-BB617A3BB72D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Life", "Xpress.Life\Xpress.Life.csproj", "{7C3BCAC6-0329-42E3-846E-2C3AAECAF03B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.Application", "Xpress.Chart.Application\Xpress.Chart.Application.csproj", "{331B4A2C-5544-4D0E-B471-ABADA28B2496}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chat.Application", "Xpress.Chart.Application\Xpress.Chat.Application.csproj", "{331B4A2C-5544-4D0E-B471-ABADA28B2496}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.DataObjects", "Xpress.Chart.DataObjects\Xpress.Chart.DataObjects.csproj", "{55CA50AC-5C76-44B4-9579-FF9090E1D905}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chat.DataObjects", "Xpress.Chart.DataObjects\Xpress.Chat.DataObjects.csproj", "{55CA50AC-5C76-44B4-9579-FF9090E1D905}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Data", "EApp.Data\EApp.Data.csproj", "{0C072ED7-DAB6-4657-B92B-65EB54810774}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Mvvm", "EApp.Mvvm\EApp.Mvvm.csproj", "{E5BEF0B3-3307-4591-A2B9-3EBD3FEAED53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.Services", "Xpress.Chart.Services\Xpress.Chart.Services.csproj", "{285FF342-90C9-4D5C-ACA9-1CEC9E81131A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chat.Services", "Xpress.Chart.Services\Xpress.Chat.Services.csproj", "{285FF342-90C9-4D5C-ACA9-1CEC9E81131A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chart.Infrastructure", "Xpress.Chart.Infrastructure\Xpress.Chart.Infrastructure.csproj", "{0322529D-FD0D-4D5F-A3D0-A5B6296F00AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chat.Infrastructure", "Xpress.Chart.Infrastructure\Xpress.Chat.Infrastructure.csproj", "{0322529D-FD0D-4D5F-A3D0-A5B6296F00AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chat.Commands", "Xpress.Chat.Commands\Xpress.Chat.Commands.csproj", "{467E249E-6656-499E-BA28-299DA422FB6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -289,6 +291,16 @@ Global
 		{0322529D-FD0D-4D5F-A3D0-A5B6296F00AE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0322529D-FD0D-4D5F-A3D0-A5B6296F00AE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0322529D-FD0D-4D5F-A3D0-A5B6296F00AE}.Release|x86.ActiveCfg = Release|Any CPU
+		{467E249E-6656-499E-BA28-299DA422FB6B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{467E249E-6656-499E-BA28-299DA422FB6B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{467E249E-6656-499E-BA28-299DA422FB6B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{467E249E-6656-499E-BA28-299DA422FB6B}.Debug|x86.ActiveCfg = Debug|x86
+		{467E249E-6656-499E-BA28-299DA422FB6B}.Debug|x86.Build.0 = Debug|x86
+		{467E249E-6656-499E-BA28-299DA422FB6B}.Release|Any CPU.ActiveCfg = Release|x86
+		{467E249E-6656-499E-BA28-299DA422FB6B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{467E249E-6656-499E-BA28-299DA422FB6B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{467E249E-6656-499E-BA28-299DA422FB6B}.Release|x86.ActiveCfg = Release|x86
+		{467E249E-6656-499E-BA28-299DA422FB6B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -307,5 +319,6 @@ Global
 		{55CA50AC-5C76-44B4-9579-FF9090E1D905} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{285FF342-90C9-4D5C-ACA9-1CEC9E81131A} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{0322529D-FD0D-4D5F-A3D0-A5B6296F00AE} = {69953842-655B-4E4C-9CB0-284F0390D323}
+		{467E249E-6656-499E-BA28-299DA422FB6B} = {69953842-655B-4E4C-9CB0-284F0390D323}
 	EndGlobalSection
 EndGlobal

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Xpress.Chart.DataObjects
+namespace Xpress.Chat.DataObjects
 {
     [DataContract()]
     public class QueryRequest

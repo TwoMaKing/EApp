@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using EApp.Core.DomainDriven.Domain;
 
-namespace Xpress.Chart.Domain.Models
+namespace Xpress.Chat.Domain.Models
 {
     public class Topic : EntityBase, IAggregateRoot
     {

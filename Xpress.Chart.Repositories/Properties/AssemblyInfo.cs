@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Xpress.Chart.Repositories")]
+[assembly: AssemblyTitle("Xpress.Chat.Repositories")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Xpress.Chart.Repositories")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2014")]
+[assembly: AssemblyCompany("Xpress.Chat.Repositories")]
+[assembly: AssemblyProduct("Xpress.Chat.Repositories")]
+[assembly: AssemblyCopyright("Copyright © Xpress.Chat.Repositories")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

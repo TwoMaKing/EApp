@@ -7,12 +7,12 @@ using EApp.Core.DomainDriven.Domain.Events;
 using EApp.Core.DomainDriven.Events;
 using EApp.Core.DomainDriven.Repository;
 using EApp.Core.DomainDriven.UnitOfWork;
-using Xpress.Chart.Domain;
-using Xpress.Chart.Domain.Models;
-using Xpress.Chart.Domain.Repositories;
-using Xpress.Chart.Domain.Services;
+using Xpress.Chat.Domain;
+using Xpress.Chat.Domain.Models;
+using Xpress.Chat.Domain.Repositories;
+using Xpress.Chat.Domain.Services;
 
-namespace Xpress.Chart.Domain.Events
+namespace Xpress.Chat.Domain.Events
 {
     public class PostDomainEventHandler : IDomainEventHandler<PostDomainEvent>
     {

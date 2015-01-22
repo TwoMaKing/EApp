@@ -8,10 +8,10 @@ using EApp.Core.DomainDriven.Domain;
 using EApp.Core.DomainDriven.Repository;
 using EApp.Core.DomainDriven.UnitOfWork;
 using EApp.Core.QuerySepcifications;
-using Xpress.Chart.Domain;
-using Xpress.Chart.Domain.Models;
+using Xpress.Chat.Domain;
+using Xpress.Chat.Domain.Models;
 
-namespace Xpress.Chart.Domain.Repositories
+namespace Xpress.Chat.Domain.Repositories
 {
     public interface IPostRepository : IRepository<Post>
     {

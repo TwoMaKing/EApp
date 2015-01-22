@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
-using Xpress.Chart.DataObjects;
-using Xpress.Chart.Domain.Models;
+using Xpress.Chat.DataObjects;
+using Xpress.Chat.Domain.Models;
 
-namespace Xpress.Chart.ServiceContracts
+namespace Xpress.Chat.ServiceContracts
 {
     [ServiceContract()]
     public interface IPostService
