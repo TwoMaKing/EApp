@@ -15,11 +15,13 @@ using EApp.Data;
 
 namespace EApp.Repositories.SqlServer
 {
-    
+    /// <summary>
+    /// Repository used for Sql Server.
+    /// </summary>
     public abstract class SqlServerRepository<TEntity> : Repository<TEntity>, IUnitOfWorkRepository 
         where TEntity : class, IEntity
     {
-        protected delegate void AppendChildToEntity(TEntity t, int childEntityId);
+        protected delegate void AppendChildToEntity(TEntity entity, int childEntityId);
 
         private ISqlServerRepositoryContext sqlServerRepositoryContext;
 

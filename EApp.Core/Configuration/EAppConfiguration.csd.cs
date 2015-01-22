@@ -2833,7 +2833,7 @@ namespace EApp.Core.Configuration
         /// The XML name of the individual <see cref="global::EApp.Core.Configuration.HandlerElement"/> instances in this collection.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
-        internal const string HandlerElementPropertyName = "handlerElement";
+        internal const string HandlerElementPropertyName = "handler";
         #endregion
         
         #region Overrides
@@ -2933,11 +2933,11 @@ namespace EApp.Core.Configuration
         /// <summary>
         /// Adds the specified <see cref="global::EApp.Core.Configuration.HandlerElement"/> to the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
         /// </summary>
-        /// <param name="handlerElement">The <see cref="global::EApp.Core.Configuration.HandlerElement"/> to add.</param>
+        /// <param name="handler">The <see cref="global::EApp.Core.Configuration.HandlerElement"/> to add.</param>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
-        public void Add(global::EApp.Core.Configuration.HandlerElement handlerElement)
+        public void Add(global::EApp.Core.Configuration.HandlerElement handler)
         {
-            base.BaseAdd(handlerElement);
+            base.BaseAdd(handler);
         }
         #endregion
         
@@ -2945,11 +2945,11 @@ namespace EApp.Core.Configuration
         /// <summary>
         /// Removes the specified <see cref="global::EApp.Core.Configuration.HandlerElement"/> from the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
         /// </summary>
-        /// <param name="handlerElement">The <see cref="global::EApp.Core.Configuration.HandlerElement"/> to remove.</param>
+        /// <param name="handler">The <see cref="global::EApp.Core.Configuration.HandlerElement"/> to remove.</param>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
-        public void Remove(global::EApp.Core.Configuration.HandlerElement handlerElement)
+        public void Remove(global::EApp.Core.Configuration.HandlerElement handler)
         {
-            base.BaseRemove(this.GetElementKey(handlerElement));
+            base.BaseRemove(this.GetElementKey(handler));
         }
         #endregion
         

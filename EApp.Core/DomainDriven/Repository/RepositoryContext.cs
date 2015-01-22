@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using EApp.Core.Application;
 using EApp.Core.DomainDriven.Domain;
 
 namespace EApp.Core.DomainDriven.Repository
@@ -10,8 +11,6 @@ namespace EApp.Core.DomainDriven.Repository
     public abstract class RepositoryContext : IRepositoryContext
     {
         private Guid id;
-
-        private bool committed;
 
         private ThreadLocal<Dictionary<IEntity, IUnitOfWorkRepository>> localAddedCollection = 
                 new ThreadLocal<Dictionary<IEntity, IUnitOfWorkRepository>>(() => new Dictionary<IEntity, IUnitOfWorkRepository>());
@@ -21,6 +20,12 @@ namespace EApp.Core.DomainDriven.Repository
 
         private ThreadLocal<Dictionary<IEntity, IUnitOfWorkRepository>> localDeletedCollection =
                 new ThreadLocal<Dictionary<IEntity, IUnitOfWorkRepository>>(() => new Dictionary<IEntity, IUnitOfWorkRepository>());
+
+        private ThreadLocal<bool> committed = new ThreadLocal<bool>(() => false);
+
+        private Dictionary<Type, object> repositoryCaches = new Dictionary<Type, object>();
+
+        private static readonly object lockObject = new object();
 
         #region Reserved
 
@@ -101,8 +106,6 @@ namespace EApp.Core.DomainDriven.Repository
 
         #endregion
 
-        private ThreadLocal<bool> localCommitted = new ThreadLocal<bool>(() => true);
-
         public Guid Id
         {
             get 
@@ -146,7 +149,24 @@ namespace EApp.Core.DomainDriven.Repository
         {
             get 
             {
-                return this.committed;
+                return this.committed.Value;
+            }
+        }
+
+        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity<int>, IEntity
+        {
+            lock (lockObject)
+            { 
+                Type entityType = typeof(TEntity);
+
+                if (!this.repositoryCaches.ContainsKey(entityType))
+                {
+                    IRepository<TEntity> repository = this.CreateRepository<TEntity>();
+
+                    this.repositoryCaches.Add(entityType, repository);
+                }
+
+                return (IRepository<TEntity>)this.repositoryCaches[entityType];
             }
         }
 
@@ -156,7 +176,7 @@ namespace EApp.Core.DomainDriven.Repository
             {
                 this.localAddedCollection.Value.Add(entity, unitOfWorkRepository);
 
-                this.committed = false;
+                this.committed.Value = false;
             }
         }
 
@@ -167,7 +187,7 @@ namespace EApp.Core.DomainDriven.Repository
             {
                 this.localModifiedCollection.Value.Add(entity, unitOfWorkRepository);
 
-                this.committed = false;
+                this.committed.Value = false;
             }
         }
 
@@ -189,7 +209,7 @@ namespace EApp.Core.DomainDriven.Repository
             {
                 this.localDeletedCollection.Value.Add(entity, unitOfWorkRepository);
 
-                this.committed = false;
+                this.committed.Value = false;
             }
         }
 
@@ -202,6 +222,9 @@ namespace EApp.Core.DomainDriven.Repository
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        protected abstract IRepository<TEntity> CreateRepository<TEntity>() where TEntity : class, IEntity<int>, IEntity;
+
     }
 
 }

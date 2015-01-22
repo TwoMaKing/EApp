@@ -9,6 +9,9 @@ using EApp.Core.DomainDriven.UnitOfWork;
 
 namespace EApp.Repositories.SqlServer
 {
+    /// <summary>
+    /// Repository Context for Sql Server.
+    /// </summary>
     public interface ISqlServerRepositoryContext : IRepositoryContext
     {
         DbTransaction Transaction { get; }

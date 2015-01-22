@@ -13,5 +13,6 @@ namespace Xpress.Chart.Domain.Commands
         public int AuthorId { get; set; }
 
         public string Content { get; set; }
+
     }
 }

@@ -1,11 +1,11 @@
-﻿using EApp.Core.DomainDriven.Events;
-using EApp.Core.DomainDriven.Repository;
-using EApp.Core.DomainDriven.UnitOfWork;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EApp.Core.DomainDriven.Events;
+using EApp.Core.DomainDriven.Repository;
+using EApp.Core.DomainDriven.UnitOfWork;
 using Xpress.Chart.DataObjects;
 using Xpress.Chart.Domain;
 using Xpress.Chart.Domain.Events;

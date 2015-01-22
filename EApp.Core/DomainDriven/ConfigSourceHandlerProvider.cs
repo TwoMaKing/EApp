@@ -12,7 +12,7 @@ using Microsoft.Practices.Unity.Configuration;
 
 namespace EApp.Core.DomainDriven
 {
-    public class ConfigurationHandlerProvider : IHandlerProvider
+    public class ConfigSourceHandlerProvider : IHandlerProvider
     {
         private List<object> handlerList = new List<object>();
 
@@ -33,7 +33,6 @@ namespace EApp.Core.DomainDriven
 
             //        //UnityConfigurationSection section = (UnityConfigurationSection)ConfigurationManager.GetSection(configSectionName);
             //    } 
-
 
             //}
 

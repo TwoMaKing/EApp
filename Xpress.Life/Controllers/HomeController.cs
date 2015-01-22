@@ -70,5 +70,34 @@ namespace Xpress.Life.Controllers
             }
         }
 
+        public ActionResult PublishPostByCommand(int topicId, string content)
+        {
+            try
+            {
+                IPostCommandService postCommandService = ServiceLocator.Instance.GetService<IPostCommandService>();
+
+                PostDataObject postDataObject = new PostDataObject();
+                postDataObject.Author.Id = GlobalApplication.LoginUser.Id;
+                postDataObject.Topic.Id = topicId;
+                postDataObject.Content = content;
+
+                postCommandService.PublishPost(postDataObject);
+
+                return View("index", postDataObject);
+
+                //return Json(new
+                //{
+                //    topic = postDataObject.TopicName,
+                //    author = postDataObject.AuthorName,
+                //    content = postDataObject.Content,
+                //    date = postDataObject.CreationDateTime
+                //});
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
     }
 }

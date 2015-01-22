@@ -61,7 +61,11 @@
     <Compile Include="DomainDriven\Application\IDataTransferObject.cs" />
     <Compile Include="DomainDriven\Bus\CommandBus.cs" />
     <Compile Include="DomainDriven\Bus\ICommandBus.cs" />
-    <Compile Include="DomainDriven\ConfigurationHandlerProvider.cs" />
+    <Compile Include="DomainDriven\Commands\CommandDispatcher.cs" />
+    <Compile Include="DomainDriven\Commands\ConfigSourceCommandHandlerProvider.cs" />
+    <Compile Include="DomainDriven\Commands\ICommandDispatcher.cs" />
+    <Compile Include="DomainDriven\Commands\ICommandHandlerProvider.cs" />
+    <Compile Include="DomainDriven\ConfigSourceHandlerProvider.cs" />
     <Compile Include="DomainDriven\IHandlerProvider.cs" />
     <Compile Include="DomainDriven\Bus\IMessageDispatcher.cs" />
     <Compile Include="DomainDriven\Bus\MessageDispatcher.cs" />
@@ -87,6 +91,9 @@
     <Compile Include="DomainDriven\Events\IEvent.cs" />
     <Compile Include="DomainDriven\Events\IEventAggregator.cs" />
     <Compile Include="DomainDriven\Events\IEventHandler.cs" />
+    <Compile Include="DomainDriven\LightBus\CommandBus.cs" />
+    <Compile Include="DomainDriven\LightBus\ICommandBus.cs" />
+    <Compile Include="DomainDriven\LightBus\IEventBus.cs" />
     <Compile Include="DomainDriven\Repository\IRepository.cs" />
     <Compile Include="DomainDriven\Repository\IRepositoryContext.cs" />
     <Compile Include="DomainDriven\Repository\IUnitOfWorkRepository.cs" />

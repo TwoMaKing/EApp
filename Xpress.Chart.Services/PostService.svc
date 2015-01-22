@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Xpress.Chart.Services.Service1" CodeBehind="PostService.svc.cs" %>

@@ -373,7 +373,7 @@
 	</xs:complexType>
 	<xs:complexType name="EApp.Core.Configuration.HandlerElementCollectionCT">
 		<xs:sequence>
-			<xs:element minOccurs="0" maxOccurs="unbounded" name="handlerElement" type="tns:EApp.Core.Configuration.HandlerElementCT">
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="handler" type="tns:EApp.Core.Configuration.HandlerElementCT">
 				<xs:annotation>
 					<xs:documentation>The HandlerElement Configuration Element.</xs:documentation>
 				</xs:annotation>
