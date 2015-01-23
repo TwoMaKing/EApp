@@ -33,7 +33,7 @@ namespace EApp.Core.DomainDriven.Events
         { 
         }
 
-        public void Subscribe<TEvent>(IEventHandler<TEvent> eventHandler) where TEvent : IEvent
+        public void Subscribe<TEvent>(IEventHandler<TEvent> eventHandler) where TEvent : class, IEvent
         {
             Type eventType = typeof(TEvent);
 
@@ -58,7 +58,7 @@ namespace EApp.Core.DomainDriven.Events
             }
         }
 
-        public void Subscribe<TEvent>(IEnumerable<IEventHandler<TEvent>> eventHandlers) where TEvent : IEvent
+        public void Subscribe<TEvent>(IEnumerable<IEventHandler<TEvent>> eventHandlers) where TEvent : class, IEvent
         {
             if (eventHandlers == null)
             {
@@ -71,12 +71,12 @@ namespace EApp.Core.DomainDriven.Events
             }
         }
 
-        public void Subscribe<TEvent>(Action<TEvent> eventHandlerAction) where TEvent : IEvent
+        public void Subscribe<TEvent>(Action<TEvent> eventHandlerAction) where TEvent : class, IEvent
         {
             this.Subscribe<TEvent>(new ActionDelegateEventHandler<TEvent>(eventHandlerAction));
         }
 
-        public void Unsubscribe<TEvent>(IEventHandler<TEvent> eventHandler) where TEvent : IEvent
+        public void Unsubscribe<TEvent>(IEventHandler<TEvent> eventHandler) where TEvent : class, IEvent
         {
             Type eventType = typeof(TEvent);
 
@@ -99,7 +99,7 @@ namespace EApp.Core.DomainDriven.Events
             }
         }
 
-        public void Unsubscribe<TEvent>(IEnumerable<IEventHandler<TEvent>> eventHandlers) where TEvent : IEvent
+        public void Unsubscribe<TEvent>(IEnumerable<IEventHandler<TEvent>> eventHandlers) where TEvent : class, IEvent
         {
             if (eventHandlers == null)
             {
@@ -112,12 +112,12 @@ namespace EApp.Core.DomainDriven.Events
             }
         }
 
-        public void Unsubscribe<TEvent>(Action<TEvent> eventHandlerAction) where TEvent : IEvent
+        public void Unsubscribe<TEvent>(Action<TEvent> eventHandlerAction) where TEvent : class, IEvent
         {
             this.Unsubscribe<TEvent>(new ActionDelegateEventHandler<TEvent>(eventHandlerAction));
         }
 
-        public void UnsubscribeAll<TEvent>() where TEvent : IEvent
+        public void UnsubscribeAll<TEvent>() where TEvent : class, IEvent
         {
             Type eventType = typeof(TEvent);
 
@@ -143,7 +143,7 @@ namespace EApp.Core.DomainDriven.Events
             }
         }
 
-        public IEnumerable<IEventHandler<TEvent>> GetSubscribedEventHandlers<TEvent>() where TEvent : IEvent
+        public IEnumerable<IEventHandler<TEvent>> GetSubscribedEventHandlers<TEvent>() where TEvent : class, IEvent
         {
             Type eventType = typeof(TEvent);
          
@@ -160,7 +160,7 @@ namespace EApp.Core.DomainDriven.Events
             return handlers.Select(item => item as IEventHandler<TEvent>).ToList();
         }
 
-        public void Publish<TEvent>(TEvent t) where TEvent : IEvent
+        public void Publish<TEvent>(TEvent @event) where TEvent : class, IEvent
         {
             Type eventType = typeof(TEvent);
 
@@ -180,12 +180,13 @@ namespace EApp.Core.DomainDriven.Events
 
                     IEventHandler<TEvent> eventHandler = handlerObject as IEventHandler<TEvent>;
                     // Async parallel Operation
-                    Task.Factory.StartNew((o) => eventHandler.Handle((TEvent)o), t);
+                    Task.Factory.StartNew((o) => eventHandler.Handle((TEvent)o), @event);
                 }
             }
         }
 
-        public void Publish<TEvent>(TEvent t, Action<TEvent, bool, Exception> callback, TimeSpan? timeout)
+        public void Publish<TEvent>(TEvent @event, Action<TEvent, bool, Exception> callback, TimeSpan? timeout) 
+            where TEvent : class, IEvent
         {
             throw new NotImplementedException();
         }

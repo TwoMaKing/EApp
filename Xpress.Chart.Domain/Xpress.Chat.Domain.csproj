@@ -41,9 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\DomainEventAggregator.cs" />
+    <Compile Include="Events\OrderConfirmEvent.cs" />
+    <Compile Include="Events\SendEmailEventHandler.cs" />
     <Compile Include="Events\PostDomainEvent.cs" />
     <Compile Include="Events\PostDomainEventHandler.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Topic.cs" />
     <Compile Include="Models\User.cs" />

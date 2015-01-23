@@ -6,14 +6,10 @@ using System.Text;
 namespace EApp.Core.DomainDriven.Events
 {
     /// <summary>
-    /// Event handler.
+    /// Event handler. Handle an event by the specified event data.
     /// </summary>
-    public interface IEventHandler<TEvent> where TEvent : IEvent
+    public interface IEventHandler<TEvent> : IHandler<TEvent> where TEvent : class, IEvent
     {
-        /// <summary>
-        /// Handle a event by the specified event data.
-        /// </summary>
-        /// <param name="t">the event data instance which implements the IEvent interface.</param>
-        void Handle(TEvent t);
+
     }
 }

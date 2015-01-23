@@ -17,7 +17,7 @@ namespace EApp.Core.DomainDriven.Repository
     {
         Guid Id { get; }
 
-        IRepository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity<int>, IEntity;
+        IRepository<TEntity> GetRepository<TEntity>(string name = "") where TEntity : class, IEntity<int>, IEntity;
 
         void RegisterAdded(IEntity entity, IUnitOfWorkRepository unitOfWorkRepository);
 

@@ -9,7 +9,9 @@ namespace EApp.Core.DomainDriven.Bus
 {
     public class MessageDispatcherFactory
     {
-        public static IMessageDispatcher Create(IHandlerProvider handlerProvider, string dispatcherName, params object[] args)
+        public static IMessageDispatcher Create(IHandlerProvider handlerProvider, 
+                                                string dispatcherName, 
+                                                params object[] args)
         {
             IMessageDispatcher messageDispatcher = ServiceLocator.Instance.GetService<IMessageDispatcher>(dispatcherName);
 
@@ -20,9 +22,9 @@ namespace EApp.Core.DomainDriven.Bus
             foreach (object handlerObject in handlers)
             {
                 var handlerInterfaceTypeQuery = from p in handlerObject.GetType().GetInterfaces()
-                                               where p.IsGenericType &&
-                                               p.GetGenericTypeDefinition().Equals(typeof(IHandler<>))
-                                               select p;
+                                                where p.IsGenericType &&
+                                                p.GetGenericTypeDefinition().Equals(typeof(IHandler<>))
+                                                select p;
 
                 if (handlerInterfaceTypeQuery != null)
                 {
@@ -35,7 +37,6 @@ namespace EApp.Core.DomainDriven.Bus
                         genericRegisterMethod.Invoke(messageDispatcher, new object[] { handlerObject });
                     }
                 }
-
             }
 
             return messageDispatcher;

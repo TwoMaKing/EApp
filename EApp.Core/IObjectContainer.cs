@@ -87,5 +87,9 @@ namespace EApp.Core
         bool Registered<T>();
 
         bool Registered<T>(string name);
+
+        IEnumerable<Type> TypesFrom { get; }
+
+        IEnumerable<Type> TypesMapTo { get; }
     }
 }

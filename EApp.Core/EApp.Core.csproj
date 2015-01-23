@@ -66,6 +66,8 @@
     <Compile Include="DomainDriven\Commands\ICommandDispatcher.cs" />
     <Compile Include="DomainDriven\Commands\ICommandHandlerProvider.cs" />
     <Compile Include="DomainDriven\ConfigSourceHandlerProvider.cs" />
+    <Compile Include="DomainDriven\Domain\AggregateRoot.cs" />
+    <Compile Include="DomainDriven\Events\HandleAsynchronizationAttribute.cs" />
     <Compile Include="DomainDriven\IHandlerProvider.cs" />
     <Compile Include="DomainDriven\Bus\IMessageDispatcher.cs" />
     <Compile Include="DomainDriven\Bus\MessageDispatcher.cs" />

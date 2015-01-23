@@ -14,10 +14,10 @@ namespace EApp.Core.DomainDriven
 {
     public class ConfigSourceHandlerProvider : IHandlerProvider
     {
-        private List<object> handlerList = new List<object>();
-
-        public IEnumerable GetHandlers()
+        public IDictionary<Type, Type> GetHandlers()
         {
+            return null;
+
             //HandlerElementCollection handlerElements = EAppRuntime.Instance.CurrentApp.ConfigSource.Config.Handlers;
 
             //if (handlerElements != null &&
@@ -36,13 +36,13 @@ namespace EApp.Core.DomainDriven
 
             //}
 
-            UnityContainer unityContainer = EAppRuntime.Instance.CurrentApp.ObjectContainer.GetWrapperContainer<UnityContainer>();
+            //UnityContainer unityContainer = EAppRuntime.Instance.CurrentApp.ObjectContainer.GetWrapperContainer<UnityContainer>();
 
-            IUnityContainer handlerContainer = unityContainer.CreateChildContainer();
+            //IUnityContainer handlerContainer = unityContainer.CreateChildContainer();
 
-            handlerContainer = handlerContainer.LoadConfiguration("handlers");
+            //handlerContainer = handlerContainer.LoadConfiguration("handlers");
 
-            return handlerContainer.ResolveAll(typeof(ICommandHandler<>));
+            //return handlerContainer.ResolveAll(typeof(ICommandHandler<>));
 
         }
     }

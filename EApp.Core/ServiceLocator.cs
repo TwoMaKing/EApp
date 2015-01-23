@@ -66,5 +66,10 @@ namespace EApp.Core
             return this.unityContainer.Resolve<TService>(name, overrides);
         }
 
+        public IEnumerable<TService> ResolveAll<TService>()
+        {
+            return this.unityContainer.ResolveAll<TService>();
+        }
+
     }
 }

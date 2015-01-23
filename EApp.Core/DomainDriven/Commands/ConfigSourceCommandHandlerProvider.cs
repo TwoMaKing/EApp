@@ -36,9 +36,12 @@ namespace EApp.Core.DomainDriven.Commands
 
                     foreach (var commandHandlerInterface in commandHandlerInterfaceQuery)
                     {
-                        Type commandType = commandHandlerInterface.GetGenericTypeDefinition();
+                        Type commandType = commandHandlerInterface.GetGenericArguments().FirstOrDefault();
 
-                        commandHandlerDictionary.Add(commandType, handlerType);
+                        if (typeof(ICommand).IsAssignableFrom(commandType))
+                        {
+                            commandHandlerDictionary.Add(commandType, handlerType);
+                        }
                     }
                 }
             }

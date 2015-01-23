@@ -170,5 +170,21 @@ namespace EApp.Common.IOC
                 bindingInSyntax.InThreadScope();
             }
         }
+
+        public IEnumerable<Type> TypesFrom
+        {
+            get 
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<Type> TypesMapTo
+        {
+            get 
+            { 
+                return null; 
+            }
+        }
     }
 }

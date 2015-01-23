@@ -7,7 +7,7 @@
 @section featured {
     <section class="featured">
         <div class="content-wrapper">
-            @using (Html.BeginForm("PublishPostByCommand", "Home", new {Model.TopicId}, FormMethod.Post))
+            @using (Html.BeginForm("PublishPostByCommand", "Home", new { topicId = Model.Topic.Id }, FormMethod.Post))
             {
                 @Html.AntiForgeryToken();
                                         
@@ -25,6 +25,9 @@
 }
 <div class="content-wrapper">
     <div>
+        <div>
+            @Model.Topic.Name;
+        </div>
         <div>
             @Model.Author.Name
         </div>

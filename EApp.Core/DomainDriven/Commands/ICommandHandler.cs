@@ -11,6 +11,6 @@ namespace EApp.Core.DomainDriven.Commands
      /// <typeparam name="TCommand"></typeparam>
     public interface ICommandHandler<TCommand> : IHandler<TCommand> where TCommand : class, ICommand
     {
-
+        //void Handle(ICommand command);
     }
 }

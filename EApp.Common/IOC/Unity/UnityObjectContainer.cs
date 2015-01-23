@@ -155,5 +155,35 @@ namespace EApp.Common.IOC
                 return new PerThreadLifetimeManager();
             }
         }
+
+        public IEnumerable<Type> TypesFrom
+        {
+            get 
+            {
+                List<Type> typesFrom = new List<Type>();
+
+                foreach (var registerItem in this.unityContainer.Registrations)
+                {
+                    typesFrom.Add(registerItem.RegisteredType);
+                }
+
+                return typesFrom;
+            }
+        }
+
+        public IEnumerable<Type> TypesMapTo
+        {
+            get 
+            {
+                List<Type> typesMapTo = new List<Type>();
+
+                foreach (var registerItem in this.unityContainer.Registrations)
+                {
+                    typesMapTo.Add(registerItem.MappedToType);
+                }
+
+                return typesMapTo;
+            }
+        }
     }
 }

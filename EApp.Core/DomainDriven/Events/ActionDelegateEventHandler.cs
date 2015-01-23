@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EApp.Core.DomainDriven.Events
 {
-    public class ActionDelegateEventHandler<TEvent> : IEventHandler<TEvent> where TEvent : IEvent
+    public class ActionDelegateEventHandler<TEvent> : IEventHandler<TEvent> where TEvent : class, IEvent
     {
         private Action<TEvent> actionDelegate;
 

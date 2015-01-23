@@ -153,7 +153,7 @@ namespace EApp.Core.DomainDriven.Repository
             }
         }
 
-        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity<int>, IEntity
+        public IRepository<TEntity> GetRepository<TEntity>(string name = "") where TEntity : class, IEntity<int>, IEntity
         {
             lock (lockObject)
             { 
@@ -161,7 +161,7 @@ namespace EApp.Core.DomainDriven.Repository
 
                 if (!this.repositoryCaches.ContainsKey(entityType))
                 {
-                    IRepository<TEntity> repository = this.CreateRepository<TEntity>();
+                    IRepository<TEntity> repository = this.CreateRepository<TEntity>(name);
 
                     this.repositoryCaches.Add(entityType, repository);
                 }
@@ -223,7 +223,7 @@ namespace EApp.Core.DomainDriven.Repository
             GC.SuppressFinalize(this);
         }
 
-        protected abstract IRepository<TEntity> CreateRepository<TEntity>() where TEntity : class, IEntity<int>, IEntity;
+        protected abstract IRepository<TEntity> CreateRepository<TEntity>(string name = "") where TEntity : class, IEntity<int>, IEntity;
 
     }
 

@@ -22,6 +22,8 @@ namespace Xpress.Life.Controllers
                                                Email = "airsoft_ft@126.com" };
 
             PostDataObject postDataObject = new PostDataObject();
+            postDataObject.Topic.Id = 1000;
+            postDataObject.Topic.Name = "热门";
 
             return View(postDataObject);
         }

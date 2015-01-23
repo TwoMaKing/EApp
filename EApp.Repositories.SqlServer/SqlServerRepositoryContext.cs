@@ -86,9 +86,24 @@ namespace EApp.Repositories.SqlServer
             DbGateway.Default.CloseConnection(this.dbConnection);
         }
 
-        protected override IRepository<TEntity> CreateRepository<TEntity>()
+        protected override IRepository<TEntity> CreateRepository<TEntity>(string name = "")
         {
-            return (IRepository<TEntity>)EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve(typeof(IRepository<TEntity>));
+            IEnumerable<Type> repositoryTypes = 
+                EAppRuntime.Instance.CurrentApp.ObjectContainer.TypesFrom.Where(t=> typeof(IRepository<TEntity>).IsAssignableFrom(t));
+
+            Type repositoryType = null;
+
+            if (string.IsNullOrEmpty(name) ||
+                string.IsNullOrWhiteSpace(name))
+            {
+                repositoryType = repositoryTypes.FirstOrDefault();
+            }
+            else
+            { 
+                
+            }
+
+            return (IRepository<TEntity>)EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve(repositoryType);
         }
     }
 }
