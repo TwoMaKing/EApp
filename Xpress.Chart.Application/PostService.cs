@@ -108,7 +108,7 @@ namespace Xpress.Chat.Application
             this.PublishPostWithAsyncDomainEventHandler(post);
         }
 
-        public IEnumerable<PostDataObject> GetPosts(QueryRequest request)
+        public IEnumerable<PostDataObject> GetPosts()
         {
             throw new NotImplementedException();
         }

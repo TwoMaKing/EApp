@@ -12,6 +12,7 @@ using EApp.Core.DomainDriven.UnitOfWork;
 using EApp.Core.Query;
 using EApp.Core.QuerySepcifications;
 using EApp.Data;
+using EApp.Data.Query;
 using EApp.Repositories.SqlServer;
 using Xpress.Chat.Domain;
 using Xpress.Chat.Domain.Models;
@@ -61,7 +62,22 @@ namespace Xpress.Chat.Repositories
 
         protected override IEnumerable<Post> DoFindAll(Expression<Func<Post, bool>> expression)
         {
-            throw new NotImplementedException();
+            using (ISqlQuery sqlQuery = new SqlQuery())
+            {
+                IDataReader reader = sqlQuery.From("post")
+                                             .InnerJoin("topic", "post_topic_id", "topic_id")
+                                             .InnerJoin("[user]", "post_author_id", "user_id")
+                                             .Select("post_id",
+                                                     "post_topic_id",
+                                                     "post_author_id",
+                                                     "post_content",
+                                                     "post_creation_datetime",
+                                                     "topic_name",
+                                                     "user_name")
+                                             .ExecuteReader(DbGateway.Default);
+
+                return this.BuildEntitiesFromDataReader(reader).AsQueryable().Where(expression);
+            }
         }
 
         protected override IPagingResult<Post> DoFindAll(Expression<Func<Post, bool>> expression, int pageNumber, int pageSize)
@@ -71,15 +87,40 @@ namespace Xpress.Chat.Repositories
 
         protected override string GetEntityQuerySqlById()
         {
-            return "select * from post where post_id = @id";
+            using (ISqlQuery sqlQuery = new SqlQuery())
+            {
+                string queryByIdSql = sqlQuery.From("post")
+                                              .InnerJoin("topic", "post_topic_id", "topic_id")
+                                              .InnerJoin("[user]", "post_author_id", "user_id")
+                                              .Equals("post_id", "?")
+                                              .Select("post_id",
+                                                      "post_topic_id",
+                                                      "post_author_id",
+                                                      "post_content",
+                                                      "post_creation_datetime",
+                                                      "topic_name",
+                                                      "user_name")
+                                              .SqlBuilder
+                                              .GetQuerySql();
+
+                return queryByIdSql;
+            }
         }
 
         protected override Post BuildEntityFromDataReader(IDataReader dataReader)
-        {
+        { 
             Post post = new Post();
+
             post.Id = Convertor.ConvertToInteger(dataReader["post_id"]).Value;
             post.Content = dataReader["post_content"].ToString();
             post.CreationDateTime = Convertor.ConvertToDateTime(dataReader["post_creation_datetime"]).Value;
+
+            post.Topic = new Topic();
+            post.Topic.Id = Convertor.ConvertToInteger(dataReader["post_topic_id"]).Value;
+            post.Topic.Name = dataReader["topic_name"].ToString();
+            post.Author = new User();
+            post.Author.Id = Convertor.ConvertToInteger(dataReader["post_topic_id"]).Value;
+            post.Author.Name = dataReader["user_name"].ToString();
 
             return post;
         }

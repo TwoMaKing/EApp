@@ -72,10 +72,9 @@ namespace Xpress.Chat.Repositories
             return user;
         }
 
-        protected override Dictionary<string, SqlServerRepository<User>.AppendChildToEntity> BuildChildCallbacks()
+        protected override Dictionary<string, AppendChildToEntity> BuildChildCallbacks()
         {
             return null;
         }
-
     }
 }

@@ -8,8 +8,7 @@ using Xpress.Chat.Domain.Models;
 
 namespace Xpress.Chat.DataObjects
 {
-
-     [DataContract()]
+    [DataContract()]
     public class TopicDataObject : DataTransferObjectBase<Topic>
     {
         [DataMember()]

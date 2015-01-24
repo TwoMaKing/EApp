@@ -1,0 +1,6 @@
+﻿<%@ ServiceHost Language="C#" 
+                Debug="true" 
+                Service="Xpress.Chat.Services.QueryService" 
+                CodeBehind="QueryService.svc.cs" 
+                Factory="System.ServiceModel.Activation.WebServiceHostFactory"
+%>

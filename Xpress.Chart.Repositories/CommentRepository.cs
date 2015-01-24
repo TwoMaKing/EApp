@@ -66,7 +66,7 @@ namespace Xpress.Chat.Repositories
             throw new NotImplementedException();
         }
 
-        protected override Dictionary<string, SqlServerRepository<Comment>.AppendChildToEntity> BuildChildCallbacks()
+        protected override Dictionary<string, AppendChildToEntity> BuildChildCallbacks()
         {
             throw new NotImplementedException();
         }

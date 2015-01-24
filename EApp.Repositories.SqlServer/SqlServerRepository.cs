@@ -119,30 +119,33 @@ namespace EApp.Repositories.SqlServer
 
             using(IDataReader reader = DbGateway.Default.ExecuteReader(querySqlById, new object[] { id }))
             {
-                if (reader.Read())
+                var currentEntities = this.BuildEntitiesFromDataReader(reader);
+
+                if (currentEntities != null &&
+                    currentEntities.Count() > 0)
                 {
-                    currentEntity = this.BuildEntityFromDataReader(reader);
+                    currentEntity = currentEntities.FirstOrDefault();
 
-                    if (currentEntity != null)
+                    Dictionary<string, AppendChildToEntity> childCallbacks = this.BuildChildCallbacks();
+
+                    if (childCallbacks != null &&
+                        childCallbacks.Count > 0)
                     {
-                        Dictionary<string, AppendChildToEntity> childCallbacks = this.BuildChildCallbacks();
-
-                        if (childCallbacks != null &&
-                            childCallbacks.Count > 0)
+                        foreach (KeyValuePair<string, AppendChildToEntity> callbackItem in childCallbacks)
                         {
-                            foreach (KeyValuePair<string, AppendChildToEntity> callbackItem in childCallbacks)
-                            {
-                                string childEntityForeignKey = reader[callbackItem.Key].ToString();
+                            string childEntityForeignKey = reader[callbackItem.Key].ToString();
 
-                                int childEntityId = Convertor.ConvertToInteger(childEntityForeignKey).Value;
+                            int childEntityId = Convertor.ConvertToInteger(childEntityForeignKey).Value;
 
-                                callbackItem.Value(currentEntity, childEntityId);
-                            }
+                            callbackItem.Value(currentEntity, childEntityId);
                         }
                     }
                 }
 
-                reader.Close();
+                if (!reader.IsClosed)
+                {
+                    reader.Close();
+                }
             }
 
             this.cacheManager.AddItem<TEntity>(cacheEntityId, currentEntity);
@@ -151,6 +154,26 @@ namespace EApp.Repositories.SqlServer
         }
 
         protected abstract string GetEntityQuerySqlById();
+
+        protected virtual IEnumerable<TEntity> BuildEntitiesFromDataReader(IDataReader dataReader) 
+        {
+            if (dataReader == null ||
+                dataReader.IsClosed)
+            {
+                return null;
+            }
+
+            List<TEntity> entities = new List<TEntity>();
+
+            while (dataReader.Read())
+            {
+                TEntity entity = this.BuildEntityFromDataReader(dataReader);
+
+                entities.Add(entity);
+            }
+
+            return entities;
+        }
 
         protected abstract TEntity BuildEntityFromDataReader(IDataReader dataReader);
 

@@ -70,7 +70,7 @@ namespace Xpress.Chat.Repositories
             return topic;
         }
 
-        protected override Dictionary<string, SqlServerRepository<Topic>.AppendChildToEntity> BuildChildCallbacks()
+        protected override Dictionary<string, AppendChildToEntity> BuildChildCallbacks()
         {
             return null;
         }

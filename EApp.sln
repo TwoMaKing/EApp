@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chat.Infrastructure"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chat.Commands", "Xpress.Chat.Commands\Xpress.Chat.Commands.csproj", "{467E249E-6656-499E-BA28-299DA422FB6B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Bus.MessageQueue", "EApp.Bus.MessageQueue\EApp.Bus.MessageQueue.csproj", "{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -301,6 +303,16 @@ Global
 		{467E249E-6656-499E-BA28-299DA422FB6B}.Release|Mixed Platforms.Build.0 = Release|x86
 		{467E249E-6656-499E-BA28-299DA422FB6B}.Release|x86.ActiveCfg = Release|x86
 		{467E249E-6656-499E-BA28-299DA422FB6B}.Release|x86.Build.0 = Release|x86
+		{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}.Debug|x86.ActiveCfg = Debug|x86
+		{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}.Debug|x86.Build.0 = Debug|x86
+		{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}.Release|Any CPU.ActiveCfg = Release|x86
+		{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}.Release|Mixed Platforms.Build.0 = Release|x86
+		{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}.Release|x86.ActiveCfg = Release|x86
+		{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
