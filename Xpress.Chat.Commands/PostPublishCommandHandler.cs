@@ -17,9 +17,7 @@ namespace Xpress.Chat.Commands
         {
             using (IRepositoryContext repositoryContext = ServiceLocator.Instance.GetService<IRepositoryContext>())
             {
-                //IPostRepository postRepository = (IPostRepository)repositoryContext.GetRepository<Post>();
-
-                IPostRepository postRepository = ServiceLocator.Instance.GetService<IPostRepository>();
+                IPostRepository postRepository = (IPostRepository)repositoryContext.GetRepository<Post>();
 
                 Post post = message.PostDataObject.MapTo();
 

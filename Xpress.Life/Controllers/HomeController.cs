@@ -16,10 +16,13 @@ namespace Xpress.Life.Controllers
     {
         public ActionResult Index()
         {
-            this.Session["user"] = new User() { Id = 1000, 
-                                               Name = "Philips", 
-                                               NickName = "会飞的猪猪", 
-                                               Email = "airsoft_ft@126.com" };
+            this.HttpContext.Session["user"] = new User()
+                                               {
+                                                   Id = 1000, 
+                                                   Name = "Philips", 
+                                                   NickName = "会飞的猪猪", 
+                                                   Email = "airsoft_ft@126.com" 
+                                               };
 
             PostDataObject postDataObject = new PostDataObject();
             postDataObject.Topic.Id = 1000;

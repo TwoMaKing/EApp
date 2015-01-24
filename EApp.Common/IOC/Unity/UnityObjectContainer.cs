@@ -28,7 +28,8 @@ namespace EApp.Common.IOC
 
         public T GetWrapperContainer<T>()
         {
-            if (typeof(T).Equals(this.unityContainer))
+            if (typeof(T).Equals(this.unityContainer.GetType()) ||
+                typeof(T).IsAssignableFrom(this.unityContainer.GetType()))
             {
                 return (T)this.unityContainer;
             }

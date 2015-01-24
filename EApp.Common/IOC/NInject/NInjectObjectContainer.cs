@@ -25,7 +25,7 @@ namespace EApp.Common.IOC
 
         public T GetWrapperContainer<T>()
         {
-            if (typeof(T).Equals(this.kernel))
+            if (typeof(T).Equals(this.kernel.GetType()))
             {
                 return (T)this.kernel;
             }

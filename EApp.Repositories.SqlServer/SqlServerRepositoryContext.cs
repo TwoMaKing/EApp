@@ -10,6 +10,7 @@ using EApp.Core.DomainDriven.Domain;
 using EApp.Core.DomainDriven.Repository;
 using EApp.Core.QuerySepcifications;
 using EApp.Data;
+using Microsoft.Practices.Unity;
 
 namespace EApp.Repositories.SqlServer
 {
@@ -86,24 +87,18 @@ namespace EApp.Repositories.SqlServer
             DbGateway.Default.CloseConnection(this.dbConnection);
         }
 
-        protected override IRepository<TEntity> CreateRepository<TEntity>(string name = "")
+        protected override IRepository<TEntity> CreateRepository<TEntity>()
         {
-            IEnumerable<Type> repositoryTypes = 
-                EAppRuntime.Instance.CurrentApp.ObjectContainer.TypesFrom.Where(t=> typeof(IRepository<TEntity>).IsAssignableFrom(t));
+            IEnumerable<Type> repositoryTypesMapTo =
+                EAppRuntime.Instance.CurrentApp.ObjectContainer.TypesMapTo.Where(t => typeof(SqlServerRepository<TEntity>).IsAssignableFrom(t));
 
-            Type repositoryType = null;
+            Type repositoryType = repositoryTypesMapTo.FirstOrDefault();
 
-            if (string.IsNullOrEmpty(name) ||
-                string.IsNullOrWhiteSpace(name))
-            {
-                repositoryType = repositoryTypes.FirstOrDefault();
-            }
-            else
-            { 
-                
-            }
+            IUnityContainer unityContainer = EAppRuntime.Instance.CurrentApp.ObjectContainer.GetWrapperContainer<IUnityContainer>();
 
-            return (IRepository<TEntity>)EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve(repositoryType);
+            return (IRepository<TEntity>)unityContainer.Resolve(repositoryType, new DependencyOverride<IRepositoryContext>(this));
+
+            //return (IRepository<TEntity>)EAppRuntime.Instance.CurrentApp.ObjectContainer.Resolve(repositoryType);
         }
     }
 }
