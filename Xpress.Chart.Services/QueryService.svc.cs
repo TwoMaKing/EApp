@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.ServiceModel.Activation;
+using System.ServiceModel.Web;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using EApp.Core;
 using EApp.Core.Application;
 using EApp.Core.DomainDriven.Commands;
@@ -22,7 +27,7 @@ using Xpress.Chat.ServiceContracts;
 
 namespace Xpress.Chat.Services
 {
-    [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)] 
+    [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)] 
     public class QueryService : IQueryService
     {
         public IEnumerable<PostDataObject> GetPosts()
@@ -37,7 +42,8 @@ namespace Xpress.Chat.Services
 
                 foreach (Post post in posts)
                 {
-                    var postDataObject = new PostDataObject();
+                    PostDataObject postDataObject = new PostDataObject();
+
                     postDataObject.MapFrom(post);
 
                     postDataObjects.Add(postDataObject);

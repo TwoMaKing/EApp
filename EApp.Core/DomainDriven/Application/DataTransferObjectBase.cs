@@ -1,15 +1,18 @@
-﻿using EApp.Core.DomainDriven.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Xml.Serialization;
+using EApp.Core.DomainDriven.Domain;
 
 namespace EApp.Core.DomainDriven.Application
 {
+    [Serializable()]
+    [DataContract()]
+    [XmlRoot()]
     public abstract class DataTransferObjectBase<TModel, TIdentity> : IDataTransferObject<TModel, TIdentity> where TModel : class, IEntity<TIdentity>
     {
-        public TIdentity Id { get; set; }
-
         public void MapFrom(TModel domainModel)
         {
             this.DoMapFrom(domainModel);
@@ -25,8 +28,12 @@ namespace EApp.Core.DomainDriven.Application
         protected abstract TModel DoMapTo();
     }
 
+    [Serializable()]
+    [DataContract()]
+    [XmlRoot()]
     public abstract class DataTransferObjectBase<TModel> : DataTransferObjectBase<TModel, int>, IDataTransferObject<TModel> where TModel : class, IEntity
     {
+
     }
 
 }

@@ -6,7 +6,7 @@ using EApp.Core.DomainDriven.Bus;
 
 namespace EApp.Bus.MessageQueue
 {
-    public class RedsMQBus : IBus
+    public class RedisMQBus : IBus
     {
         public Guid Id
         {

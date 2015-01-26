@@ -112,12 +112,12 @@ namespace Xpress.Chat.Repositories
             Post post = new Post();
 
             post.Id = Convertor.ConvertToInteger(dataReader["post_id"]).Value;
-            post.Content = dataReader["post_content"].ToString();
+            post.Content = dataReader["post_content"].ToString().Trim();
             post.CreationDateTime = Convertor.ConvertToDateTime(dataReader["post_creation_datetime"]).Value;
 
             post.Topic = new Topic();
             post.Topic.Id = Convertor.ConvertToInteger(dataReader["post_topic_id"]).Value;
-            post.Topic.Name = dataReader["topic_name"].ToString();
+            post.Topic.Name = dataReader["topic_name"].ToString().Trim();
             post.Author = new User();
             post.Author.Id = Convertor.ConvertToInteger(dataReader["post_topic_id"]).Value;
             post.Author.Name = dataReader["user_name"].ToString();

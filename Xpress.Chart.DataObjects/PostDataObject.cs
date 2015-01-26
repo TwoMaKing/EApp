@@ -1,9 +1,9 @@
-﻿using EApp.Core.DomainDriven.Application;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using EApp.Core.DomainDriven.Application;
 using Xpress.Chat.Domain.Models;
 
 namespace Xpress.Chat.DataObjects
@@ -19,6 +19,9 @@ namespace Xpress.Chat.DataObjects
         }
 
         [DataMember()]
+        public int Id { get; set; }
+
+        [DataMember()]
         public TopicDataObject Topic { get; set; }
 
         [DataMember()]
@@ -29,9 +32,6 @@ namespace Xpress.Chat.DataObjects
 
         [DataMember()]
         public DateTime CreationDateTime { get; set; }
-
-        [DataMember()]
-        public List<CommentDataObject> Comments { get; set; }
 
         protected override void DoMapFrom(Post domainModel)
         {
@@ -69,5 +69,6 @@ namespace Xpress.Chat.DataObjects
            
             return post;
         }
+
     }
 }

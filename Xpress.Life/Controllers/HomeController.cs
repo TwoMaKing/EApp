@@ -57,7 +57,7 @@ namespace Xpress.Life.Controllers
                 postDataObject.Author.Name = GlobalApplication.LoginUser.Name;
                 postDataObject.Topic.Id = topicId;
                 postDataObject.Content = content;
-                postDataObject.CreationDateTime = DateTime.Now;
+                //postDataObject.CreationDateTime = DateTime.Now;
 
                 postService.PublishPost(postDataObject);
 
@@ -89,7 +89,7 @@ namespace Xpress.Life.Controllers
                 postDataObject.Author.Name = GlobalApplication.LoginUser.Name;
                 postDataObject.Topic.Id = topicId;
                 postDataObject.Content = content;
-                postDataObject.CreationDateTime = DateTime.Now;
+                //postDataObject.CreationDateTime = DateTime.Now;
 
                 postCommandService.PublishPost(postDataObject);
 
