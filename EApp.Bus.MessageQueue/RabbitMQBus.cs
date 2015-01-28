@@ -3,49 +3,68 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EApp.Core.DomainDriven.Bus;
+using RabbitMQ.Client;
 
 namespace EApp.Bus.MessageQueue
 {
-    public class RabbitMQBus : IBus
+    public class RabbitMQBus<TMessage> : IMessageQueueBus<TMessage> where TMessage : class
     {
-        public Guid Id
+        private ConnectionFactory connectionFactory = new ConnectionFactory();
+
+        private IConnection connection;
+
+        private IModel channel;
+
+        private string queueName = string.Empty;
+
+        private const string queueNamePrefixKey = "MQ.";
+
+        public RabbitMQBus() : this(queueNamePrefixKey + typeof(TMessage).Name) { }
+
+        public RabbitMQBus(string queueName) 
         {
-            get { throw new NotImplementedException(); }
+            this.connectionFactory.HostName = "";
+
+            this.connection = this.connectionFactory.CreateConnection();
+
+            this.channel = this.connection.CreateModel();
+
+            this.channel.QueueDeclare(this.queueName, true, false, false, null);
         }
 
-        public void Publish<TMessage>(TMessage message)
+        public void Publish(TMessage message)
         {
-            throw new NotImplementedException();
+            this.channel.BasicPublish(string.Empty, this.queueName, null, null);
+            this.Committed = false;
         }
 
-        public void Publish<TMessage>(IEnumerable<TMessage> messages)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Clear()
+        public void Publish(IEnumerable<TMessage> messages)
         {
             throw new NotImplementedException();
         }
 
         public bool Committed
         {
-            get { throw new NotImplementedException(); }
+            get;
+            private set;
         }
 
         public void Commit()
         {
-            throw new NotImplementedException();
+            this.channel.TxCommit();
+            this.Committed = true;
         }
 
         public void Rollback()
         {
-            throw new NotImplementedException();
+            this.channel.TxRollback();
+            this.Committed = false;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            this.channel.Close();
+            this.channel.Dispose();
         }
     }
 }

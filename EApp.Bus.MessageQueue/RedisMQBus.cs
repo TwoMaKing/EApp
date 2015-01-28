@@ -2,50 +2,117 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using EApp.Core.Application;
 using EApp.Core.DomainDriven.Bus;
+using ServiceStack.Redis;
+using ServiceStack.Redis.Generic;
+using ServiceStack.Redis.Support.Locking;
+using ServiceStack.Redis.Support.Queue.Implementation;
 
 namespace EApp.Bus.MessageQueue
 {
-    public class RedisMQBus : IBus
+    public class RedisMQBus<TMessage> : IMessageQueueBus<TMessage> where TMessage : class
     {
-        public Guid Id
+        private PooledRedisClientManager redisClientManager;
+
+        private RedisClient redisClient;
+
+        private IRedisTypedClient<TMessage> redistTypedClient;
+
+        private IRedisTypedTransaction<TMessage> redisTypedTransaction;
+
+        private IDistributedLock redisDistributedLock;
+
+        private string queueName = string.Empty;
+
+        private const string queueNamePrefixKey = "MQ.";
+
+        private const string lockName = "MQ.LOCK";
+
+        private long lockExpire;
+
+        public RedisMQBus() : this(queueNamePrefixKey + typeof(TMessage).Name.ToUpper()) { }
+
+        public RedisMQBus(string queueName)
         {
-            get { throw new NotImplementedException(); }
+            this.queueName = queueName;
+
+            this.CreateRedisClient();
         }
 
-        public void Publish<TMessage>(TMessage message)
+        private void CreateRedisClient() 
         {
-            throw new NotImplementedException();
+            string writeServerList = EAppRuntime.Instance.CurrentApp.ConfigSource.Config.Redis.WriteHosts;
+            string readOnlyServerList = EAppRuntime.Instance.CurrentApp.ConfigSource.Config.Redis.ReadOnlyHosts;
+
+            string[] writeHosts = writeServerList.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            string[] readOnlyHosts = readOnlyServerList.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+
+            RedisClientManagerConfig config = new RedisClientManagerConfig();
+            config.MaxWritePoolSize = EAppRuntime.Instance.CurrentApp.ConfigSource.Config.Redis.MaxWritePoolSize;
+            config.MaxReadPoolSize = EAppRuntime.Instance.CurrentApp.ConfigSource.Config.Redis.MaxReadPoolSize;
+            config.AutoStart = EAppRuntime.Instance.CurrentApp.ConfigSource.Config.Redis.AutoStart;
+
+            this.redisClientManager = new PooledRedisClientManager(writeHosts, readOnlyHosts, config);
+
+            this.redisClient = (RedisClient)redisClientManager.GetClient();
+
+            this.redistTypedClient = this.redisClient.As<TMessage>();
+
+            this.redisDistributedLock = new DistributedLock();
+
+            this.redisDistributedLock.Lock(lockName, 0, 0, out this.lockExpire, this.redisClient);
+
+            this.redisTypedTransaction = this.redistTypedClient.CreateTransaction();
         }
 
-        public void Publish<TMessage>(IEnumerable<TMessage> messages)
+        public void Publish(TMessage message)
         {
-            throw new NotImplementedException();
+            this.redisTypedTransaction.QueueCommand((r) => r.EnqueueItemOnList(r.Lists[this.queueName], message));
+
+            this.Committed = false;
         }
 
-        public void Clear()
+        public void Publish(IEnumerable<TMessage> messages)
         {
-            throw new NotImplementedException();
+            if (messages != null &&
+                messages.Count() > 0)
+            {
+                foreach (TMessage message in messages)
+                {
+                    this.redisTypedTransaction.QueueCommand((r) => r.EnqueueItemOnList(r.Lists[this.queueName], message));
+                }
+            }
+            
+            this.Committed = false;
         }
 
         public bool Committed
         {
-            get { throw new NotImplementedException(); }
+            get;
+            private set;
         }
 
         public void Commit()
         {
-            throw new NotImplementedException();
+            this.Committed = this.redisTypedTransaction.Commit();
+
+            this.redisDistributedLock.Unlock(lockName, this.lockExpire, this.redisClient);
         }
 
         public void Rollback()
         {
-            throw new NotImplementedException();
+            this.redisTypedTransaction.Rollback();
+            this.Committed = false;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            this.redisTypedTransaction.Dispose();
+            this.redisClient.Dispose();
+            this.redisClientManager.Dispose();
         }
+
     }
 }

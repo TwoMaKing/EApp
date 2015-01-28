@@ -1,9 +1,10 @@
-﻿using EApp.Core.DomainDriven.Domain;
-using EApp.Core.DomainDriven.Domain.Events;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EApp.Bus.MessageQueue;
+using EApp.Core.DomainDriven.Domain;
+using EApp.Core.DomainDriven.Domain.Events;
 
 namespace Xpress.Chat.Domain.Models
 {
@@ -80,7 +81,14 @@ namespace Xpress.Chat.Domain.Models
         
         public void Publish() 
         { 
-            // send to Message Queue.
+            //send to Message Queue.
+
+            using (RedisMQBus<Post> postMQ = new RedisMQBus<Post>("MQ_Post"))
+            {
+                postMQ.Publish(this);
+
+                postMQ.Commit();
+            }
         }
 
         public void Forward() 

@@ -59,6 +59,10 @@
     <Compile Include="Services\IDomainService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EApp.Bus.MessageQueue\EApp.Bus.MessageQueue.csproj">
+      <Project>{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}</Project>
+      <Name>EApp.Bus.MessageQueue</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
       <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
       <Name>EApp.Core</Name>
