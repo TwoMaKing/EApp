@@ -15,19 +15,19 @@ namespace Xpress.Chat.Commands
     {
         public void Handle(PostPublishCommand message)
         {
-            Post post = message.PostDataObject.MapTo();
-            post.Publish();
+            //Post post = message.PostDataObject.MapTo();
+            //post.Publish();
 
-            //using (IRepositoryContext repositoryContext = ServiceLocator.Instance.GetService<IRepositoryContext>())
-            //{
-            //    IPostRepository postRepository = (IPostRepository)repositoryContext.GetRepository<Post>();
+            using (IRepositoryContext repositoryContext = ServiceLocator.Instance.GetService<IRepositoryContext>())
+            {
+                IPostRepository postRepository = (IPostRepository)repositoryContext.GetRepository<Post>();
 
-            //    Post post = message.PostDataObject.MapTo();
+                Post post = message.PostDataObject.MapTo();
 
-            //    postRepository.Add(post);
+                postRepository.Add(post);
 
-            //    repositoryContext.Commit();
-            //}
+                repositoryContext.Commit();
+            }
         }
     }
 }

@@ -1,47 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
-using EApp.Core;
 using EApp.Core.Application;
 using EApp.Core.DomainDriven.Domain;
 using EApp.Core.DomainDriven.Repository;
-using EApp.Core.QuerySepcifications;
-using EApp.Data;
 using Microsoft.Practices.Unity;
+using MongoDB;
+using MongoDB.Configuration;
 
-namespace EApp.Repositories.SqlServer
+namespace EApp.Repositories.MongoDB
 {
-    /// <summary>
-    /// Repository Context for Sql Server.
-    /// </summary>
-    public class SqlServerRepositoryContext : RepositoryContext, ISqlServerRepositoryContext
+    public class MongoDBRepositoryContext : RepositoryContext, IMongoDBRepositoryContext
     {
-        private DbConnection dbConnection;
+        private Mongo mongo;
 
-        private DbTransaction dbTransaction;
+        private string databaseName;
 
-        public SqlServerRepositoryContext() 
+        public MongoDBRepositoryContext(string connectionString, string databaseName) 
         {
-            this.dbConnection = DbGateway.Default.OpenConnection();
+            this.databaseName = databaseName;
 
-            this.dbTransaction = this.dbConnection.BeginTransaction();
+            this.mongo = new Mongo(connectionString);
+
+            this.mongo.Connect();
         }
 
-        public DbTransaction Transaction
+        public IMongoDatabase MongoDatabase
         {
             get 
             {
-                if (this.dbConnection.State == ConnectionState.Closed)
+                return this.mongo[this.databaseName];
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.mongo != null)
                 {
-                    this.dbConnection = DbGateway.Default.OpenConnection();
-
-                    this.dbTransaction = this.dbConnection.BeginTransaction();
+                    this.mongo.Disconnect();
+                    this.mongo.Dispose();
                 }
-
-                return this.dbTransaction;
             }
         }
 
@@ -74,23 +75,20 @@ namespace EApp.Repositories.SqlServer
                 }
             }
 
-            this.dbTransaction.Commit();
+            this.mongo.Disconnect();
+
+            this.mongo.Dispose();
         }
 
         protected override void DoRollback()
         {
-            this.dbTransaction.Rollback();   
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            DbGateway.Default.CloseConnection(this.dbConnection);
+            base.Rollback();
         }
 
         protected override IRepository<TEntity> CreateRepository<TEntity>()
         {
             IEnumerable<Type> repositoryTypesMapTo =
-                EAppRuntime.Instance.CurrentApp.ObjectContainer.TypesMapTo.Where(t => typeof(SqlServerRepository<TEntity>).IsAssignableFrom(t));
+                EAppRuntime.Instance.CurrentApp.ObjectContainer.TypesMapTo.Where(t => typeof(MongoDBRepository<TEntity>).IsAssignableFrom(t));
 
             Type repositoryType = repositoryTypesMapTo.FirstOrDefault();
 

@@ -143,6 +143,10 @@ namespace EApp.Core.DomainDriven.Repository
             }
         }
 
+        protected abstract void DoCommit();
+
+        protected abstract void DoRollback();
+
         protected abstract void Dispose(bool disposing);
 
         public bool Committed
@@ -213,13 +217,24 @@ namespace EApp.Core.DomainDriven.Repository
             }
         }
 
-        public abstract void Commit();
+        public void Commit() 
+        {
+            this.DoCommit();
 
-        public abstract void Rollback();
+            this.committed.Value = true;
+        }
+
+        public void Rollback() 
+        {
+            this.DoRollback();
+
+            this.committed.Value = false;
+        }
 
         public void Dispose()
         {
             this.Dispose(true);
+
             GC.SuppressFinalize(this);
         }
 

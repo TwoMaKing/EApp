@@ -45,7 +45,7 @@ namespace EApp.Repositories.SqlServer
 
         protected override void DoAdd(TEntity item)
         {
-            this.sqlServerRepositoryContext.RegisterAdded(item, this);
+            this.RepositoryContext.RegisterAdded(item, this);
         }
 
         protected override void DoAdd(IEnumerable<TEntity> items)

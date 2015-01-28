@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chat.Commands", "Xpr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Bus.MessageQueue", "EApp.Bus.MessageQueue\EApp.Bus.MessageQueue.csproj", "{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Repositories.MongoDB", "EApp.Repositories.MongoDB\EApp.Repositories.MongoDB.csproj", "{5049C9DD-61B4-4410-A195-5C8E31F53038}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -313,6 +315,16 @@ Global
 		{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}.Release|Mixed Platforms.Build.0 = Release|x86
 		{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}.Release|x86.ActiveCfg = Release|x86
 		{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}.Release|x86.Build.0 = Release|x86
+		{5049C9DD-61B4-4410-A195-5C8E31F53038}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5049C9DD-61B4-4410-A195-5C8E31F53038}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5049C9DD-61B4-4410-A195-5C8E31F53038}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5049C9DD-61B4-4410-A195-5C8E31F53038}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5049C9DD-61B4-4410-A195-5C8E31F53038}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5049C9DD-61B4-4410-A195-5C8E31F53038}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5049C9DD-61B4-4410-A195-5C8E31F53038}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5049C9DD-61B4-4410-A195-5C8E31F53038}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5049C9DD-61B4-4410-A195-5C8E31F53038}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5049C9DD-61B4-4410-A195-5C8E31F53038}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

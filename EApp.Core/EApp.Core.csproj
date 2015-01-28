@@ -106,6 +106,7 @@
     <Compile Include="DynamicQueryable.cs" />
     <Compile Include="ExpressionParser.cs" />
     <Compile Include="DomainDriven\IHandler.cs" />
+    <Compile Include="IServiceLocator.cs" />
     <Compile Include="Query\IQuery.cs" />
     <Compile Include="Query\IPagingResult.cs" />
     <Compile Include="Query\IQueryPaging.cs" />
