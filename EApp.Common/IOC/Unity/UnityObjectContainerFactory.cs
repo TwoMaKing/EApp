@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using EApp.Core;
 
-namespace EApp.Common.IOC.Unity
+namespace EApp.Common.IoC
 {
     public class UnityObjectContainerFactory : IObjectContainerFactory
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EApp.Core.DomainDriven.Repository;
+using EApp.Domain.Core.Repositories;
 using MongoDB;
 
 namespace EApp.Repositories.MongoDB

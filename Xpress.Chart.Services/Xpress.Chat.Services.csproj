@@ -100,6 +100,10 @@
       <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
       <Name>EApp.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EApp.Domain.Core\EApp.Domain.Core.csproj">
+      <Project>{3B98F11D-5383-4856-B82A-9EB6AE800603}</Project>
+      <Name>EApp.Domain.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Xpress.Chart.Application\Xpress.Chat.Application.csproj">
       <Project>{331B4A2C-5544-4D0E-B471-ABADA28B2496}</Project>
       <Name>Xpress.Chat.Application</Name>

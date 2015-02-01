@@ -3,10 +3,8 @@ using System.Globalization;
 
 namespace EApp.Common.Util
 {
-    public sealed class DateTimeUtil
+    public static class DateTimeUtil
     {
-        private DateTimeUtil() { }
-
         private static CultureInfo cultureInfo = CultureInfo.CurrentCulture;
 
         //date time formatter
@@ -31,23 +29,15 @@ namespace EApp.Common.Util
                 return null;
             }
 
-            return time.Value.ToString(format, 
-                                       DateTimeFormatInfo.InvariantInfo);
+            return time.Value.ToString(format, DateTimeFormatInfo.InvariantInfo);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="time"></param>
-        /// <param name="format"></param>
-        /// <returns></returns>
         public static DateTime? ToDateTime(DateTime? time, string format)
         {
             string newTimeStr = ToDateTimeString(time, format);
 
             return ToDateTime(newTimeStr);
         }
-
 
         public static DateTime? ToDateTime(string time)
         {
@@ -59,12 +49,12 @@ namespace EApp.Common.Util
 
             DateTime resultDateTime;
 
-            bool parsedSucceeded = DateTime.TryParse(time.ToString(),
-                                                     timeFormat,
-                                                     DateTimeStyles.None,
-                                                     out resultDateTime);
+            bool parsed = DateTime.TryParse(time.ToString(),
+                                            timeFormat,
+                                            DateTimeStyles.None,
+                                            out resultDateTime);
 
-            if (!parsedSucceeded)
+            if (!parsed)
             {
                 return null;
             }
@@ -82,12 +72,12 @@ namespace EApp.Common.Util
 
             DateTime resultDateTime;
 
-            bool parsedSucceeded = DateTime.TryParse(time.ToString(), 
-                                                     DateTimeFormatInfo.InvariantInfo, 
-                                                     DateTimeStyles.None, 
-                                                     out resultDateTime);
+            bool parsed = DateTime.TryParse(time.ToString(), 
+                                            DateTimeFormatInfo.InvariantInfo, 
+                                            DateTimeStyles.None, 
+                                            out resultDateTime);
 
-            if (!parsedSucceeded)
+            if (!parsed)
             {
                 return null;
             }

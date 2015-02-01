@@ -6,13 +6,12 @@ using System.Text;
 
 namespace EApp.Common.Util
 {
-    public sealed class Convertor
+    public static class Convertor
     {
-        private Convertor() { }
-
         public static int? ConvertToInteger(object value) 
         {
-            if (value == null || value == DBNull.Value)
+            if (value == null || 
+                value == DBNull.Value)
             {
                 return null;
             }
@@ -39,9 +38,9 @@ namespace EApp.Common.Util
 
             int intValue;
 
-            bool parseSuccess = int.TryParse(value, out intValue);
+            bool parsed = int.TryParse(value, out intValue);
 
-            if (!parseSuccess)
+            if (!parsed)
             {
                 return null;
             }
@@ -64,12 +63,12 @@ namespace EApp.Common.Util
 
             DateTime resultDateTime;
 
-            bool parsedSuccessfully = DateTime.TryParse(value.ToString(),
-                                                        formatProvider, 
-                                                        DateTimeStyles.None, 
-                                                        out resultDateTime);
+            bool parsed = DateTime.TryParse(value.ToString(),
+                                            formatProvider, 
+                                            DateTimeStyles.None, 
+                                            out resultDateTime);
 
-            if (!parsedSuccessfully)
+            if (!parsed)
             {
                 return null;
             }

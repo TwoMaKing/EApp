@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3B98F11D-5383-4856-B82A-9EB6AE800603}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EApp.Domain.Core</RootNamespace>
+    <AssemblyName>EApp.Domain.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AggregateRoot.cs" />
+    <Compile Include="Application\ApplicationService.cs" />
+    <Compile Include="Application\DataTransferObjectBase.cs" />
+    <Compile Include="Application\IDataTransferObject.cs" />
+    <Compile Include="DirectBus\DirectBus.cs" />
+    <Compile Include="DirectBus\DirectCommandBus.cs" />
+    <Compile Include="DirectBus\DirectEventBus.cs" />
+    <Compile Include="Bus\EventBus.cs" />
+    <Compile Include="DirectBus\IBus.cs" />
+    <Compile Include="DirectBus\ICommandBus.cs" />
+    <Compile Include="DirectBus\IEventBus.cs" />
+    <Compile Include="DirectBus\IMessageDispatcher.cs" />
+    <Compile Include="DirectBus\MessageDispatcher.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandDispatcher.cs" />
+    <Compile Include="Commands\CommandHandler.cs" />
+    <Compile Include="Commands\ConfigSourceCommandHandlerProvider.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\ICommandDispatcher.cs" />
+    <Compile Include="Commands\ICommandHandler.cs" />
+    <Compile Include="Commands\ICommandHandlerProvider.cs" />
+    <Compile Include="ConfigSourceHandlerProvider.cs" />
+    <Compile Include="EntityBase.cs" />
+    <Compile Include="Events\DomainEvent.cs" />
+    <Compile Include="Events\IDomainEvent.cs" />
+    <Compile Include="Events\IDomainEventHandler.cs" />
+    <Compile Include="Events\ActionDelegateEventHandler.cs" />
+    <Compile Include="Events\EventAggregator.cs" />
+    <Compile Include="Events\HandleAsynchronizationAttribute.cs" />
+    <Compile Include="Events\IEvent.cs" />
+    <Compile Include="Events\IEventAggregator.cs" />
+    <Compile Include="Events\IEventHandler.cs" />
+    <Compile Include="IAggregateRoot.cs" />
+    <Compile Include="IEntity.cs" />
+    <Compile Include="IHandler.cs" />
+    <Compile Include="IHandlerProvider.cs" />
+    <Compile Include="Bus\CommandBus.cs" />
+    <Compile Include="Bus\ICommandBus.cs" />
+    <Compile Include="Bus\IEventBus.cs" />
+    <Compile Include="PropertyChangedEventArgs.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\IRepositoryContext.cs" />
+    <Compile Include="Repositories\IRepositoryPersistence.cs" />
+    <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="Repositories\RepositoryContext.cs" />
+    <Compile Include="Util.cs" />
+    <Compile Include="ValueObjectBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EApp.Common\EApp.Common.csproj">
+      <Project>{0CB524D0-68CB-47B8-8B9F-9915CBE19F31}</Project>
+      <Name>EApp.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Core\EApp.Core.csproj">
+      <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
+      <Name>EApp.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

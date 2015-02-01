@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using EApp.Core.DomainDriven.Domain;
-using EApp.Core.DomainDriven.Repository;
+using EApp.Common.Query;
 using EApp.Core.Query;
 using EApp.Core.QuerySepcifications;
+using EApp.Domain.Core;
+using EApp.Domain.Core.Repositories;
 using MongoDB;
 
 
 namespace EApp.Repositories.MongoDB
 {
-    public class MongoDBRepository<TEntity> : Repository<TEntity>, IRepository<TEntity>, IUnitOfWorkRepository where TEntity : class, IEntity<int>, IEntity
+    public class MongoDBRepository<TAggregateRoot> : Repository<TAggregateRoot>, IRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot
     {
         private IMongoDBRepositoryContext mongoDBRepositoryContext;
 
@@ -34,107 +35,71 @@ namespace EApp.Repositories.MongoDB
             }
         }
 
-        protected override void DoAdd(TEntity item)
+        protected override void DoDelete(int id)
         {
-            if (item != null) 
-            {
-                this.RepositoryContext.RegisterAdded(item, this);
-            }
+            this.MongoDBRespositoryContext.MongoDatabase.GetCollection<TAggregateRoot>().Remove(new Document("Id", id), false);
         }
 
-        protected override void DoAdd(IEnumerable<TEntity> items)
+        protected override TAggregateRoot DoFind(ISpecification<TAggregateRoot> specification)
         {
-            if (items == null)
-            {
-                return;
-            }
-
-            foreach (TEntity entity in items)
-            {
-                this.DoAdd(entity);
-            }
+            return this.MongoDBRespositoryContext.MongoDatabase.GetCollection<TAggregateRoot>().FindOne(specification.GetExpression());
         }
 
-        protected override void DoUpdate(TEntity item)
+        protected override IEnumerable<TAggregateRoot> DoFindAll(Expression<Func<TAggregateRoot, bool>> expression, Expression<Func<TAggregateRoot, dynamic>> sortPredicate, SortOrder sortOrder)
         {
-            if (item != null)
-            {
-                this.RepositoryContext.RegisterModified(item, this);
-            }
+            IEnumerable<TAggregateRoot> aggregateRoots = 
+                this.MongoDBRespositoryContext.MongoDatabase.GetCollection<TAggregateRoot>().Find(expression).Documents;
+
+            return aggregateRoots.SortBy<TAggregateRoot, dynamic>(sortPredicate.Compile(), sortOrder).ToList();
         }
 
-        protected override void DoUpdate(IEnumerable<TEntity> items)
+        protected override IPagingResult<TAggregateRoot> DoFindAll(Expression<Func<TAggregateRoot, bool>> expression, Expression<Func<TAggregateRoot, dynamic>> sortPredicate, SortOrder sortOrder, int pageNumber, int pageSize)
         {
-            if (items == null)
+            if (pageNumber <= 0)
             {
-                return;
+                throw new ArgumentOutOfRangeException("pageNumber", pageNumber, "The pageNumber is one-based and should be larger than zero.");
             }
 
-            foreach (TEntity item in items)
+            if (pageSize <= 0)
             {
-                this.DoUpdate(item);
-            }
-        }
-
-        protected override void DoDelete(TEntity item)
-        {
-            if (item != null)
-            {
-                this.RepositoryContext.RegisterDeleted(item, this);
-            }
-        }
-
-        protected override void DoDelete(IEnumerable<TEntity> items)
-        {
-            if (items == null)
-            {
-                return;
+                throw new ArgumentOutOfRangeException("pageSize", pageSize, "The pageSize is one-based and should be larger than zero.");
             }
 
-            foreach (TEntity item in items)
-            {
-                this.DoDelete(item);
-            }
+            IEnumerable<TAggregateRoot> aggregateRoots =
+                this.MongoDBRespositoryContext.MongoDatabase.GetCollection<TAggregateRoot>().Find(expression).Documents;
+
+            IOrderedEnumerable<TAggregateRoot> orderedAggregateRoots = aggregateRoots.SortBy<TAggregateRoot, dynamic>(sortPredicate.Compile(), sortOrder);
+
+            int skip = (pageNumber - 1) * pageSize;
+
+            int take = pageSize;
+
+            IEnumerable<TAggregateRoot> pagedAggregateRoots = orderedAggregateRoots.Skip(skip).Take(take);
+
+            int totalRecords = aggregateRoots.Count();
+
+            int totalPages = (totalRecords + pageSize - 1) / pageSize;
+
+            return new PagingResult<TAggregateRoot>(totalRecords, 
+                                                    totalPages, 
+                                                    pageNumber, 
+                                                    pageSize, 
+                                                    pagedAggregateRoots.Select(aggregateRoot => aggregateRoot).ToList());
         }
 
-        protected override void DoDeleteByKey(int id)
+        protected override void DoPersistAddedItems(IEnumerable<TAggregateRoot> aggregateRoots)
         {
-            this.MongoDBRespositoryContext.MongoDatabase.GetCollection<TEntity>().Delete(new Document("Id", id), false);
+            this.MongoDBRespositoryContext.MongoDatabase.GetCollection<TAggregateRoot>().Insert(aggregateRoots);
         }
 
-        protected override TEntity DoFindByKey(int id)
+        protected override void DoPersistModifiedItems(IEnumerable<TAggregateRoot> aggregateRoots)
         {
-            return this.MongoDBRespositoryContext.MongoDatabase.GetCollection<TEntity>().FindOne(new Document { { "Id", id } });
+            this.MongoDBRespositoryContext.MongoDatabase.GetCollection<TAggregateRoot>().Save(aggregateRoots);
         }
 
-        protected override TEntity DoFind(ISpecification<TEntity> specification)
+        protected override void DoPersistDeletedItems(IEnumerable<TAggregateRoot> aggregateRoots)
         {
-            return this.MongoDBRespositoryContext.MongoDatabase.GetCollection<TEntity>().FindOne(specification.GetExpression());
-        }
-
-        protected override IEnumerable<TEntity> DoFindAll(Expression<Func<TEntity, bool>> expression)
-        {
-            return this.MongoDBRespositoryContext.MongoDatabase.GetCollection<TEntity>().Find(expression).Documents;
-        }
-
-        protected override IPagingResult<TEntity> DoFindAll(Expression<Func<TEntity, bool>> expression, int pageNumber, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void PersistAddedItem(IEntity entity)
-        {
-            this.MongoDBRespositoryContext.MongoDatabase.GetCollection<TEntity>().Insert(entity);
-        }
-
-        public void PersistModifiedItem(IEntity entity)
-        {
-            this.MongoDBRespositoryContext.MongoDatabase.GetCollection<TEntity>().Update(entity);
-        }
-
-        public void PersistDeletedItem(IEntity entity)
-        {
-            this.MongoDBRespositoryContext.MongoDatabase.GetCollection<TEntity>().Delete(entity, false);
+            this.MongoDBRespositoryContext.MongoDatabase.GetCollection<TAggregateRoot>().Remove(aggregateRoots);
         }
     }
 }

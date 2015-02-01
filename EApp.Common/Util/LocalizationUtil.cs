@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace EApp.Common.Util
 {
-    public sealed class LocalizationUtil
+    public static class LocalizationUtil
     {
         private const string NUMERIC_COMMA = ",";
 
@@ -26,8 +26,6 @@ namespace EApp.Common.Util
             cultureInfo.DateTimeFormat;
 
         private static object lockObj = new object();
-
-        private LocalizationUtil() { }
 
         public static string FormatRateToString(decimal? rateValue, int decimalNum)
         {
@@ -89,8 +87,8 @@ namespace EApp.Common.Util
                 return null;
 
             decimalString = decimalString.Trim().Replace(NUMERIC_COMMA, string.Empty).Replace(
-                DECIMAL_SUFFIX_MILLIONS, string.Empty).Replace(
-                DECIMAL_SUFFIX_THOUSAND, string.Empty);
+                            DECIMAL_SUFFIX_MILLIONS, string.Empty).Replace(
+                            DECIMAL_SUFFIX_THOUSAND, string.Empty);
 
             decimal retDecimal;
 
@@ -110,8 +108,8 @@ namespace EApp.Common.Util
                 return null;
 
             decimalString = decimalString.Trim().Replace(NUMERIC_COMMA, string.Empty).Replace(
-                DECIMAL_SUFFIX_MILLIONS, string.Empty).Replace(
-                DECIMAL_SUFFIX_THOUSAND, string.Empty);
+                            DECIMAL_SUFFIX_MILLIONS, string.Empty).Replace(
+                            DECIMAL_SUFFIX_THOUSAND, string.Empty);
 
             decimal retDecimal;
 

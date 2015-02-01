@@ -67,9 +67,13 @@
       <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
       <Name>EApp.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EApp.Repositories.SqlServer\EApp.Repositories.SqlServer.csproj">
+    <ProjectReference Include="..\EApp.Domain.Core\EApp.Domain.Core.csproj">
+      <Project>{3B98F11D-5383-4856-B82A-9EB6AE800603}</Project>
+      <Name>EApp.Domain.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EApp.Repositories.SqlServer\EApp.Repositories.SQL.csproj">
       <Project>{69820BD8-912B-461F-BDC2-AFA43E318953}</Project>
-      <Name>EApp.Repositories.SqlServer</Name>
+      <Name>EApp.Repositories.SQL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

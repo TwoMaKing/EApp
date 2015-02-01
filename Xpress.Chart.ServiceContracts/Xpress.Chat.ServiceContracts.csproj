@@ -53,6 +53,10 @@
       <Project>{ddcadbee-4c66-43bd-a1c8-76265134b9f2}</Project>
       <Name>EApp.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EApp.Domain.Core\EApp.Domain.Core.csproj">
+      <Project>{3B98F11D-5383-4856-B82A-9EB6AE800603}</Project>
+      <Name>EApp.Domain.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Xpress.Chart.DataObjects\Xpress.Chat.DataObjects.csproj">
       <Project>{55CA50AC-5C76-44B4-9579-FF9090E1D905}</Project>
       <Name>Xpress.Chat.DataObjects</Name>

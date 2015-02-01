@@ -5,61 +5,35 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using EApp.Common.Util;
-using EApp.Core.DomainDriven.Domain;
-using EApp.Core.DomainDriven.Repository;
-using EApp.Core.DomainDriven.UnitOfWork;
 using EApp.Core.Query;
 using EApp.Core.QuerySepcifications;
 using EApp.Data;
-using EApp.Repositories.SqlServer;
+using EApp.Domain.Core.Repositories;
+using EApp.Repositories.SQL;
 using Xpress.Chat.Domain;
 using Xpress.Chat.Domain.Models;
 using Xpress.Chat.Domain.Repositories;
 
 namespace Xpress.Chat.Repositories
 {
-    public class UserRepository : SqlServerRepository<User>, IUserRepository
+    public class UserRepository : SQLRepository<User>, IUserRepository
     {
         private const string whereById = "user_id=@id";
 
         public UserRepository(IRepositoryContext repositoryContext) : base(repositoryContext) { }
 
-        protected override void PersistAddedItem(User entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void PersistModifiedItem(User entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void PersistDeletedItem(User entity)
-        {
-            throw new NotImplementedException();
-        }
 
         protected override User DoFind(ISpecification<User> specification)
         {
             throw new NotImplementedException();
         }
 
-        protected override IEnumerable<User> DoFindAll(Expression<Func<User, bool>> expression)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IPagingResult<User> DoFindAll(Expression<Func<User, bool>> expression, int pageNumber, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override string GetEntityQuerySqlById()
+        protected override string GetAggregateRootQuerySqlById()
         {
             return "select * from [user] where [user_id] = @id";
         }
 
-        protected override User BuildEntityFromDataReader(IDataReader dataReader)
+        protected override User BuildAggregateRootFromDataReader(IDataReader dataReader)
         {
             User user = new User();
 
@@ -72,9 +46,24 @@ namespace Xpress.Chat.Repositories
             return user;
         }
 
-        protected override Dictionary<string, AppendChildToEntity> BuildChildCallbacks()
+        protected override Dictionary<string, AppendChildToAggregateRoot> BuildChildCallbacks()
         {
             return null;
+        }
+
+        protected override void DoPersistAddedItems(IEnumerable<User> aggregateRoots)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoPersistModifiedItems(IEnumerable<User> aggregateRoots)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoPersistDeletedItems(IEnumerable<User> aggregateRoots)
+        {
+            throw new NotImplementedException();
         }
     }
 }

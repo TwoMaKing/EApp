@@ -156,7 +156,7 @@ namespace Xpress.UI.Plugins.Cost
 
             string[][] previousStringArrayList = BindArrayDataHelper.ConvertDataSourceNodesToStringArray(comboBoxCell.DataSource);
 
-            if (!CommonHelper.EqualsStringArray(previousStringArrayList, costCellDetail.DataSource))
+            if (!ArrayUtil.EqualsStringArray(previousStringArrayList, costCellDetail.DataSource))
             {
                 DataGridViewHelper.BindComboBoxCellDataSource(comboBoxCell, costCellDetail.DataSource);
             }

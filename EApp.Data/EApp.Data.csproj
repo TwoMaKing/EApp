@@ -82,7 +82,10 @@
     <Compile Include="Query\ISqlQuery.cs" />
     <Compile Include="Query\ParameterColumnCache.cs" />
     <Compile Include="Query\SqlBuilder.cs" />
+    <Compile Include="Query\SqlBuilderExtension.cs" />
     <Compile Include="Query\SqlQuery.cs" />
+    <Compile Include="SqlLite\SqlLiteDbProvider.cs" />
+    <Compile Include="SqlLite\SqlLiteStatementFactory.cs" />
     <Compile Include="SqlMapper.cs" />
     <Compile Include="Query\SqlQueryExtension.cs" />
     <Compile Include="SqlServer\SqlServerDbProvider.cs" />

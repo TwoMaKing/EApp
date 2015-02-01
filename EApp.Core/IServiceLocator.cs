@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Practices.Unity;
 
 namespace EApp.Core
@@ -21,6 +19,5 @@ namespace EApp.Core
         TService GetService<TService>(string name, ResolverOverride[] overrides);
 
         IEnumerable<TService> ResolveAll<TService>();
-
     }
 }

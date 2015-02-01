@@ -6,29 +6,26 @@ using System.Reflection;
 using System.Text;
 using EApp.Common.Lambda;
 using EApp.Common.Util;
-using EApp.Core.DomainDriven.Domain;
 using EApp.Core.DynamicQuery;
 using EApp.Core.Query;
 using EApp.Core.QuerySepcifications;
 
 namespace EApp.Common.Query
 {
-    public class QueryBuilder<TEntity, TIdentityKey> : IQueryBuilder<TEntity, TIdentityKey>
-        where TEntity : class, IEntity<TIdentityKey>
+    public class QueryBuilder<T> : IQueryBuilder<T> where T : class
     {
-
-        protected ISpecification<TEntity> Specification { get; set; }
+        protected ISpecification<T> Specification { get; set; }
 
         protected OrderByBuilder orderByBuilder = new OrderByBuilder();
 
-        protected Dictionary<Expression<Func<TEntity, dynamic>>, SortOrder> orderByExpressionBuilder = 
-            new Dictionary<Expression<Func<TEntity, dynamic>>, SortOrder>();
+        protected Dictionary<Expression<Func<T, dynamic>>, SortOrder> orderByExpressionBuilder = 
+            new Dictionary<Expression<Func<T, dynamic>>, SortOrder>();
 
-        protected ExpressionBuilder<TEntity> expressionBuilder = new ExpressionBuilder<TEntity>();
+        protected ExpressionBuilder<T> expressionBuilder = new ExpressionBuilder<T>();
 
         public QueryBuilder() { }
 
-        public Expression<Func<TEntity, bool>> QueryPredicate
+        public Expression<Func<T, bool>> QueryPredicate
         {
             get 
             {
@@ -41,7 +38,7 @@ namespace EApp.Common.Query
             }
         }
 
-        public IQueryBuilder<TEntity, TIdentityKey> Filter(Expression<Func<TEntity, bool>> predicate, bool isOr = false)
+        public IQueryBuilder<T> Filter(Expression<Func<T, bool>> predicate, bool isOr = false)
         {
             if (predicate == null)
             {
@@ -60,14 +57,14 @@ namespace EApp.Common.Query
             return this;
         }
 
-        public IQueryBuilder<TEntity, TIdentityKey> Filter(string propertyName, object value, Operator @operator = Operator.Equal)
+        public IQueryBuilder<T> Filter(string propertyName, object value, Operator @operator = Operator.Equal)
         {
-            return Filter(LambdaUtil.ParsePredicate<TEntity>(propertyName, value, @operator));
+            return Filter(LambdaUtil.ParsePredicate<T>(propertyName, value, @operator));
         }
 
-        public IQueryBuilder<TEntity, TIdentityKey> Filter<TPropertyType>(Expression<Func<TEntity, TPropertyType>> propertyExpression,
-                                                                          TPropertyType minValue,
-                                                                          TPropertyType maxValue) where TPropertyType : struct
+        public IQueryBuilder<T> Filter<TPropertyType>(Expression<Func<T, TPropertyType>> propertyExpression,
+                                                      TPropertyType minValue,
+                                                      TPropertyType maxValue) where TPropertyType : struct
         {
             Expression leftExpression = expressionBuilder.Create<TPropertyType>(propertyExpression, Operator.GreaterThanEqual, minValue);
 
@@ -75,82 +72,78 @@ namespace EApp.Common.Query
 
             BinaryExpression andExpression =  Expression.Add(leftExpression, rightExpression);
 
-            Expression<Func<TEntity, bool>> rangeFilterExpression = Expression.Lambda<Func<TEntity, bool>>(andExpression);
+            Expression<Func<T, bool>> rangeFilterExpression = Expression.Lambda<Func<T, bool>>(andExpression);
 
             this.Filter(rangeFilterExpression);
 
             return this;
         }
 
-        public IQueryBuilder<TEntity, TIdentityKey> And(IQueryBuilder<TEntity, TIdentityKey> queryBuilder)
+        public IQueryBuilder<T> And(IQueryBuilder<T> queryBuilder)
         {
             return this.And(queryBuilder.QueryPredicate);
         }
 
-        public IQueryBuilder<TEntity, TIdentityKey> And(Expression<Func<TEntity, bool>> predicate)
+        public IQueryBuilder<T> And(Expression<Func<T, bool>> predicate)
         {
             if (this.Specification == null)
             {
-                this.Specification = new ExpressionSpecification<TEntity>(predicate);
+                this.Specification = new ExpressionSpecification<T>(predicate);
             }
             else
             {
-                this.Specification = new AndSpecification<TEntity>(this.Specification,
-                                                                   new ExpressionSpecification<TEntity>(predicate));
+                this.Specification = new AndSpecification<T>(this.Specification, new ExpressionSpecification<T>(predicate));
             }
 
             return this;
         }
 
-        public IQueryBuilder<TEntity, TIdentityKey> Or(IQueryBuilder<TEntity, TIdentityKey> queryBuilder)
+        public IQueryBuilder<T> Or(IQueryBuilder<T> queryBuilder)
         {
             return this.Or(queryBuilder.QueryPredicate);
         }
 
-        public IQueryBuilder<TEntity, TIdentityKey> Or(Expression<Func<TEntity, bool>> predicate)
+        public IQueryBuilder<T> Or(Expression<Func<T, bool>> predicate)
         {
             if (this.Specification == null)
             {
-                this.Specification = new ExpressionSpecification<TEntity>(predicate);
+                this.Specification = new ExpressionSpecification<T>(predicate);
             }
             else
             {
-                this.Specification = new OrSpecification<TEntity>(this.Specification,
-                                                                  new ExpressionSpecification<TEntity>(predicate));
+                this.Specification = new OrSpecification<T>(this.Specification, new ExpressionSpecification<T>(predicate));
             }
 
             return this;
         }
 
-        public IQueryBuilder<TEntity, TIdentityKey> AndNot(IQueryBuilder<TEntity, TIdentityKey> queryBuilder)
+        public IQueryBuilder<T> AndNot(IQueryBuilder<T> queryBuilder)
         {
             return this.AndNot(queryBuilder.QueryPredicate);
         }
 
-        public IQueryBuilder<TEntity, TIdentityKey> AndNot(Expression<Func<TEntity, bool>> predicate)
+        public IQueryBuilder<T> AndNot(Expression<Func<T, bool>> predicate)
         {
             if (this.Specification == null)
             {
-                this.Specification = new ExpressionSpecification<TEntity>(predicate);
+                this.Specification = new ExpressionSpecification<T>(predicate);
             }
             else
             {
-                this.Specification = new AndNotSpecification<TEntity>(this.Specification,
-                                                                      new ExpressionSpecification<TEntity>(predicate));
+                this.Specification = new AndNotSpecification<T>(this.Specification, new ExpressionSpecification<T>(predicate));
             }
 
             return this;
         }
 
-        public IQueryBuilder<TEntity, TIdentityKey> OrderBy(string propertyName, SortOrder sortOrder = SortOrder.Ascending)
+        public IQueryBuilder<T> OrderBy(string propertyName, SortOrder sortOrder = SortOrder.Ascending)
         {
             this.orderByBuilder.Add(propertyName, sortOrder);
 
             return this;
         }
 
-        public IQueryBuilder<TEntity, TIdentityKey> OrderBy(Expression<Func<TEntity, dynamic>> predicate, 
-                                                            SortOrder sortOrder = SortOrder.Ascending)
+        public IQueryBuilder<T> OrderBy(Expression<Func<T, dynamic>> predicate, SortOrder sortOrder = SortOrder.Ascending)
         {
             if (!this.orderByExpressionBuilder.ContainsKey(predicate))
             {
@@ -160,14 +153,14 @@ namespace EApp.Common.Query
             return this;
         }
 
-        public IList<TEntity> ToList(IEnumerable<TEntity> querySource)
+        public IList<T> ToList(IEnumerable<T> querySource)
         {
             if (querySource == null)
             {
                 return null;
             }
 
-            IQueryable<TEntity> queryList = querySource.AsQueryable();
+            IQueryable<T> queryList = querySource.AsQueryable();
 
             if (this.QueryPredicate != null)
             {
@@ -177,12 +170,12 @@ namespace EApp.Common.Query
             return this.OrderBy(queryList).ToList();
         }
 
-        public IPagingResult<TEntity> ToPagedList(IEnumerable<TEntity> querySource, int? pageNumber, int? pageSize)
+        public IPagingResult<T> ToPagedList(IEnumerable<T> querySource, int pageNumber, int pageSize)
         {
-            return new PagingResult<TEntity>(null, null, pageNumber, pageSize, null);
+            return new PagingResult<T>(null, null, pageNumber, pageSize, null);
         }
 
-        private IQueryable<TEntity> OrderBy(IQueryable<TEntity> queryable)
+        private IQueryable<T> OrderBy(IQueryable<T> queryable)
         {
             if (this.orderByBuilder != null &&
                 this.orderByBuilder.OrderByItems != null &&
@@ -194,7 +187,7 @@ namespace EApp.Common.Query
             if (this.orderByExpressionBuilder != null &&
                 this.orderByExpressionBuilder.Count > 0)
             { 
-                foreach(KeyValuePair<Expression<Func<TEntity, dynamic>>, SortOrder> orderExpressionPair in this.orderByExpressionBuilder)
+                foreach(KeyValuePair<Expression<Func<T, dynamic>>, SortOrder> orderExpressionPair in this.orderByExpressionBuilder)
                 {
                     queryable = queryable.SortBy(orderExpressionPair.Key.Compile(), orderExpressionPair.Value).AsQueryable(); 
                 }

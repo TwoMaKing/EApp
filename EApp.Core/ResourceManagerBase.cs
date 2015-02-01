@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Drawing;
+using System.IO;
 using System.Resources;
 using System.Text;
 
@@ -25,17 +25,17 @@ namespace EApp.Core
             return this.resourceManager.GetObject(name, culture);
         }
 
-        public System.IO.UnmanagedMemoryStream GetStream(string name)
+        public UnmanagedMemoryStream GetStream(string name)
         {
             return this.resourceManager.GetStream(name);
         }
 
-        public System.IO.UnmanagedMemoryStream GetStream(string name, System.Globalization.CultureInfo culture)
+        public UnmanagedMemoryStream GetStream(string name, System.Globalization.CultureInfo culture)
         {
             return this.resourceManager.GetStream(name, culture);
         }
 
-        public System.Drawing.Image GetImage(string name)
+        public Image GetImage(string name)
         {
             object imageObject = this.resourceManager.GetObject(name);
 
@@ -47,7 +47,7 @@ namespace EApp.Core
             return null;
         }
 
-        public System.Drawing.Image GetImage(string name, System.Globalization.CultureInfo culture)
+        public Image GetImage(string name, System.Globalization.CultureInfo culture)
         {
             object imageObject = this.resourceManager.GetObject(name, culture);
 

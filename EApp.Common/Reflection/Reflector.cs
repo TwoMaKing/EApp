@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using EApp.Common.Exceptions;
+using EApp.Core.Exceptions;
 
 namespace EApp.Common.Reflection
 {

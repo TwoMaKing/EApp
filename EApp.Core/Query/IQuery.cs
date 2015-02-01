@@ -2,20 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EApp.Core.DomainDriven.Domain;
 
 namespace EApp.Core.Query
 {
-    public interface IQuery<TEntity, TIdentityKey> where TEntity : class, IEntity<TIdentityKey>
+    public interface IQuery<T> where T : class
     {
-        IList<TEntity> ToList(IEnumerable<TEntity> querySource);
+        IList<T> ToList(IEnumerable<T> querySource);
 
-        IPagingResult<TEntity> ToPagedList(IEnumerable<TEntity> querySource, int? pageNumber, int? pageSize);
-    }
-
-    public interface IQuery<TEntity> : IQuery<TEntity, int> where TEntity : class, IEntity
-    { 
-    
+        IPagingResult<T> ToPagedList(IEnumerable<T> querySource, int pageNumber, int pageSize);
     }
 
 }

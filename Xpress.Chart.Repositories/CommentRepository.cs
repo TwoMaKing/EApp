@@ -4,69 +4,47 @@ using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using EApp.Core.DomainDriven.Domain;
-using EApp.Core.DomainDriven.Repository;
-using EApp.Core.DomainDriven.UnitOfWork;
 using EApp.Core.Query;
 using EApp.Core.QuerySepcifications;
 using EApp.Data;
-using EApp.Repositories.SqlServer;
+using EApp.Domain.Core.Repositories;
+using EApp.Repositories.SQL;
 using Xpress.Chat.Domain;
 using Xpress.Chat.Domain.Models;
 using Xpress.Chat.Domain.Repositories;
 
 namespace Xpress.Chat.Repositories
 {
-    public class CommentRepository : SqlServerRepository<Comment>, ICommentRepository
+    public class CommentRepository : SQLRepository<Comment>, ICommentRepository
     {
         public CommentRepository(IRepositoryContext repositoryContext) : base(repositoryContext) { }
 
-        protected override void PersistAddedItem(Comment entity)
+        protected override string GetAggregateRootQuerySqlById()
         {
             throw new NotImplementedException();
         }
 
-        protected override void PersistModifiedItem(Comment entity)
+        protected override Comment BuildAggregateRootFromDataReader(IDataReader dataReader)
         {
             throw new NotImplementedException();
         }
 
-        protected override void PersistDeletedItem(Comment entity)
+        protected override Dictionary<string, AppendChildToAggregateRoot> BuildChildCallbacks()
         {
             throw new NotImplementedException();
         }
 
-        protected override Comment DoFindByKey(int id)
+        protected override void DoPersistAddedItems(IEnumerable<Comment> aggregateRoots)
         {
             throw new NotImplementedException();
         }
 
-        protected override Comment DoFind(ISpecification<Comment> specification)
+        protected override void DoPersistModifiedItems(IEnumerable<Comment> aggregateRoots)
         {
             throw new NotImplementedException();
         }
 
-        protected override IEnumerable<Comment> DoFindAll(Expression<Func<Comment, bool>> expression)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IPagingResult<Comment> DoFindAll(Expression<Func<Comment, bool>> expression, int pageNumber, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override string GetEntityQuerySqlById()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override Comment BuildEntityFromDataReader(IDataReader dataReader)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override Dictionary<string, AppendChildToEntity> BuildChildCallbacks()
+        protected override void DoPersistDeletedItems(IEnumerable<Comment> aggregateRoots)
         {
             throw new NotImplementedException();
         }

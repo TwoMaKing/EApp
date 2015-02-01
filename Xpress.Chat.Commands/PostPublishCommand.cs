@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EApp.Core.DomainDriven.Commands;
+using EApp.Domain.Core.Commands;
 using Xpress.Chat.DataObjects;
 
 namespace Xpress.Chat.Commands

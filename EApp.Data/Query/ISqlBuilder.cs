@@ -70,7 +70,9 @@ namespace EApp.Data.Query
         ISqlBuilder Select(params string[] columns);
 
         ISqlBuilder Where(string wherePredicate, IEnumerable<object> paramValues);
-        
+
+        ISqlBuilder Page(string primaryKey, int pageNumber, int pageSize);
+
         ISqlBuilder Clear();
         
         string GetPredicate();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using EApp.Core.DomainDriven.Domain;
+using EApp.Domain.Core;
 
 namespace Xpress.Mvc.Models
 {

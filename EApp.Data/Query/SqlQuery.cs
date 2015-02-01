@@ -7,10 +7,8 @@ using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
-using EApp.Core.DomainDriven.Domain;
 using EApp.Core.Query;
 using EApp.Data.Query.Criterias;
-using MySql.Data.MySqlClient;
 
 namespace EApp.Data.Query
 {
@@ -243,6 +241,13 @@ namespace EApp.Data.Query
             return this;
         }
 
+        public ISqlQuery Page(string primaryKey, int pageNumber, int pageSize)
+        {
+            this.SqlBuilder.Page(primaryKey, pageNumber, pageSize);
+
+            return this;
+        }
+
         public ISqlQuery Clear()
         {
             this.SqlBuilder.Clear();
@@ -261,7 +266,11 @@ namespace EApp.Data.Query
 
         public DataSet ExecuteDataSet(IDbConnection connection, IDbTransaction transaction = null)
         {
-            throw new NotImplementedException();
+            string commandSql = this.SqlBuilder.GetQuerySql();
+
+            object[] paramValues = this.SqlBuilder.GetParameters().Values.ToArray();
+
+            return null;
         }
 
         public void Dispose()

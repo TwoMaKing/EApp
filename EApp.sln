@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.WebMvc.Plugin", "EApp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Mvc", "Xpress.Mvc\Xpress.Mvc.csproj", "{8CC54AD5-B722-41D8-98C6-5C1C6FCA1869}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Repositories.SqlServer", "EApp.Repositories.SqlServer\EApp.Repositories.SqlServer.csproj", "{69820BD8-912B-461F-BDC2-AFA43E318953}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Repositories.SQL", "EApp.Repositories.SqlServer\EApp.Repositories.SQL.csproj", "{69820BD8-912B-461F-BDC2-AFA43E318953}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Repositories.EntityFramework", "EApp.Repositories.EntityFramework\EApp.Repositories.EntityFramework.csproj", "{5A6BFFC4-41C0-42CE-9186-56076D3002E6}"
 EndProject
@@ -54,6 +54,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Bus.MessageQueue", "EApp.Bus.MessageQueue\EApp.Bus.MessageQueue.csproj", "{4491A96C-6C9D-4DFF-B576-FE801C2E49AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Repositories.MongoDB", "EApp.Repositories.MongoDB\EApp.Repositories.MongoDB.csproj", "{5049C9DD-61B4-4410-A195-5C8E31F53038}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Domain.Core", "EApp.Domain.Core\EApp.Domain.Core.csproj", "{3B98F11D-5383-4856-B82A-9EB6AE800603}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -325,6 +327,16 @@ Global
 		{5049C9DD-61B4-4410-A195-5C8E31F53038}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5049C9DD-61B4-4410-A195-5C8E31F53038}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5049C9DD-61B4-4410-A195-5C8E31F53038}.Release|x86.ActiveCfg = Release|Any CPU
+		{3B98F11D-5383-4856-B82A-9EB6AE800603}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B98F11D-5383-4856-B82A-9EB6AE800603}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B98F11D-5383-4856-B82A-9EB6AE800603}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3B98F11D-5383-4856-B82A-9EB6AE800603}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3B98F11D-5383-4856-B82A-9EB6AE800603}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3B98F11D-5383-4856-B82A-9EB6AE800603}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B98F11D-5383-4856-B82A-9EB6AE800603}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B98F11D-5383-4856-B82A-9EB6AE800603}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3B98F11D-5383-4856-B82A-9EB6AE800603}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3B98F11D-5383-4856-B82A-9EB6AE800603}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

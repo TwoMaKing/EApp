@@ -34,6 +34,12 @@ namespace EApp.Data.Query
 
         private string groupBySql = string.Empty;
 
+        private string primaryKey = string.Empty;
+
+        private int pageNumber = 0;
+
+        private int pageSize = 0;
+
         private IDictionary<string, object> parameterColumnValues = new Dictionary<string, object>();
 
         private IList<object> parameterValues = new List<object>();
@@ -344,6 +350,27 @@ namespace EApp.Data.Query
             return this;
         }
 
+        public ISqlBuilder Page(string primaryKey, int pageNumber, int pageSize)
+        {
+            if (pageNumber <= 0)
+            {
+                throw new ArgumentOutOfRangeException("pageNumber", pageNumber, "The pageNumber is one-based and should be larger than zero.");
+            }
+
+            if (pageSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException("pageSize", pageSize, "The pageSize is one-based and should be larger than zero.");
+            }
+
+            this.primaryKey = primaryKey;
+
+            this.pageNumber = pageNumber;
+
+            this.pageSize = pageSize;
+
+            return this;
+        }
+
         public ISqlBuilder Clear()
         {
             this.querySqlBuilder.Clear();
@@ -432,5 +459,6 @@ namespace EApp.Data.Query
         {
             return this.parameterColumnValues;
         }
+
     }
 }

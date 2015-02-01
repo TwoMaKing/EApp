@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using EApp.Core;
 
-namespace EApp.Common.IOC.NInject
+namespace EApp.Common.IoC
 {
     public class NInjectObjectContainerFactory : IObjectContainerFactory
     {

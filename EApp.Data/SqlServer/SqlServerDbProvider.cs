@@ -18,8 +18,8 @@ namespace EApp.Data.SqlServer
 
         public SqlServerDbProvider(string connectionString) : 
             base(connectionString, System.Data.SqlClient.SqlClientFactory.Instance)
-        { 
-        
+        {
+
         }
 
         /// <summary>

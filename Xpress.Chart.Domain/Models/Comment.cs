@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EApp.Core.DomainDriven.Domain;
+using EApp.Domain.Core;
 
 namespace Xpress.Chat.Domain.Models
 {
-    public class Comment : EntityBase, IAggregateRoot
+    public class Comment : AggregateRoot
     {
         private Post post;
 

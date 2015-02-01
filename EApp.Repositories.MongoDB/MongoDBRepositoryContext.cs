@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EApp.Core.Application;
-using EApp.Core.DomainDriven.Domain;
-using EApp.Core.DomainDriven.Repository;
+using EApp.Domain.Core.Repositories;
 using Microsoft.Practices.Unity;
 using MongoDB;
 using MongoDB.Configuration;
@@ -48,33 +47,6 @@ namespace EApp.Repositories.MongoDB
 
         protected override void DoCommit()
         {
-            if (this.AddedCollection != null &&
-                this.AddedCollection.Count > 0)
-            {
-                foreach (KeyValuePair<IEntity, IUnitOfWorkRepository> addedUnitOfWorkRepository in this.AddedCollection)
-                {
-                    addedUnitOfWorkRepository.Value.PersistAddedItem(addedUnitOfWorkRepository.Key);
-                }
-            }
-
-            if (this.ModifiedCollection != null &&
-                this.ModifiedCollection.Count > 0)
-            {
-                foreach (KeyValuePair<IEntity, IUnitOfWorkRepository> modifiedUnitOfWorkRepository in this.ModifiedCollection)
-                {
-                    modifiedUnitOfWorkRepository.Value.PersistModifiedItem(modifiedUnitOfWorkRepository.Key);
-                }
-            }
-
-            if (this.DeletedCollection != null &&
-                this.DeletedCollection.Count > 0)
-            {
-                foreach (KeyValuePair<IEntity, IUnitOfWorkRepository> deletedUnitOfWorkRepository in this.DeletedCollection)
-                {
-                    deletedUnitOfWorkRepository.Value.PersistDeletedItem(deletedUnitOfWorkRepository.Key);
-                }
-            }
-
             this.mongo.Disconnect();
 
             this.mongo.Dispose();
@@ -85,16 +57,16 @@ namespace EApp.Repositories.MongoDB
             base.Rollback();
         }
 
-        protected override IRepository<TEntity> CreateRepository<TEntity>()
+        protected override IRepository<TAggregateRoot> CreateRepository<TAggregateRoot>()
         {
             IEnumerable<Type> repositoryTypesMapTo =
-                EAppRuntime.Instance.CurrentApp.ObjectContainer.TypesMapTo.Where(t => typeof(MongoDBRepository<TEntity>).IsAssignableFrom(t));
+                EAppRuntime.Instance.CurrentApp.ObjectContainer.TypesMapTo.Where(t => typeof(MongoDBRepository<TAggregateRoot>).IsAssignableFrom(t));
 
             Type repositoryType = repositoryTypesMapTo.FirstOrDefault();
 
             IUnityContainer unityContainer = EAppRuntime.Instance.CurrentApp.ObjectContainer.GetWrapperContainer<IUnityContainer>();
 
-            return (IRepository<TEntity>)unityContainer.Resolve(repositoryType, new DependencyOverride<IRepositoryContext>(this));
+            return (IRepository<TAggregateRoot>)unityContainer.Resolve(repositoryType, new DependencyOverride<IRepositoryContext>(this));
         }
     }
 }

@@ -109,6 +109,10 @@
       <Project>{0C072ED7-DAB6-4657-B92B-65EB54810774}</Project>
       <Name>EApp.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EApp.Domain.Core\EApp.Domain.Core.csproj">
+      <Project>{3B98F11D-5383-4856-B82A-9EB6AE800603}</Project>
+      <Name>EApp.Domain.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EApp.UI.Controls\EApp.UI.Controls.csproj">
       <Project>{1B846C86-F3EF-48C1-9D02-7875394C13DC}</Project>
       <Name>EApp.UI.Controls</Name>

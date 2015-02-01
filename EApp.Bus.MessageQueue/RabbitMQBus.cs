@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EApp.Core.DomainDriven.Bus;
 using RabbitMQ.Client;
 
 namespace EApp.Bus.MessageQueue
@@ -30,6 +29,11 @@ namespace EApp.Bus.MessageQueue
             this.channel = this.connection.CreateModel();
 
             this.channel.QueueDeclare(this.queueName, true, false, false, null);
+        }
+
+        public bool DistributedTransactionSupported
+        {
+            get { return true; }
         }
 
         public void Publish(TMessage message)

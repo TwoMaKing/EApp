@@ -11,7 +11,7 @@ namespace EApp.Common.Cache
     {
         private static Dictionary<string, ICacheManager> cacheManagerDictionary = new Dictionary<string, ICacheManager>();
 
-        private static object lockObject = new object();
+        private static readonly object lockObject = new object();
 
         private CacheFactory() { }
 

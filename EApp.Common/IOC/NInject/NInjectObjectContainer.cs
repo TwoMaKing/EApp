@@ -7,7 +7,7 @@ using EApp.Core;
 using Ninject;
 using Ninject.Syntax;
 
-namespace EApp.Common.IOC
+namespace EApp.Common.IoC
 {
     public class NInjectObjectContainer : IObjectContainer
     {

@@ -8,7 +8,7 @@ using EApp.Core;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 
-namespace EApp.Common.IOC
+namespace EApp.Common.IoC
 {
     public class UnityObjectContainer : IObjectContainer
     {

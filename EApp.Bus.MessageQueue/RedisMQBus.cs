@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using EApp.Core.Application;
-using EApp.Core.DomainDriven.Bus;
 using ServiceStack.Redis;
 using ServiceStack.Redis.Generic;
 using ServiceStack.Redis.Support.Locking;
@@ -65,6 +64,11 @@ namespace EApp.Bus.MessageQueue
             this.redisDistributedLock.Lock(lockName, 0, 0, out this.lockExpire, this.redisClient);
 
             this.redisTypedTransaction = this.redistTypedClient.CreateTransaction();
+        }
+
+        public bool DistributedTransactionSupported
+        {
+            get { return true; }
         }
 
         public void Publish(TMessage message)

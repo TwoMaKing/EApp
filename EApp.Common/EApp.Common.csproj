@@ -94,25 +94,15 @@
     <Compile Include="Cache\Redis\RedisManager.cs" />
     <Compile Include="Compression\CompressionFactory.cs" />
     <Compile Include="Compression\GZip\GZipper.cs" />
-    <Compile Include="Exceptions\ConfigException.cs" />
-    <Compile Include="Exceptions\EAppException.cs" />
-    <Compile Include="Exceptions\InfrastructureException.cs" />
-    <Compile Include="IOC\NInject\NInjectObjectContainer.cs" />
-    <Compile Include="IOC\NInject\NInjectObjectContainerFactory.cs" />
-    <Compile Include="IOC\Unity\UnityObjectContainer.cs" />
-    <Compile Include="IOC\Unity\UnityObjectContainerFactory.cs" />
     <Compile Include="IO\FileSeracher.cs" />
     <Compile Include="Lambda\ExpressionBuilder.cs" />
-    <Compile Include="Log\LoggerWrapper.cs" />
     <Compile Include="Mapper\ObjectMapper.cs" />
     <Compile Include="Network\Downloader.cs" />
     <Compile Include="Network\NetworkUtil.cs" />
     <Compile Include="Network\WebSocket.cs" />
-    <Compile Include="Query\IQueryBuilder%27.cs" />
     <Compile Include="Query\IQueryBuilder.cs" />
     <Compile Include="Query\OrderByBuilder.cs" />
     <Compile Include="Query\OrderByItem.cs" />
-    <Compile Include="Query\QueryBuilder%27.cs" />
     <Compile Include="Query\QueryBuilder.cs" />
     <Compile Include="Query\QueryBuilderExtension.cs" />
     <Compile Include="Query\QueryBuilderHelper.cs" />
@@ -123,29 +113,23 @@
     <Compile Include="Serialization\ObjectJsonSerializer.cs" />
     <Compile Include="Serialization\ObjectSerializerFactory.cs" />
     <Compile Include="Serialization\ObjectXmlSerializer.cs" />
-    <Compile Include="Util\CommonHelper.cs" />
+    <Compile Include="Util\ArrayUtil.cs" />
     <Compile Include="Util\Convertor.cs" />
     <Compile Include="Lambda\LambdaUtil.cs" />
     <Compile Include="Util\LocalizationUtil.cs" />
     <Compile Include="Util\DateTimeUtil.cs" />
     <Compile Include="Encrypt\DESEncrypt.cs" />
     <Compile Include="Encrypt\AESEncrypt.cs" />
-    <Compile Include="Exceptions\LoadAssemblyException.cs" />
     <Compile Include="Compression\ICompression.cs" />
     <Compile Include="Compression\Zip\WinZipper.cs" />
     <Compile Include="IO\FileUtil.cs" />
-    <Compile Include="Log\Log4Net\Log4NetLoggerFactory.cs" />
-    <Compile Include="Log\Log4Net\Log4NetLogger.cs" />
-    <Compile Include="Log\LoggerContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\Reflector.cs" />
     <Compile Include="Serialization\SerializationManager.cs" />
     <Compile Include="Win32API\Win32WindowHandler.cs" />
     <Compile Include="Win32API\Win32API.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="IOC\SpringNet\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

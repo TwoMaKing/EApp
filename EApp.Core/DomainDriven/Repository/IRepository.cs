@@ -10,96 +10,134 @@ using EApp.Core.QuerySepcifications;
 namespace EApp.Core.DomainDriven.Repository
 {
     /// <summary>
-    /// Repository interface
+    /// Repository interface for an aggregate.
     /// </summary>
-    public interface IRepository<TEntity, TIdentityKey> where TEntity : class, IEntity<TIdentityKey>
+    public interface IRepository<TAggregateRoot, TIdentityKey> where TAggregateRoot : class, IAggregateRoot<TIdentityKey>
     {
         /// <summary>
-        /// Return a Unit Of Work
+        /// Return a repository context with Unit Of Work.
         /// </summary>
         IRepositoryContext RepositoryContext { get; }
 
         /// <summary>
-        ///  Aadd a item to Repository
+        ///  Aadd a item to Repository.
         /// </summary>
-        void Add(TEntity item);
+        void Add(TAggregateRoot item);
 
         /// <summary>
-        /// Add items to Repository
+        /// Add items to Repository.
         /// </summary>
-        void Add(IEnumerable<TEntity> items);
+        void Add(IEnumerable<TAggregateRoot> items);
 
         /// <summary>
-        /// Update a item to Repository
+        /// Update a item to Repository.
         /// </summary>
-        void Update(TEntity item);
+        void Update(TAggregateRoot item);
 
         /// <summary>
-        /// Update items to Repository
+        /// Update items to Repository.
         /// </summary>
-        void Update(IEnumerable<TEntity> items);
+        void Update(IEnumerable<TAggregateRoot> items);
 
         /// <summary>
-        /// Delete the specified item from Repository
+        /// Delete the specified item from Repository.
         /// </summary>
-        void Delete(TEntity item);
+        void Delete(TAggregateRoot item);
 
         /// <summary>
-        /// Delete a item from Repository by item key
+        /// Delete a item from Repository by item key.
         /// </summary>
         void Delete(TIdentityKey id);
 
         /// <summary>
-        /// Delete specified items from Repository
+        /// Delete specified items from Repository.
         /// </summary>
-        void Delete(IEnumerable<TEntity> items);
+        void Delete(IEnumerable<TAggregateRoot> items);
 
         /// <summary>
-        /// Find the specific aggregate root by id or key
+        /// Find the specific aggregate root by id or key.
         /// </summary>
-        TEntity FindByKey(TIdentityKey id);
+        TAggregateRoot FindByKey(TIdentityKey id);
 
         /// <summary>
         /// Find the specific aggregate root by the specification from repository.
         /// </summary>
-        TEntity Find(ISpecification<TEntity> specification);
+        TAggregateRoot Find(ISpecification<TAggregateRoot> specification);
 
         /// <summary>
         /// Find all of aggregate roots from repository.
         /// </summary>
         /// <returns></returns>
-        IEnumerable<TEntity> FindAll();
+        IEnumerable<TAggregateRoot> FindAll();
 
         /// <summary>
         /// Find all of aggregate roots matching paging condition from repository.
         /// </summary>
-        IPagingResult<TEntity> FindAll(int pageNumber, int pageSize);
+        IPagingResult<TAggregateRoot> FindAll(int pageNumber, int pageSize);
 
         /// <summary>
         /// Find all of entites matching query expression from repository.
         /// </summary>
-        IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> expression);
+        IEnumerable<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, bool>> expression);
 
         /// <summary>
         /// Find all of entities matching query expression and paging condition from repository.
         /// </summary>
         /// <param name="pageNumber">The page number.</param>
         /// <param name="pageSize">The number of objects per page.</param>
-        IPagingResult<TEntity> FindAll(Expression<Func<TEntity, bool>> expression, int pageNumber, int pageSize);
+        IPagingResult<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, bool>> expression, int pageNumber, int pageSize);
+
+        /// <summary>
+        /// Find all of entites matching query expression from repository and then sort by sort predicate.
+        /// </summary>
+        IEnumerable<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, bool>> expression, 
+                                            Expression<Func<TAggregateRoot, dynamic>> sortPredicate, 
+                                            SortOrder sorOrder);
+
+        /// <summary>
+        /// Find all of entities matching query expression and paging condition from repository and then sort by sort predicate
+        /// </summary>
+        IPagingResult<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, bool>> expression, 
+                                              Expression<Func<TAggregateRoot, dynamic>> sortPredicate, 
+                                              SortOrder sorOrder, 
+                                              int pageNumber, 
+                                              int pageSize);
 
         /// <summary>
         /// Find all of aggregate roots by the specification from repository,
         /// </summary>
-        IEnumerable<TEntity> FindAll(ISpecification<TEntity> specification);
+        IEnumerable<TAggregateRoot> FindAll(ISpecification<TAggregateRoot> specification);
 
         /// <summary>
         /// Find all of specific Aggregate Root by the specification and paging condition from repository
         /// </summary>
         /// <param name="pageNumber">The page number.</param>
         /// <param name="pageSize">The number of objects per page.</param>
-        IPagingResult<TEntity> FindAll(ISpecification<TEntity> specification, int pageNumber, int pageSize);
+        IPagingResult<TAggregateRoot> FindAll(ISpecification<TAggregateRoot> specification, int pageNumber, int pageSize);
+
+        /// <summary>
+        /// Find all of aggregate roots by the specification from repository and then sort by sort predicate.
+        /// </summary>
+        IEnumerable<TAggregateRoot> FindAll(ISpecification<TAggregateRoot> specification, 
+                                            Expression<Func<TAggregateRoot, dynamic>> sortPredicate, 
+                                            SortOrder sorOrder);
+
+        /// <summary>
+        /// Find all of specific Aggregate Root by the specification and paging condition from repository and then sort by sort predicate.
+        /// </summary>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageSize">The number of objects per page.</param>
+        IPagingResult<TAggregateRoot> FindAll(ISpecification<TAggregateRoot> specification, 
+                                              Expression<Func<TAggregateRoot, dynamic>> sortPredicate, 
+                                              SortOrder sorOrder,
+                                              int pageNumber, 
+                                              int pageSize);
+
     }
 
-    public interface IRepository<TEntity> : IRepository<TEntity, int>
-        where TEntity : class, IEntity<int>, IEntity { }
+    public interface IRepository<TAggregateRoot> : IRepository<TAggregateRoot, int>
+        where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot 
+    { 
+    
+    }
 }

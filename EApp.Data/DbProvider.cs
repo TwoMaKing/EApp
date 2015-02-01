@@ -9,7 +9,6 @@ namespace EApp.Data
 {
     public abstract class DbProvider
     {
-
         #region "Protected Members"
 
         protected System.Data.Common.DbProviderFactory dbProviderFactory;
@@ -53,7 +52,6 @@ namespace EApp.Data
         /// <returns></returns>
         public abstract ISqlStatementFactory CreateStatementFactory();
 
-
         /// <summary>
         /// Discovers params from SQL text.
         /// E.g. insert into [user] values (@user_name, @user_email, @user_password). 
@@ -62,7 +60,6 @@ namespace EApp.Data
         /// <param name="sql">The full or part of SQL text.</param>
         /// <returns>The discovered params.</returns>
         public abstract string[] DiscoverParams(string sql);
-
 
         /// <summary>
         /// Builds the name of the parameter. 
@@ -94,8 +91,6 @@ namespace EApp.Data
         /// </summary>
         /// <value>The param prefix.</value>
         public abstract string ParamPrefix { get; }
-
-
 
         #endregion
 

@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EApp.Core.DomainDriven.Domain;
-using EApp.Core.DomainDriven.Domain.Events;
-using EApp.Core.DomainDriven.Events;
-using EApp.Core.DomainDriven.Repository;
-using EApp.Core.DomainDriven.UnitOfWork;
+using EApp.Domain.Core.Events;
+using EApp.Domain.Core.Repositories;
 using Xpress.Chat.Domain;
 using Xpress.Chat.Domain.Models;
 using Xpress.Chat.Domain.Repositories;
@@ -37,7 +34,6 @@ namespace Xpress.Chat.Domain.Events
 
                 this.repositoryContext.Commit();
 
-                //好想用Using 能自动Dispose.
                 this.repositoryContext.Dispose();
             }
         }

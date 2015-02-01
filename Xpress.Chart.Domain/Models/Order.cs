@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EApp.Core;
-using EApp.Core.DomainDriven.Domain;
-using EApp.Core.DomainDriven.Events;
-using Xpress.Chat.Domain.Events;
 using System.Threading.Tasks;
+using EApp.Core;
+using EApp.Domain.Core;
+using Xpress.Chat.Domain.Events;
 
 namespace Xpress.Chat.Domain.Models
 {

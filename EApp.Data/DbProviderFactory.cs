@@ -68,11 +68,11 @@ namespace EApp.Data
         /// <summary>
         /// Create the specified DbProvider instance by the name of connection string.
         /// </summary>
-        /// <param name="connectionStringName"></param>
+        /// <param name="connectionStringSectionName"></param>
         /// <returns></returns>
-        public static DbProvider CreateDbProvider(string connectionStringName)
+        public static DbProvider CreateDbProvider(string connectionStringSectionName)
         {
-            ConnectionStringSettings connStrSetting = ConfigurationManager.ConnectionStrings[connectionStringName];
+            ConnectionStringSettings connStrSetting = ConfigurationManager.ConnectionStrings[connectionStringSectionName];
 
             string connectionString = connStrSetting.ConnectionString;
             

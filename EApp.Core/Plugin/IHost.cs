@@ -10,7 +10,6 @@ namespace EApp.Core.Plugin
     /// </summary>
     public interface IHost
     {
-        
         IPluginProvider PluginProvider { get; }
         
         IPluginServiceProviderFactory ServiceProvider { get; }

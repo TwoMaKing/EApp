@@ -7,7 +7,6 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using EApp.Core.Application;
-using EApp.Core.DomainDriven.Commands;
 
 namespace Xpress.Life
 {

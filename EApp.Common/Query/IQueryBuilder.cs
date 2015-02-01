@@ -4,39 +4,36 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using EApp.Core;
-using EApp.Core.DomainDriven.Domain;
 using EApp.Core.Query;
 
 namespace EApp.Common.Query
 {
-
-    public interface IQueryBuilder<TEntity, TIdentityKey> : IQuery<TEntity, TIdentityKey> where TEntity : class, IEntity<TIdentityKey>
+    public interface IQueryBuilder<T> : IQuery<T> where T : class
     {
-        Expression<Func<TEntity, bool>> QueryPredicate { get; }
+        Expression<Func<T, bool>> QueryPredicate { get; }
 
-        IQueryBuilder<TEntity, TIdentityKey> Filter(Expression<Func<TEntity, bool>> predicate, bool isOr = false);
+        IQueryBuilder<T> Filter(Expression<Func<T, bool>> predicate, bool isOr = false);
 
-        IQueryBuilder<TEntity, TIdentityKey> Filter(string propertyName, object value, Operator @operator = Operator.Equal);
+        IQueryBuilder<T> Filter(string propertyName, object value, Operator @operator = Operator.Equal);
 
-        IQueryBuilder<TEntity, TIdentityKey> Filter<TPropertyType>(Expression<Func<TEntity, TPropertyType>> propertyExpression,
-                                                                   TPropertyType minValue,
-                                                                   TPropertyType maxValue) where TPropertyType : struct;
+        IQueryBuilder<T> Filter<TPropertyType>(Expression<Func<T, TPropertyType>> propertyExpression,
+                                               TPropertyType minValue,
+                                               TPropertyType maxValue) where TPropertyType : struct;
 
-        IQueryBuilder<TEntity, TIdentityKey> And(IQueryBuilder<TEntity, TIdentityKey> queryBuilder);
+        IQueryBuilder<T> And(IQueryBuilder<T> queryBuilder);
 
-        IQueryBuilder<TEntity, TIdentityKey> And(Expression<Func<TEntity, bool>> predicate);
+        IQueryBuilder<T> And(Expression<Func<T, bool>> predicate);
 
-        IQueryBuilder<TEntity, TIdentityKey> Or(IQueryBuilder<TEntity, TIdentityKey> queryBuilder);
+        IQueryBuilder<T> Or(IQueryBuilder<T> queryBuilder);
 
-        IQueryBuilder<TEntity, TIdentityKey> Or(Expression<Func<TEntity, bool>> predicate);
+        IQueryBuilder<T> Or(Expression<Func<T, bool>> predicate);
 
-        IQueryBuilder<TEntity, TIdentityKey> AndNot(IQueryBuilder<TEntity, TIdentityKey> queryBuilder);
+        IQueryBuilder<T> AndNot(IQueryBuilder<T> queryBuilder);
 
-        IQueryBuilder<TEntity, TIdentityKey> AndNot(Expression<Func<TEntity, bool>> predicate);
+        IQueryBuilder<T> AndNot(Expression<Func<T, bool>> predicate);
 
-        IQueryBuilder<TEntity, TIdentityKey> OrderBy(string propertyName, SortOrder sortOrder = SortOrder.Ascending);
+        IQueryBuilder<T> OrderBy(string propertyName, SortOrder sortOrder = SortOrder.Ascending);
 
-        IQueryBuilder<TEntity, TIdentityKey> OrderBy(Expression<Func<TEntity, dynamic>> predicate, SortOrder sortOrder = SortOrder.Ascending);
-
+        IQueryBuilder<T> OrderBy(Expression<Func<T, dynamic>> predicate, SortOrder sortOrder = SortOrder.Ascending);
     }
 }

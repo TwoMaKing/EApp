@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using EApp.Core.Application;
 using EApp.Core.WindowsMvc;
 
@@ -14,10 +11,7 @@ namespace EApp.Core
     {
         private IControllerFactory controllerFactory;
 
-        public WindowsMvcControllerBuilder() 
-        { 
-        
-        }
+        public WindowsMvcControllerBuilder() { }
 
         /// <summary>
         /// Gets the associated windows mvc controller factory.
@@ -26,7 +20,6 @@ namespace EApp.Core
         {
             return this.controllerFactory;
         }
-
 
         /// <summary>
         /// Sets the specified windows mvc controller factory.

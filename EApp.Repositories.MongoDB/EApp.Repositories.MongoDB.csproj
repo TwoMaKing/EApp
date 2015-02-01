@@ -61,6 +61,10 @@
       <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
       <Name>EApp.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EApp.Domain.Core\EApp.Domain.Core.csproj">
+      <Project>{3B98F11D-5383-4856-B82A-9EB6AE800603}</Project>
+      <Name>EApp.Domain.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

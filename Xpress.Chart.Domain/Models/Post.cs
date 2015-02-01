@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EApp.Bus.MessageQueue;
-using EApp.Core.DomainDriven.Domain;
-using EApp.Core.DomainDriven.Domain.Events;
+using EApp.Domain.Core;
 
 namespace Xpress.Chat.Domain.Models
 {
-    public class Post : EntityBase, IAggregateRoot
+    public class Post : AggregateRoot
     {
         private Topic topic;
 
@@ -17,6 +16,8 @@ namespace Xpress.Chat.Domain.Models
         private string content = string.Empty;
 
         private DateTime creationDateTime = DateTime.Now;
+
+        private int praiseCount;
 
         public Post() : base() { }
 
@@ -75,7 +76,17 @@ namespace Xpress.Chat.Domain.Models
             }
         }
 
-        public int PraiseCount { get; private set; }
+        public int PraiseCount 
+        { 
+            get 
+            { 
+                return praiseCount; 
+            }
+            private set
+            {
+                this.praiseCount = value;
+            }
+        }
 
         #region Domain Business
         

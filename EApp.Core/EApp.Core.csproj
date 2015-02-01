@@ -34,11 +34,17 @@
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\Log\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity.Configuration">
       <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\NInject\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -57,56 +63,18 @@
     <Compile Include="Application\AppInitEventArgs.cs" />
     <Compile Include="Application\EAppRuntime.cs" />
     <Compile Include="Application\IApp.cs" />
-    <Compile Include="DomainDriven\Application\ApplicationService.cs" />
-    <Compile Include="DomainDriven\Application\DataTransferObjectBase.cs" />
-    <Compile Include="DomainDriven\Application\IDataTransferObject.cs" />
-    <Compile Include="DomainDriven\Bus\CommandBus.cs" />
-    <Compile Include="DomainDriven\Bus\ICommandBus.cs" />
-    <Compile Include="DomainDriven\Commands\CommandDispatcher.cs" />
-    <Compile Include="DomainDriven\Commands\ConfigSourceCommandHandlerProvider.cs" />
-    <Compile Include="DomainDriven\Commands\ICommandDispatcher.cs" />
-    <Compile Include="DomainDriven\Commands\ICommandHandlerProvider.cs" />
-    <Compile Include="DomainDriven\ConfigSourceHandlerProvider.cs" />
-    <Compile Include="DomainDriven\Domain\AggregateRoot.cs" />
-    <Compile Include="DomainDriven\Events\HandleAsynchronizationAttribute.cs" />
-    <Compile Include="DomainDriven\IHandlerProvider.cs" />
-    <Compile Include="DomainDriven\Bus\IMessageDispatcher.cs" />
-    <Compile Include="DomainDriven\Bus\MessageDispatcher.cs" />
-    <Compile Include="DomainDriven\Bus\MessageDispatcherFactory.cs" />
-    <Compile Include="DomainDriven\Commands\Command.cs" />
-    <Compile Include="DomainDriven\Commands\CommandHandler.cs" />
-    <Compile Include="DomainDriven\Commands\ICommand.cs" />
-    <Compile Include="DomainDriven\Commands\ICommandHandler.cs" />
-    <Compile Include="DomainDriven\Domain\EntityBase.cs" />
-    <Compile Include="DomainDriven\Domain\Events\DomainEvent.cs" />
-    <Compile Include="DomainDriven\Domain\Events\DomainEventAggregator.cs" />
-    <Compile Include="DomainDriven\Domain\Events\IDomainEvent.cs" />
-    <Compile Include="DomainDriven\Domain\Events\IDomainEventHandler.cs" />
-    <Compile Include="DomainDriven\Domain\IAggregateRoot.cs" />
-    <Compile Include="DomainDriven\Domain\IEntity.cs" />
-    <Compile Include="DomainDriven\Domain\PropertyChangedEventArgs.cs" />
-    <Compile Include="DomainDriven\Domain\ValueObject.cs" />
-    <Compile Include="DomainDriven\Events\ActionDelegateEventHandler.cs" />
-    <Compile Include="DomainDriven\Bus\EventBus.cs" />
-    <Compile Include="DomainDriven\Bus\IBus.cs" />
-    <Compile Include="DomainDriven\Bus\IEventBus.cs" />
-    <Compile Include="DomainDriven\Events\EventAggregator.cs" />
-    <Compile Include="DomainDriven\Events\IEvent.cs" />
-    <Compile Include="DomainDriven\Events\IEventAggregator.cs" />
-    <Compile Include="DomainDriven\Events\IEventHandler.cs" />
-    <Compile Include="DomainDriven\LightBus\CommandBus.cs" />
-    <Compile Include="DomainDriven\LightBus\ICommandBus.cs" />
-    <Compile Include="DomainDriven\LightBus\IEventBus.cs" />
-    <Compile Include="DomainDriven\Repository\IRepository.cs" />
-    <Compile Include="DomainDriven\Repository\IRepositoryContext.cs" />
-    <Compile Include="DomainDriven\Repository\IUnitOfWorkRepository.cs" />
-    <Compile Include="DomainDriven\Repository\Repository.cs" />
-    <Compile Include="DomainDriven\Repository\RepositoryContext.cs" />
-    <Compile Include="DomainDriven\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="DynamicQueryable.cs" />
     <Compile Include="ExpressionParser.cs" />
-    <Compile Include="DomainDriven\IHandler.cs" />
+    <Compile Include="IoC\NInject\NInjectObjectContainer.cs" />
+    <Compile Include="IoC\NInject\NInjectObjectContainerFactory.cs" />
+    <Compile Include="IoC\Unity\UnityObjectContainer.cs" />
+    <Compile Include="IoC\Unity\UnityObjectContainerFactory.cs" />
     <Compile Include="IServiceLocator.cs" />
+    <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="Log\Log4Net\Log4NetLogger.cs" />
+    <Compile Include="Log\Log4Net\Log4NetLoggerFactory.cs" />
+    <Compile Include="Log\LoggerContext.cs" />
+    <Compile Include="Log\LoggerWrapper.cs" />
     <Compile Include="Query\IQuery.cs" />
     <Compile Include="Query\IPagingResult.cs" />
     <Compile Include="Query\IQueryPaging.cs" />
@@ -126,10 +94,11 @@
     <Compile Include="QuerySepcifications\Specification.cs" />
     <Compile Include="Query\QueryEnum.cs" />
     <Compile Include="ServiceLocator.cs" />
-    <Compile Include="Transactions\DistributedTransactionHandler.cs" />
-    <Compile Include="Transactions\ITransactionHandler.cs" />
-    <Compile Include="Transactions\TransactionHandler.cs" />
-    <Compile Include="Transactions\TransactionHandlerFacotry.cs" />
+    <Compile Include="Transactions\DistributedTransactionAttribute.cs" />
+    <Compile Include="Transactions\DistributedTransactionCoordinator.cs" />
+    <Compile Include="Transactions\ITransactionCoordinator.cs" />
+    <Compile Include="Transactions\TransactionCoordinator.cs" />
+    <Compile Include="Transactions\TransactionCoordinatorFacotry.cs" />
     <Compile Include="WindowsMvc\IController.cs" />
     <Compile Include="WindowsMvc\IControllerFactory.cs" />
     <Compile Include="WindowsMvc\IView.cs" />
@@ -205,7 +174,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Lambda\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,31 +5,30 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using EApp.Core;
-using EApp.Core.DomainDriven.Domain;
 using EApp.Core.Query;
 
 namespace EApp.Common.Query
 {
     public static class QueryBuilderExtension
     {
-        public static IQueryBuilder<TEntity> IfThenElse<TEntity>(this IQueryBuilder<TEntity> queryBuilder,
-                                                                 Expression<Func<dynamic, bool>> test,
-                                                                 Expression<Func<TEntity, bool>> ifTrue,
-                                                                 Expression<Func<TEntity, bool>> ifFalse, 
-                                                                 bool isOr = false)
-                                                                 where TEntity : class, IEntity
+        public static IQueryBuilder<T> IfThenElse<T>(this IQueryBuilder<T> queryBuilder,
+                                                     Expression<Func<dynamic, bool>> test,
+                                                     Expression<Func<T, bool>> ifTrue,
+                                                     Expression<Func<T, bool>> ifFalse, 
+                                                     bool isOr = false)
+                                                     where T : class
         {
             Expression.IfThenElse(test, ifTrue, ifFalse);
 
             return queryBuilder;
         }
 
-        public static IQueryBuilder<TEntity> IfThenElse<TEntity>(this IQueryBuilder<TEntity> queryBuilder,
-                                                                 Expression<Func<dynamic, bool>> test,
-                                                                 IQueryBuilder<TEntity> ifTrue,
-                                                                 IQueryBuilder<TEntity> ifFalse,
-                                                                 bool isOr = false)
-                                                                 where TEntity : class, IEntity
+        public static IQueryBuilder<T> IfThenElse<T>(this IQueryBuilder<T> queryBuilder,
+                                                     Expression<Func<dynamic, bool>> test,
+                                                     IQueryBuilder<T> ifTrue,
+                                                     IQueryBuilder<T> ifFalse,
+                                                     bool isOr = false)
+                                                     where T : class
         {
 
             Expression.IfThenElse(test, ifTrue.QueryPredicate, ifFalse.QueryPredicate);
@@ -37,17 +36,17 @@ namespace EApp.Common.Query
             return queryBuilder;
         }
 
-        public static IQuery<TEntity> IfThenElse<TEntity>(this IQueryBuilder<TEntity> queryBuilder,
-                                                          Expression<Func<bool>> test, 
-                                                          Func<IQuery<TEntity>> ifTrue,
-                                                          Func<IQuery<TEntity>> ifFalse)
-                                                          where TEntity : class, IEntity
+        public static IQuery<T> IfThenElse<T>(this IQueryBuilder<T> queryBuilder,
+                                              Expression<Func<bool>> test, 
+                                              Func<IQuery<T>> ifTrue,
+                                              Func<IQuery<T>> ifFalse)
+                                              where T : class
         {
             ParameterExpression testParameter = Expression.Parameter(typeof(bool), "test");
 
-            ParameterExpression variable = Expression.Variable(typeof(Func<IQuery<TEntity>>), "query");
+            ParameterExpression variable = Expression.Variable(typeof(Func<IQuery<T>>), "query");
 
-            LabelTarget labelTarget = Expression.Label(typeof(Func<IQuery<TEntity>>));
+            LabelTarget labelTarget = Expression.Label(typeof(Func<IQuery<T>>));
 
             ConditionalExpression conditionalExpression =
                 Expression.IfThenElse(testParameter,
@@ -70,27 +69,27 @@ namespace EApp.Common.Query
 
                 labelExpression);
 
-            Expression<Func<bool, Func<IQuery<TEntity>>>> funcQueryExpression =
-                Expression.Lambda<Func<bool, Func<IQuery<TEntity>>>>(blocks, testParameter);
+            Expression<Func<bool, Func<IQuery<T>>>> funcQueryExpression =
+                Expression.Lambda<Func<bool, Func<IQuery<T>>>>(blocks, testParameter);
 
             return funcQueryExpression.Compile()(test.Compile()())();
         }
 
-        public static IQuery<TEntity> Switch<TEntity, TSwitchValueType>(
-            this IQueryBuilder<TEntity> queryBuilder,
+        public static IQuery<T> Switch<T, TSwitchValueType>(
+            this IQueryBuilder<T> queryBuilder,
             Func<TSwitchValueType> switchValue,
-            IDictionary<TSwitchValueType, Expression<Func<TEntity, bool>>> switchCasesMappingTestValues) 
-            where TEntity : class, IEntity
+            IDictionary<TSwitchValueType, Expression<Func<T, bool>>> testValueCases) 
+            where T : class
         {
-            if (switchCasesMappingTestValues == null ||
-                switchCasesMappingTestValues.Count.Equals(0))
+            if (testValueCases == null ||
+                testValueCases.Count.Equals(0))
             {
                 return queryBuilder;
             }
 
             List<SwitchCase> switchCaseList = new List<SwitchCase>();
 
-            foreach (KeyValuePair<TSwitchValueType, Expression<Func<TEntity, bool>>> switchCaseTestValuePair in switchCasesMappingTestValues)
+            foreach (KeyValuePair<TSwitchValueType, Expression<Func<T, bool>>> switchCaseTestValuePair in testValueCases)
             {
                 if (switchCaseTestValuePair.Value == null)
                 {
@@ -109,14 +108,14 @@ namespace EApp.Common.Query
 
             ParameterExpression switchParameterExpression = Expression.Parameter(switchVariableValueType, "Switch");
 
-            Expression<Func<TEntity, bool>> defaultValue = (t) => true;
+            Expression<Func<T, bool>> defaultValue = (t) => true;
 
             SwitchExpression switchExpression = Expression.Switch(switchParameterExpression, 
                                                                   Expression.Constant(defaultValue), 
                                                                   switchCaseList.ToArray());
 
-            Expression<Func<TEntity, bool>> queryPredicate =
-                 Expression.Lambda<Func<TSwitchValueType, Expression<Func<TEntity, bool>>>>
+            Expression<Func<T, bool>> queryPredicate =
+                 Expression.Lambda<Func<TSwitchValueType, Expression<Func<T, bool>>>>
                  (switchExpression, switchParameterExpression).Compile()(switchVariableValue);
 
             queryBuilder.Filter(queryPredicate);
@@ -124,22 +123,21 @@ namespace EApp.Common.Query
             return queryBuilder;
         }
 
-
-        public static IQuery<TEntity> Switch<TEntity, TSwitchValueType>(
-            this IQueryBuilder<TEntity> queryBuilder,
+        public static IQuery<T> Switch<T, TSwitchValueType>(
+            this IQueryBuilder<T> queryBuilder,
             Func<TSwitchValueType> switchValue,
-            IDictionary<TSwitchValueType, IQueryBuilder<TEntity>> switchCasesMappingTestValues)
-            where TEntity : class, IEntity
+            IDictionary<TSwitchValueType, IQueryBuilder<T>> testValueCases)
+            where T : class
         {
-            if (switchCasesMappingTestValues == null ||
-                switchCasesMappingTestValues.Count.Equals(0))
+            if (testValueCases == null ||
+                testValueCases.Count.Equals(0))
             {
                 return queryBuilder;
             }
 
             List<SwitchCase> switchCaseList = new List<SwitchCase>();
 
-            foreach (KeyValuePair<TSwitchValueType, IQueryBuilder<TEntity>> switchCaseTestValuePair in switchCasesMappingTestValues)
+            foreach (KeyValuePair<TSwitchValueType, IQueryBuilder<T>> switchCaseTestValuePair in testValueCases)
             {
                 if (switchCaseTestValuePair.Value == null ||
                     switchCaseTestValuePair.Value.QueryPredicate == null)
@@ -159,14 +157,14 @@ namespace EApp.Common.Query
 
             ParameterExpression switchParameterExpression = Expression.Parameter(switchVariableValueType, "Switch");
 
-            Expression<Func<TEntity, bool>> defaultValue = (t) => true;
+            Expression<Func<T, bool>> defaultValue = (t) => true;
 
             SwitchExpression switchExpression = Expression.Switch(switchParameterExpression,
                                                                   Expression.Constant(defaultValue),
                                                                   switchCaseList.ToArray());
 
-            Expression<Func<TEntity, bool>> queryPredicate =
-                 Expression.Lambda<Func<TSwitchValueType, Expression<Func<TEntity, bool>>>>
+            Expression<Func<T, bool>> queryPredicate =
+                 Expression.Lambda<Func<TSwitchValueType, Expression<Func<T, bool>>>>
                  (switchExpression, switchParameterExpression).Compile()(switchVariableValue);
 
             queryBuilder.Filter(queryPredicate);
@@ -174,22 +172,22 @@ namespace EApp.Common.Query
             return queryBuilder;
         }
 
-        public static IQueryBuilder<TEntity> Switch<TEntity, TSwitchValueType>(
-                this IQueryBuilder<TEntity> queryBuilder,
+        public static IQueryBuilder<T> Switch<T, TSwitchValueType>(
+                this IQueryBuilder<T> queryBuilder,
                 Func<TSwitchValueType> switchValue,
-                IDictionary<TSwitchValueType, Expression<Func<TEntity, bool>>> switchCasesMappingTestValues,
+                IDictionary<TSwitchValueType, Expression<Func<T, bool>>> testValueCases,
                 bool isOr = false)
-                where TEntity : class, IEntity
+                where T : class
         {
-            if (switchCasesMappingTestValues == null ||
-                switchCasesMappingTestValues.Count.Equals(0))
+            if (testValueCases == null ||
+                testValueCases.Count.Equals(0))
             {
                 return queryBuilder;
             }
 
             List<SwitchCase> switchCaseList = new List<SwitchCase>();
 
-            foreach (KeyValuePair<TSwitchValueType, Expression<Func<TEntity, bool>>> switchCaseTestValuePair in switchCasesMappingTestValues)
+            foreach (KeyValuePair<TSwitchValueType, Expression<Func<T, bool>>> switchCaseTestValuePair in testValueCases)
             {
                 if (switchCaseTestValuePair.Value == null)
                 {
@@ -208,14 +206,14 @@ namespace EApp.Common.Query
 
             ParameterExpression switchParameterExpression = Expression.Parameter(switchVariableValueType, "Switch");
 
-            Expression<Func<TEntity, bool>> defaultValue = (t) => true;
+            Expression<Func<T, bool>> defaultValue = (t) => true;
 
             SwitchExpression switchExpression = Expression.Switch(switchParameterExpression,
                                                                   Expression.Constant(defaultValue),
                                                                   switchCaseList.ToArray());
 
-            Expression<Func<TEntity, bool>> queryPredicate =
-                 Expression.Lambda<Func<TSwitchValueType, Expression<Func<TEntity, bool>>>>
+            Expression<Func<T, bool>> queryPredicate =
+                 Expression.Lambda<Func<TSwitchValueType, Expression<Func<T, bool>>>>
                  (switchExpression, switchParameterExpression).Compile()(switchVariableValue);
 
             queryBuilder.Filter(queryPredicate, isOr);
@@ -223,23 +221,22 @@ namespace EApp.Common.Query
             return queryBuilder;
         }
 
-
-        public static IQueryBuilder<TEntity> Switch<TEntity, TSwitchValueType>(
-                this IQueryBuilder<TEntity> queryBuilder,
+        public static IQueryBuilder<T> Switch<T, TSwitchValueType>(
+                this IQueryBuilder<T> queryBuilder,
                 Func<TSwitchValueType> switchValue,
-                IDictionary<TSwitchValueType, IQueryBuilder<TEntity>> switchCasesMappingTestValues, 
+                IDictionary<TSwitchValueType, IQueryBuilder<T>> testValueCases, 
                 bool isOr = false)
-                where TEntity : class, IEntity
+                where T : class
         {
-            if (switchCasesMappingTestValues == null ||
-                switchCasesMappingTestValues.Count.Equals(0))
+            if (testValueCases == null ||
+                testValueCases.Count.Equals(0))
             {
                 return queryBuilder;
             }
 
             List<SwitchCase> switchCaseList = new List<SwitchCase>();
 
-            foreach (KeyValuePair<TSwitchValueType, IQueryBuilder<TEntity>> switchCaseTestValuePair in switchCasesMappingTestValues)
+            foreach (KeyValuePair<TSwitchValueType, IQueryBuilder<T>> switchCaseTestValuePair in testValueCases)
             {
                 if (switchCaseTestValuePair.Value == null ||
                     switchCaseTestValuePair.Value.QueryPredicate == null)
@@ -259,14 +256,14 @@ namespace EApp.Common.Query
 
             ParameterExpression switchParameterExpression = Expression.Parameter(switchVariableValueType, "Switch");
 
-            Expression<Func<TEntity, bool>> defaultValue = (t) => true;
+            Expression<Func<T, bool>> defaultValue = (t) => true;
 
             SwitchExpression switchExpression = Expression.Switch(switchParameterExpression,
                                                                   Expression.Constant(defaultValue),
                                                                   switchCaseList.ToArray());
 
-            Expression<Func<TEntity, bool>> queryPredicate =
-                 Expression.Lambda<Func<TSwitchValueType, Expression<Func<TEntity, bool>>>>
+            Expression<Func<T, bool>> queryPredicate =
+                 Expression.Lambda<Func<TSwitchValueType, Expression<Func<T, bool>>>>
                  (switchExpression, switchParameterExpression).Compile()(switchVariableValue);
 
             queryBuilder.Filter(queryPredicate, isOr);
@@ -274,13 +271,12 @@ namespace EApp.Common.Query
             return queryBuilder;
         }
 
-
-        public static IQuery<TEntity> SwitchOrderBy<TEntity, TSwitchValueType>(
-                this IQueryBuilder<TEntity> queryBuilder,
+        public static IQuery<T> SwitchOrderBy<T, TSwitchValueType>(
+                this IQueryBuilder<T> queryBuilder,
                 Func<TSwitchValueType> switchValue,
-                IDictionary<TSwitchValueType, Expression<Func<TEntity, dynamic>>> orderingPredicateCases,
+                IDictionary<TSwitchValueType, Expression<Func<T, dynamic>>> orderingPredicateCases,
                 IDictionary<TSwitchValueType, SortOrder> sortOrderCases)
-                where TEntity : class, IEntity
+                where T : class
         {
             if (orderingPredicateCases == null ||
                 orderingPredicateCases.Count.Equals(0))
@@ -290,7 +286,7 @@ namespace EApp.Common.Query
 
             List<SwitchCase> switchCaseList = new List<SwitchCase>();
 
-            foreach (KeyValuePair<TSwitchValueType, Expression<Func<TEntity, dynamic>>> switchCaseTestValuePair in orderingPredicateCases)
+            foreach (KeyValuePair<TSwitchValueType, Expression<Func<T, dynamic>>> switchCaseTestValuePair in orderingPredicateCases)
             {
                 if (switchCaseTestValuePair.Value == null)
                 {
@@ -309,14 +305,14 @@ namespace EApp.Common.Query
 
             ParameterExpression switchParameterExpression = Expression.Parameter(switchVariableValueType, "Switch");
 
-            Expression<Func<TEntity, dynamic>> defaultValue = (t) => t.Id;
+            Expression<Func<T, dynamic>> defaultValue = (t) => default(TSwitchValueType);
 
             SwitchExpression switchExpression = Expression.Switch(switchParameterExpression,
                                                                   Expression.Constant(defaultValue),
                                                                   switchCaseList.ToArray());
 
-            Expression<Func<TEntity, dynamic>> queryPredicate =
-                 Expression.Lambda<Func<TSwitchValueType, Expression<Func<TEntity, dynamic>>>>
+            Expression<Func<T, dynamic>> queryPredicate =
+                 Expression.Lambda<Func<TSwitchValueType, Expression<Func<T, dynamic>>>>
                  (switchExpression, switchParameterExpression).Compile()(switchVariableValue);
 
             queryBuilder.OrderBy(queryPredicate, sortOrderCases[switchVariableValue]);

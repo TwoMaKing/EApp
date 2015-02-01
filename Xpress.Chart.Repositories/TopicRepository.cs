@@ -5,61 +5,29 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using EApp.Common.Util;
-using EApp.Core.DomainDriven.Domain;
-using EApp.Core.DomainDriven.Repository;
-using EApp.Core.DomainDriven.UnitOfWork;
 using EApp.Core.Query;
 using EApp.Core.QuerySepcifications;
 using EApp.Data;
-using EApp.Repositories.SqlServer;
+using EApp.Domain.Core.Repositories;
+using EApp.Repositories.SQL;
 using Xpress.Chat.Domain;
 using Xpress.Chat.Domain.Models;
 using Xpress.Chat.Domain.Repositories;
 
 namespace Xpress.Chat.Repositories
 {
-    public class TopicRepository : SqlServerRepository<Topic>, ITopicRepository
+    public class TopicRepository : SQLRepository<Topic>, ITopicRepository
     {
         private const string whereById = "topic_id=@id";
 
         public TopicRepository(IRepositoryContext repositoryContext) : base(repositoryContext) { }
 
-        protected override void PersistAddedItem(Topic entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void PersistModifiedItem(Topic entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void PersistDeletedItem(Topic entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override Topic DoFind(ISpecification<Topic> specification)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IEnumerable<Topic> DoFindAll(Expression<Func<Topic, bool>> expression)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IPagingResult<Topic> DoFindAll(Expression<Func<Topic, bool>> expression, int pageNumber, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override string GetEntityQuerySqlById()
+        protected override string GetAggregateRootQuerySqlById()
         {
             return "select * from topic where topic_id = @id";
         }
 
-        protected override Topic BuildEntityFromDataReader(IDataReader dataReader)
+        protected override Topic BuildAggregateRootFromDataReader(IDataReader dataReader)
         {
             Topic topic = new Topic();
 
@@ -70,9 +38,25 @@ namespace Xpress.Chat.Repositories
             return topic;
         }
 
-        protected override Dictionary<string, AppendChildToEntity> BuildChildCallbacks()
+        protected override Dictionary<string, AppendChildToAggregateRoot> BuildChildCallbacks()
         {
             return null;
         }
+
+        protected override void DoPersistAddedItems(IEnumerable<Topic> aggregateRoots)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoPersistModifiedItems(IEnumerable<Topic> aggregateRoots)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoPersistDeletedItems(IEnumerable<Topic> aggregateRoots)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

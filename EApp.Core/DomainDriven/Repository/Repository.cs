@@ -125,6 +125,33 @@ namespace EApp.Core.DomainDriven.Repository
 
         protected abstract IPagingResult<TEntity> DoFindAll(Expression<Func<TEntity, bool>> expression, int pageNumber, int pageSize);
 
+        //protected virtual IPagingResult<TEntity> DoFindAll(Expression<Func<TEntity, bool>> expression, int pageNumber, int pageSize) 
+        //{
+        //    if (pageNumber <= 0)
+        //    {
+        //        throw new ArgumentOutOfRangeException("pageNumber", pageNumber, "The pageNumber is one-based and should be larger than zero.");
+        //    }
+
+        //    if (pageSize <= 0)
+        //    {
+        //        throw new ArgumentOutOfRangeException("pageSize", pageSize, "The pageSize is one-based and should be larger than zero.");
+        //    }
+
+        //    IEnumerable<TEntity> allEntities = this.DoFindAll(expression);
+
+        //    int skip = (pageNumber - 1) * pageSize;
+            
+        //    int take = pageSize;
+
+        //    IEnumerable<TEntity> pagedEntities = allEntities.Skip(skip).Take(take);
+
+        //    int totalRecords = allEntities.Count();
+
+        //    int totalPages = (totalRecords + pageSize - 1) / pageSize;
+
+        //    return new PagingResult<TEntity>(totalRecords, totalPages, pageNumber, pageSize, pagedEntities.Select(entity => entity).ToList());
+        //}
+
         #endregion
 
     }

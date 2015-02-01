@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using EApp.Common.IOC;
 using EApp.Core.Application;
 using EApp.Core.Configuration;
 using EApp.Core.Plugin;

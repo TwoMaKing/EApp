@@ -72,6 +72,8 @@ namespace EApp.Data.Query
 
         ISqlQuery Where(string wherePredicate, IEnumerable<object> paramValues);
 
+        ISqlQuery Page(string primaryKey, int pageNumber, int pageSize);
+
         ISqlQuery Clear();
 
         IDataReader ExecuteReader(IDbConnection connection, IDbTransaction transaction = null);

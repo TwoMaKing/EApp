@@ -385,7 +385,7 @@ namespace EApp.UI.Controls.UIHandler
                     {
                         foreach (RibbonItem item in panel.Items)
                         {
-                            if (CommonHelper.IsExistInArray<string>(ribbonItemNames, item.Name))
+                            if (ArrayUtil.IsExistInArray<string>(ribbonItemNames, item.Name))
                             {
                                 ribbonItemList.Add(item);
                             }

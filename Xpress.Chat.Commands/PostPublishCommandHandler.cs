@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using EApp.Core;
 using EApp.Core.Application;
-using EApp.Core.DomainDriven.Commands;
-using EApp.Core.DomainDriven.Repository;
+using EApp.Domain.Core.Commands;
+using EApp.Domain.Core.Repositories;
 using Xpress.Chat.Domain.Models;
 using Xpress.Chat.Domain.Repositories;
 

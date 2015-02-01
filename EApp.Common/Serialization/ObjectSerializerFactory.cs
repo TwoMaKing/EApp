@@ -12,7 +12,7 @@ namespace EApp.Common.Serialization
     {
         private static Dictionary<string, IObjectSerializer> objectSerializerDictionary = new Dictionary<string, IObjectSerializer>();
 
-        private static object lockObject = new object();
+        private static readonly object lockObject = new object();
 
         public static IObjectSerializer GetObjectSerializer() 
         {

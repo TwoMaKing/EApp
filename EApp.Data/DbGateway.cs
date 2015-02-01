@@ -46,7 +46,7 @@ namespace EApp.Data
 
         private Database database;
 
-        private static object lockObject = new object();
+        private static readonly object lockObject = new object();
 
         #region Constructors
 
@@ -58,9 +58,9 @@ namespace EApp.Data
                 throw new ConfigException("Please provide a connection string including name, provider and connection string.");
             }
 
-            string connectionStringName = ConfigurationManager.ConnectionStrings[0].Name;
+            string connectionStringSectionName = ConfigurationManager.ConnectionStrings[0].Name;
 
-            DbProvider dbProvider = DbProviderFactory.CreateDbProvider(connectionStringName);
+            DbProvider dbProvider = DbProviderFactory.CreateDbProvider(connectionStringSectionName);
 
             defaultDbGateway = new DbGateway(new Database(dbProvider));
         }
@@ -75,9 +75,9 @@ namespace EApp.Data
             this.database = new Database(CreateDbProvider(databaseType, connectionString));
         }
 
-        public DbGateway(string connectionStringName)
+        public DbGateway(string connectionStringSectionName)
         {
-            this.database = new Database(DbProviderFactory.CreateDbProvider(connectionStringName));
+            this.database = new Database(DbProviderFactory.CreateDbProvider(connectionStringSectionName));
         }
 
         #endregion
@@ -88,9 +88,9 @@ namespace EApp.Data
         {
             string databaseTypeName = databaseType.ToString();
 
-            ConnectionStringSettings connStrSetting = ConfigurationManager.ConnectionStrings[databaseTypeName];
+            ConnectionStringSettings connectionStringSetting = ConfigurationManager.ConnectionStrings[databaseTypeName];
 
-            string providerName = connStrSetting.ProviderName;
+            string providerName = connectionStringSetting.ProviderName;
 
             string[] assemblyAndClassType = providerName.Split(new char[] { ',' });
 
@@ -275,9 +275,9 @@ namespace EApp.Data
             }
         }
 
-        public static void SetDefaultDatabase(string connectionStringName) 
+        public static void SetDefaultDatabase(string connectionStringSectionName) 
         {
-            defaultDbGateway = new DbGateway(connectionStringName);
+            defaultDbGateway = new DbGateway(connectionStringSectionName);
         }
 
         public static void SetDefaultDatabase(DatabaseType databaseType, string connectionString)
@@ -373,7 +373,6 @@ namespace EApp.Data
             {
                 paramNames = columns;
             }
-
 
             DbCommand insertCommand = this.PrepareSqlStringCommand(paramNames, dbTypes, values, insertSqlStatement);
 

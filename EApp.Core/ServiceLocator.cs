@@ -10,7 +10,7 @@ using Microsoft.Practices.Unity.Configuration;
 
 namespace EApp.Core
 {
-    public sealed class ServiceLocator : IServiceProvider
+    public sealed class ServiceLocator : IServiceLocator
     {
         private readonly static ServiceLocator instance = new ServiceLocator();
 
