@@ -24,6 +24,8 @@ namespace EApp.Data
 
         private static Dictionary<string, DbProvider> providerCache = new Dictionary<string, DbProvider>();
 
+        private static readonly object lockObject = new object();
+
         private DbProviderFactory() { }
 
         #endregion
@@ -37,31 +39,37 @@ namespace EApp.Data
         /// <returns>The db provider.</returns>
         public static DbProvider CreateDbProvider(string assemblyName, string classTypeName, string connectionString)
         {
-            string cacheKey = string.Concat(assemblyName, classTypeName, connectionString);
-
-            if (providerCache.ContainsKey(cacheKey))
+            lock (lockObject)
             {
-                return providerCache[cacheKey];
-            }
-            else
-            {
-                Assembly assembly = null;
+                string cacheKey = string.Concat(assemblyName, classTypeName, connectionString);
 
-                if (string.IsNullOrEmpty(assemblyName))
+                if (providerCache.ContainsKey(cacheKey))
                 {
-                    assembly = typeof(DbProvider).Assembly;
+                    return providerCache[cacheKey];
                 }
                 else
                 {
-                    assembly = Assembly.Load(assemblyName);
+                    Assembly assembly = null;
+
+                    if (string.IsNullOrEmpty(assemblyName))
+                    {
+                        assembly = typeof(DbProvider).Assembly;
+                    }
+                    else
+                    {
+                        assembly = Assembly.Load(assemblyName);
+                    }
+
+                    DbProvider dbProvider = (DbProvider)assembly.CreateInstance(
+                        classTypeName, true, BindingFlags.Default, null, new object[] { connectionString }, null, null);
+
+                    if (!providerCache.ContainsKey(cacheKey))
+                    {
+                        providerCache.Add(cacheKey, dbProvider);
+                    }
+
+                    return dbProvider;
                 }
-
-                DbProvider dbProvider = (DbProvider)assembly.CreateInstance(
-                    classTypeName, true, BindingFlags.Default, null, new object[] { connectionString }, null, null);
-
-                providerCache.Add(cacheKey, dbProvider);
-
-                return dbProvider;
             }
         }
 
@@ -93,7 +101,7 @@ namespace EApp.Data
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -126,8 +134,8 @@ namespace EApp.Data
 
             }
             catch (Exception ex)
-            {  
-                return null;
+            {
+                throw ex;
             }
         }
 

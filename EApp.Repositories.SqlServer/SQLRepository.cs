@@ -19,28 +19,28 @@ namespace EApp.Repositories.SQL
     /// <summary>
     /// Repository used for Sql Server.
     /// </summary>
-    public abstract class SQLRepository<TAggregateRoot> : Repository<TAggregateRoot> 
+    public abstract class SqlRepository<TAggregateRoot> : Repository<TAggregateRoot> 
         where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot
     {
         protected delegate void AppendChildToAggregateRoot(TAggregateRoot aggregateRoot, int childEntityId);
 
-        private ISQLRepositoryContext sqlServerRepositoryContext;
-            
+        private ISqlRepositoryContext sqlRepositoryContext;
+
         private ICacheManager cacheManager = CacheFactory.GetCacheManager();
 
-        public SQLRepository(IRepositoryContext repositoryContext) : base(repositoryContext) 
+        public SqlRepository(IRepositoryContext repositoryContext) : base(repositoryContext) 
         {
-            if (repositoryContext is ISQLRepositoryContext)
+            if (repositoryContext is ISqlRepositoryContext)
             {
-                this.sqlServerRepositoryContext = repositoryContext as ISQLRepositoryContext;
+                this.sqlRepositoryContext = repositoryContext as ISqlRepositoryContext;
             }
         }
 
-        protected ISQLRepositoryContextDbProvider DbProvider
+        protected ISqlRepositoryContext SqlRepositoryContext 
         {
             get 
             {
-                return this.sqlServerRepositoryContext.DbProvider;
+                return this.sqlRepositoryContext;
             }
         }
 

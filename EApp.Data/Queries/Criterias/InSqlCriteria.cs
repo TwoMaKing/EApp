@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EApp.Data.Query.Criterias
+namespace EApp.Data.Queries.Criterias
 {
     public class InSqlCriteria : OperatorSqlCriteria
     {

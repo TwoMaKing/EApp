@@ -12,6 +12,8 @@ namespace EApp.Data
     {
         #region "cache"
 
+        private readonly static object lockObject = new object();
+
         private DbParameterCache parameterCache;
 
         private Dictionary<string, string[]> parameterNameCache = new Dictionary<string, string[]>();
@@ -32,7 +34,7 @@ namespace EApp.Data
             }
         }
 
-        internal string[] GetParsedParamNames(string sql)
+        public string[] GetParsedParamNames(string sql)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -57,6 +59,31 @@ namespace EApp.Data
             return paramNames;
         }
 
+        public void CreateAndCacheDbCommandParameters(string sqlCommandText,
+                                                      DbCommand command,
+                                                      string[] paramNames,
+                                                      DbType[] paramDbTypes,
+                                                      object[] paramValues) 
+        {
+            lock (lockObject)
+            {
+                if (this.ParameterCache.IsCache(sqlCommandText))
+                {
+                    this.ParameterCache.AddParametersFromCache(sqlCommandText, command, paramDbTypes, paramValues);
+                }
+                else
+                {
+                    if (this.ParameterCache.IsCache(sqlCommandText))
+                    {
+                        this.ParameterCache.AddParametersFromCache(sqlCommandText, command, paramDbTypes, paramValues);
+                    }
+                    else
+                    {
+                        this.ParameterCache.CreateAndCacheParameters(sqlCommandText, command, paramNames, paramDbTypes, paramValues);
+                    }
+                }
+            }
+        }
 
         #endregion
 
@@ -268,7 +295,6 @@ namespace EApp.Data
         #endregion
 
         #region "public members"
-
 
         public string ConnectionString
         {

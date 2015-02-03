@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EApp.Core.Query;
-using EApp.Data.Query.Criterias;
+using EApp.Data.Queries.Criterias;
 
-namespace EApp.Data.Query
+namespace EApp.Data.Queries
 {
     public interface ISqlBuilder
     {
@@ -71,7 +71,7 @@ namespace EApp.Data.Query
 
         ISqlBuilder Where(string wherePredicate, IEnumerable<object> paramValues);
 
-        ISqlBuilder Page(string primaryKey, int pageNumber, int pageSize);
+        ISqlBuilder Page(string identyColumn, int pageNumber, int pageSize);
 
         ISqlBuilder Clear();
         

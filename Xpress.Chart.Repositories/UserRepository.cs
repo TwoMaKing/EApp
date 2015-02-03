@@ -16,7 +16,7 @@ using Xpress.Chat.Domain.Repositories;
 
 namespace Xpress.Chat.Repositories
 {
-    public class UserRepository : SQLRepository<User>, IUserRepository
+    public class UserRepository : SqlRepository<User>, IUserRepository
     {
         private const string whereById = "user_id=@id";
 

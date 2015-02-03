@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace EApp.Data.Query
+namespace EApp.Data.Queries
 {
     public static class SqlBuilderExtension
     {

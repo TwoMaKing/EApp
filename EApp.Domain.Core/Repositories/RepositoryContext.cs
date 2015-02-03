@@ -48,6 +48,10 @@ namespace EApp.Domain.Core.Repositories
             {
                 return this.committed.Value;
             }
+            protected set
+            {
+                this.committed.Value = value;
+            }
         }
 
         public IRepository<TAggregateRoot> GetRepository<TAggregateRoot>() where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot

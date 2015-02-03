@@ -9,7 +9,7 @@ using EApp.Core;
 using EApp.Core.Query;
 using EApp.Core.QuerySepcifications;
 using EApp.Data;
-using EApp.Data.Query;
+using EApp.Data.Queries;
 using EApp.Domain.Core.Repositories;
 using EApp.Repositories.SQL;
 using Xpress.Chat.Domain;
@@ -18,7 +18,7 @@ using Xpress.Chat.Domain.Repositories;
 
 namespace Xpress.Chat.Repositories
 {
-    public class PostRepository : SQLRepository<Post>, IPostRepository
+    public class PostRepository : SqlRepository<Post>, IPostRepository
     {
         public PostRepository(IRepositoryContext repositoryContext)
             : base(repositoryContext)
@@ -108,11 +108,11 @@ namespace Xpress.Chat.Repositories
         {
             foreach (Post post in aggregateRoots)
             {
-                this.DbProvider.Insert("post",
-                                       new object[] { post.Topic.Id, 
-                                                      post.Author.Id, 
-                                                      post.Content, 
-                                                      post.CreationDateTime });
+                this.SqlRepositoryContext.Insert("post",
+                                                 new object[] { post.Topic.Id, 
+                                                                post.Author.Id, 
+                                                                post.Content, 
+                                                                post.CreationDateTime });
             }
         }
 
@@ -120,13 +120,13 @@ namespace Xpress.Chat.Repositories
         {
             foreach (Post post in aggregateRoots)
             {
-                this.DbProvider.Update("post",
-                                        new string[] { "post_topic_id", "post_author_id", "content" },
-                                        new object[] { post.Topic.Id, 
-                                                       post.Author.Id, 
-                                                       post.Content },
-                                        "post_id=" + this.DbProvider.BuildParameterName("post_id"),
-                                        new object[] { post.Id });
+                this.SqlRepositoryContext.Update("post",
+                                                 new string[] { "post_topic_id", "post_author_id", "content" },
+                                                 new object[] { post.Topic.Id, 
+                                                                post.Author.Id, 
+                                                                post.Content },
+                                                 "post_id=@post_id",
+                                                 new object[] { post.Id });
             }
         }
 
@@ -134,9 +134,9 @@ namespace Xpress.Chat.Repositories
         {
             foreach (Post post in aggregateRoots)
             {
-                this.DbProvider.Delete("post",
-                                       "post_id=" + this.DbProvider.BuildParameterName("post_id"),
-                                       new object[] { post.Id });
+                this.SqlRepositoryContext.Delete("post",
+                                                 "post_id=@post_id",
+                                                 new object[] { post.Id });
             }
         }
     }

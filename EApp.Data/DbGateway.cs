@@ -332,20 +332,20 @@ namespace EApp.Data
                 dbTypes != null &&
                 !columns.Length.Equals(dbTypes.Length))
             {
-                throw new ArgumentException("The length of columns of parameter don't equal the length of db types of parameters.");
+                throw new ArgumentException("The length of columns of parameter doesn't equal the length of db types of parameters.");
             }
 
             if (columns != null &&
                 !columns.Length.Equals(values.Length))
             {
-                throw new ArgumentException("The length of columns of parameter don't equal the length of values of parameters.");
+                throw new ArgumentException("The length of columns of parameter doesn't equal the length of values of parameters.");
             }
 
             if (columns == null &&
                 dbTypes != null &&
                 !dbTypes.Length.Equals(values.Length))
             {
-                throw new ArgumentException("The length of db types of parameter don't equal the length of values of parameters.");
+                throw new ArgumentException("The length of db types of parameter doesn't equal the length of values of parameters.");
             }
 
             ISqlStatementFactory statementFactory = this.database.DBProvider.CreateStatementFactory();
@@ -631,7 +631,20 @@ namespace EApp.Data
 
         public void ExecuteNonQuery(string sqlCommandText, DbType[] paramDbTypes, object[] paramValues, DbTransaction transaction) 
         {
+            if (paramDbTypes != null &&
+               !paramDbTypes.Length.Equals(paramValues.Length))
+            {
+                throw new ArgumentException("The length of db types of parameters should equal the length of parameter values.");
+            }
+
             string[] paramNames = this.database.DiscoverParams(sqlCommandText);
+
+            if (paramNames != null &&
+                paramValues != null &&
+               !paramNames.Length.Equals(paramNames.Length))
+            {
+                throw new ArgumentException("The length of names of parameters should equal the length of parameter values.");
+            }   
 
             DbCommand command = this.PrepareSqlStringCommand(paramNames, paramDbTypes, paramValues, sqlCommandText);
 

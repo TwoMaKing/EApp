@@ -99,6 +99,7 @@
     <Compile Include="Transactions\ITransactionCoordinator.cs" />
     <Compile Include="Transactions\TransactionCoordinator.cs" />
     <Compile Include="Transactions\TransactionCoordinatorFacotry.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="WindowsMvc\IController.cs" />
     <Compile Include="WindowsMvc\IControllerFactory.cs" />
     <Compile Include="WindowsMvc\IView.cs" />
@@ -174,9 +175,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Lambda\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

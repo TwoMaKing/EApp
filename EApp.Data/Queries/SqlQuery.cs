@@ -8,9 +8,9 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using EApp.Core.Query;
-using EApp.Data.Query.Criterias;
+using EApp.Data.Queries.Criterias;
 
-namespace EApp.Data.Query
+namespace EApp.Data.Queries
 {
     public class SqlQuery : ISqlQuery
     {
@@ -241,9 +241,9 @@ namespace EApp.Data.Query
             return this;
         }
 
-        public ISqlQuery Page(string primaryKey, int pageNumber, int pageSize)
+        public ISqlQuery Page(string identyColumn, int pageNumber, int pageSize)
         {
-            this.SqlBuilder.Page(primaryKey, pageNumber, pageSize);
+            this.SqlBuilder.Page(identyColumn, pageNumber, pageSize);
 
             return this;
         }

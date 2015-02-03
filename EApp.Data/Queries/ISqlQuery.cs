@@ -4,9 +4,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using EApp.Core.Query;
-using EApp.Data.Query.Criterias;
+using EApp.Data.Queries.Criterias;
 
-namespace EApp.Data.Query
+namespace EApp.Data.Queries
 {
     public interface ISqlQuery : IDisposable
     {
@@ -72,7 +72,7 @@ namespace EApp.Data.Query
 
         ISqlQuery Where(string wherePredicate, IEnumerable<object> paramValues);
 
-        ISqlQuery Page(string primaryKey, int pageNumber, int pageSize);
+        ISqlQuery Page(string identyColumn, int pageNumber, int pageSize);
 
         ISqlQuery Clear();
 

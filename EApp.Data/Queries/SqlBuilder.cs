@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using EApp.Core.Exceptions;
 using EApp.Core.Query;
-using EApp.Data.Query.Criterias;
+using EApp.Data.Queries.Criterias;
 
-namespace EApp.Data.Query
+namespace EApp.Data.Queries
 {
     public class SqlBuilder : ISqlBuilder
     {
@@ -34,7 +34,7 @@ namespace EApp.Data.Query
 
         private string groupBySql = string.Empty;
 
-        private string primaryKey = string.Empty;
+        private string identyColumn = string.Empty;
 
         private int pageNumber = 0;
 
@@ -350,7 +350,7 @@ namespace EApp.Data.Query
             return this;
         }
 
-        public ISqlBuilder Page(string primaryKey, int pageNumber, int pageSize)
+        public ISqlBuilder Page(string identyColumn, int pageNumber, int pageSize)
         {
             if (pageNumber <= 0)
             {
@@ -362,7 +362,7 @@ namespace EApp.Data.Query
                 throw new ArgumentOutOfRangeException("pageSize", pageSize, "The pageSize is one-based and should be larger than zero.");
             }
 
-            this.primaryKey = primaryKey;
+            this.identyColumn = identyColumn;
 
             this.pageNumber = pageNumber;
 

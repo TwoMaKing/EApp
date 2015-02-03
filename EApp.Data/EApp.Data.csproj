@@ -62,32 +62,39 @@
     <Compile Include="Oracle\OracleStatementFactory.cs" />
     <Compile Include="PagingSplit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Query\Criterias\AndSqlCriteria.cs" />
-    <Compile Include="Query\Criterias\CompositeSqlCriteria.cs" />
-    <Compile Include="Query\Criterias\EqualSqlCriteria.cs" />
-    <Compile Include="Query\Criterias\GreaterThanEqualSqlCriteria.cs" />
-    <Compile Include="Query\Criterias\GreaterThanSqlCriteria.cs" />
-    <Compile Include="Query\Criterias\ICompositeSqlCriteria.cs" />
-    <Compile Include="Query\Criterias\InSqlCriteria.cs" />
-    <Compile Include="Query\Criterias\ISqlCriteria.cs" />
-    <Compile Include="Query\Criterias\LessThanEqualSqlCriteria.cs" />
-    <Compile Include="Query\Criterias\LessThanSqlCriteria.cs" />
-    <Compile Include="Query\Criterias\LikeSqlCriteria.cs" />
-    <Compile Include="Query\Criterias\NotEqualSqlCriteria.cs" />
-    <Compile Include="Query\Criterias\NotInSqlCriteria.cs" />
-    <Compile Include="Query\Criterias\OrSqlCriteria.cs" />
-    <Compile Include="Query\Criterias\OperatorSqlCriteria.cs" />
-    <Compile Include="Query\Criterias\TextSqlCriteria.cs" />
-    <Compile Include="Query\ISqlBuilder.cs" />
-    <Compile Include="Query\ISqlQuery.cs" />
-    <Compile Include="Query\ParameterColumnCache.cs" />
-    <Compile Include="Query\SqlBuilder.cs" />
-    <Compile Include="Query\SqlBuilderExtension.cs" />
-    <Compile Include="Query\SqlQuery.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="Queries\Criterias\AndSqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\CompositeSqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\EqualSqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\GreaterThanEqualSqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\GreaterThanSqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\ICompositeSqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\InSqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\ISqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\LessThanEqualSqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\LessThanSqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\LikeSqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\NotEqualSqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\NotInSqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\OrSqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\OperatorSqlCriteria.cs" />
+    <Compile Include="Queries\Criterias\TextSqlCriteria.cs" />
+    <Compile Include="Queries\ISqlBuilder.cs" />
+    <Compile Include="Queries\ISqlQuery.cs" />
+    <Compile Include="Queries\ParameterColumnCache.cs" />
+    <Compile Include="Queries\SqlBuilder.cs" />
+    <Compile Include="Queries\SqlBuilderExtension.cs" />
+    <Compile Include="Queries\SqlQuery.cs" />
+    <Compile Include="Queries\Where\IObjectMappingResolver.cs" />
+    <Compile Include="Queries\Where\IWhereClauseBuilder.cs" />
+    <Compile Include="Queries\Where\ObjectMappingSchema.cs" />
+    <Compile Include="Queries\Where\WhereClauseBuilder.cs" />
+    <Compile Include="Queries\Where\WhereClauseBuildResult.cs" />
+    <Compile Include="Queries\Where\XmlObjectMappingResolver.cs" />
     <Compile Include="SqlLite\SqlLiteDbProvider.cs" />
     <Compile Include="SqlLite\SqlLiteStatementFactory.cs" />
     <Compile Include="SqlMapper.cs" />
-    <Compile Include="Query\SqlQueryExtension.cs" />
+    <Compile Include="Queries\SqlQueryExtension.cs" />
     <Compile Include="SqlServer\SqlServerDbProvider.cs" />
     <Compile Include="SqlServer\SqlServerStatementFactory.cs" />
   </ItemGroup>
@@ -100,6 +107,11 @@
       <Project>{DDCADBEE-4C66-43BD-A1C8-76265134B9F2}</Project>
       <Name>EApp.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

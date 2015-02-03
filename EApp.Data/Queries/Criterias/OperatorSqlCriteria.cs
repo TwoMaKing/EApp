@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using EApp.Core.Query;
 
-namespace EApp.Data.Query.Criterias
+namespace EApp.Data.Queries.Criterias
 {
     public abstract class OperatorSqlCriteria : ISqlCriteria
     {

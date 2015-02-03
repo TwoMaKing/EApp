@@ -15,7 +15,7 @@ using Xpress.Chat.Domain.Repositories;
 
 namespace Xpress.Chat.Repositories
 {
-    public class CommentRepository : SQLRepository<Comment>, ICommentRepository
+    public class CommentRepository : SqlRepository<Comment>, ICommentRepository
     {
         public CommentRepository(IRepositoryContext repositoryContext) : base(repositoryContext) { }
 

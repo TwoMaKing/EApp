@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EApp.Data.Query
+namespace EApp.Data.Queries
 {
     internal sealed class ParameterColumnCache
     {
