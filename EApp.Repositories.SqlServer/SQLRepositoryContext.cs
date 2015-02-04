@@ -29,6 +29,7 @@ namespace EApp.Repositories.SQL
 
         private static readonly object lockObject = new object();
 
+        [InjectionConstructor()]
         public SqlRepositoryContext() : this(ConfigurationManager.ConnectionStrings[0].Name) { }
 
         public SqlRepositoryContext(string connectionStringSectionName) 
@@ -82,9 +83,7 @@ namespace EApp.Repositories.SQL
                         {
                             foreach (DbCommand dbCommand in this.dbCommands)
                             {
-                                dbCommand.Transaction = dbTransaction;
-
-                                dbCommand.ExecuteNonQuery();
+                                this.database.ExecuteNonQuery(dbCommand, dbTransaction);
                             }
                         }
 
@@ -152,7 +151,7 @@ namespace EApp.Repositories.SQL
 
         public void Insert(string table, object[] values)
         {
-            this.Insert(table, null);
+            this.Insert(table, null, values);
         }
 
         public void Insert(string table, string[] columns, object[] values)

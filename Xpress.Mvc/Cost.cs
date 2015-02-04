@@ -20,7 +20,7 @@ using EApp.Core.Application;
 using EApp.Core.Configuration;
 using EApp.Core.Query;
 using EApp.Data;
-using EApp.Data.Query;
+using EApp.Data.Queries;
 using EApp.Windows.Mvc;
 using Microsoft.CSharp.RuntimeBinder;
 using Xpress.Mvc.Logic;
