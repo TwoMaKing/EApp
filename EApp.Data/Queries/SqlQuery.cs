@@ -241,9 +241,9 @@ namespace EApp.Data.Queries
             return this;
         }
 
-        public ISqlQuery Page(string identyColumn, int pageNumber, int pageSize)
+        public ISqlQuery Page(string identityColumn, int pageNumber, int pageSize)
         {
-            this.SqlBuilder.Page(identyColumn, pageNumber, pageSize);
+            this.SqlBuilder.Page(identityColumn, pageNumber, pageSize);
 
             return this;
         }

@@ -72,7 +72,7 @@ namespace EApp.Data.Queries
 
         ISqlQuery Where(string wherePredicate, IEnumerable<object> paramValues);
 
-        ISqlQuery Page(string identyColumn, int pageNumber, int pageSize);
+        ISqlQuery Page(string identityColumn, int pageNumber, int pageSize);
 
         ISqlQuery Clear();
 

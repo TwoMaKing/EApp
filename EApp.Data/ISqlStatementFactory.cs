@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EApp.Data.Queries;
 
 namespace EApp.Data
 {
@@ -27,11 +28,24 @@ namespace EApp.Data
 
 
         /// <summary>
-        /// Creates the delete statement
+        /// Creates the select statement
         /// </summary>
         string CreateSelectStatement(string tableName,
                                      string where,
                                      string orderBy,
                                      params string[] includedColumns);
+
+        /// <summary>
+        /// Creates the select statement for paging
+        /// </summary>
+        string CreateSelectRangeStatement(string from, 
+                                          string where, 
+                                          string orderBy,
+                                          int topCount, 
+                                          int skipCount, 
+                                          string identityColumn, 
+                                          bool identityColumnIsNumber = true,
+                                          string groupBy = null,
+                                          params string[] includedColumns);
     }
 }

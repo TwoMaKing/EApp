@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using EApp.Common.Serialization;
+using EApp.Data.Queries;
 
 namespace EApp.Data.SqlServer
 {
@@ -187,5 +188,9 @@ namespace EApp.Data.SqlServer
             }
         }
 
+        public override WhereClauseBuilder<T> CreateWhereClauseBuilder<T>()
+        {
+            return new SqlServerWhereClauseBuilder<T>(new XmlObjectMappingResolver(""));
+        }
     }
 }

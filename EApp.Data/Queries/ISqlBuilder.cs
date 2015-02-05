@@ -71,7 +71,7 @@ namespace EApp.Data.Queries
 
         ISqlBuilder Where(string wherePredicate, IEnumerable<object> paramValues);
 
-        ISqlBuilder Page(string identyColumn, int pageNumber, int pageSize);
+        ISqlBuilder Page(string identityColumn, int pageNumber, int pageSize);
 
         ISqlBuilder Clear();
         

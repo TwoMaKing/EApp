@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
-using System.Data.SQLite;
+using EApp.Data.Queries;
 
 namespace EApp.Data.SqlLite
 {
@@ -51,6 +52,11 @@ namespace EApp.Data.SqlLite
         public override string ParamPrefix
         {
             get { throw new NotImplementedException(); }
+        }
+
+        public override WhereClauseBuilder<T> CreateWhereClauseBuilder<T>()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Data.OracleClient;
 using System.Linq;
 using System.Text;
+using EApp.Data.Queries;
 
 namespace EApp.Data.Oracle
 {
@@ -58,6 +59,11 @@ namespace EApp.Data.Oracle
             { 
                 return Parameter_Prefix.ToString(); 
             }
+        }
+
+        public override WhereClauseBuilder<T> CreateWhereClauseBuilder<T>()
+        {
+            throw new NotImplementedException();
         }
 
     }

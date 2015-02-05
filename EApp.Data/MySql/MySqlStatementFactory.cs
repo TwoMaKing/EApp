@@ -5,13 +5,13 @@ using System.Text;
 
 namespace EApp.Data.MySql
 {
-    public class MySqlStatementFactory : ISqlStatementFactory
+    public class MySqlStatementFactory : SqlStatementFactory, ISqlStatementFactory
     {
         private const char Parameter_Prefix = '?';
 
         private const char Parameter_Token = '`';
 
-        public string CreateInsertStatement(string tableName, string[] includedColumns)
+        public override string CreateInsertStatement(string tableName, string[] includedColumns)
         {
             string insertSql = @"INSERT INTO `{0}` {1} VALUES ({2})";
 
@@ -60,7 +60,7 @@ namespace EApp.Data.MySql
                 columnParamNameBuilder.ToString().TrimEnd(',', ' '));
         }
 
-        public string CreateUpdateStatement(string tableName, string where, string[] includedColumns)
+        public override string CreateUpdateStatement(string tableName, string where, string[] includedColumns)
         {
             if (includedColumns == null ||
                 includedColumns.Length.Equals(0))
@@ -92,7 +92,7 @@ namespace EApp.Data.MySql
                                  string.IsNullOrEmpty(where.Trim()) ? string.Empty : "WHERE " + where);
         }
 
-        public string CreateDeleteStatement(string tableName, string where)
+        public override string CreateDeleteStatement(string tableName, string where)
         {
             string deleteSql = @"DELETE FROM `{0}` {1}";
 
@@ -101,7 +101,7 @@ namespace EApp.Data.MySql
                                  string.IsNullOrEmpty(where.Trim()) ? string.Empty : "WHERE " + where);
         }
 
-        public string CreateSelectStatement(string tableName, string where, string orderBy, params string[] includedColumns)
+        public override string CreateSelectStatement(string tableName, string where, string orderBy, params string[] includedColumns)
         {
             string querySelectSql = "select {0} from {1} {2} {3}";
 
@@ -127,6 +127,21 @@ namespace EApp.Data.MySql
                                  tableName.Trim(Parameter_Token),
                                  string.IsNullOrEmpty(where.Trim()) ? string.Empty : "WHERE " + where,
                                  string.IsNullOrEmpty(orderBy.Trim()) ? string.Empty : "ORDER BY " + orderBy);
+        }
+
+        protected override string CreateSelectTopStatement(string from, string where, string[] columns, string orderBy, string groupBy, int topCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override string CreateSelectRangeStatementForSortedRows(string from, string where, string[] columns, string orderBy, string groupBy, int topCount, int skipCount, string identityColumn, bool isIdentityColumnDesc)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override string CreateSelectRangeStatementForUnsortedRows(string from, string where, string[] columns, string orderBy, string groupBy, int topCount, int skipCount, string identyColumn)
+        {
+            throw new NotImplementedException();
         }
     }
 }

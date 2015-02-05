@@ -35,6 +35,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnQuery = new System.Windows.Forms.Button();
             this.btnBuilderQuery = new System.Windows.Forms.Button();
+            this.btnQueryPaging = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,7 +77,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(195, 268);
+            this.btnCancel.Location = new System.Drawing.Point(181, 268);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(143, 23);
             this.btnCancel.TabIndex = 4;
@@ -86,29 +87,40 @@
             // 
             // btnQuery
             // 
-            this.btnQuery.Location = new System.Drawing.Point(100, 215);
+            this.btnQuery.Location = new System.Drawing.Point(93, 215);
             this.btnQuery.Name = "btnQuery";
-            this.btnQuery.Size = new System.Drawing.Size(75, 23);
+            this.btnQuery.Size = new System.Drawing.Size(136, 23);
             this.btnQuery.TabIndex = 6;
-            this.btnQuery.Text = "Query";
+            this.btnQuery.Text = "Lambda Builder Query";
             this.btnQuery.UseVisualStyleBackColor = true;
             this.btnQuery.Click += new System.EventHandler(this.btnQuery_Click);
             // 
             // btnBuilderQuery
             // 
-            this.btnBuilderQuery.Location = new System.Drawing.Point(209, 215);
+            this.btnBuilderQuery.Location = new System.Drawing.Point(236, 215);
             this.btnBuilderQuery.Name = "btnBuilderQuery";
-            this.btnBuilderQuery.Size = new System.Drawing.Size(88, 23);
+            this.btnBuilderQuery.Size = new System.Drawing.Size(122, 23);
             this.btnBuilderQuery.TabIndex = 7;
-            this.btnBuilderQuery.Text = "Builder Query";
+            this.btnBuilderQuery.Text = "Sql Builder Query";
             this.btnBuilderQuery.UseVisualStyleBackColor = true;
             this.btnBuilderQuery.Click += new System.EventHandler(this.btnBuilderQuery_Click);
+            // 
+            // btnQueryPaging
+            // 
+            this.btnQueryPaging.Location = new System.Drawing.Point(364, 215);
+            this.btnQueryPaging.Name = "btnQueryPaging";
+            this.btnQueryPaging.Size = new System.Drawing.Size(135, 23);
+            this.btnQueryPaging.TabIndex = 8;
+            this.btnQueryPaging.Text = "Query Paging";
+            this.btnQueryPaging.UseVisualStyleBackColor = true;
+            this.btnQueryPaging.Click += new System.EventHandler(this.btnQueryPaging_Click);
             // 
             // Cost
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(804, 550);
+            this.Controls.Add(this.btnQueryPaging);
             this.Controls.Add(this.btnBuilderQuery);
             this.Controls.Add(this.btnQuery);
             this.Controls.Add(this.btnCancel);
@@ -132,6 +144,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnQuery;
         private System.Windows.Forms.Button btnBuilderQuery;
+        private System.Windows.Forms.Button btnQueryPaging;
     }
 }
 

@@ -58,8 +58,10 @@
     <Compile Include="ISqlStatementFactory.cs" />
     <Compile Include="MySql\MySqlDbProvider.cs" />
     <Compile Include="MySql\MySqlStatementFactory.cs" />
+    <Compile Include="MySql\MySqlWhereClauseBuilder.cs" />
     <Compile Include="Oracle\OracleDbProvider.cs" />
     <Compile Include="Oracle\OracleStatementFactory.cs" />
+    <Compile Include="Oracle\OracleWhereClauseBuilder.cs" />
     <Compile Include="PagingSplit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs" />
@@ -92,11 +94,15 @@
     <Compile Include="Queries\Where\WhereClauseBuildResult.cs" />
     <Compile Include="Queries\Where\XmlObjectMappingResolver.cs" />
     <Compile Include="SqlLite\SqlLiteDbProvider.cs" />
+    <Compile Include="SqlLite\SqlLiteServerWhereClauseBuilder.cs" />
     <Compile Include="SqlLite\SqlLiteStatementFactory.cs" />
     <Compile Include="SqlMapper.cs" />
     <Compile Include="Queries\SqlQueryExtension.cs" />
+    <Compile Include="SqlQueryUtils.cs" />
     <Compile Include="SqlServer\SqlServerDbProvider.cs" />
     <Compile Include="SqlServer\SqlServerStatementFactory.cs" />
+    <Compile Include="SqlServer\SqlServerWhereClauseBuilder.cs" />
+    <Compile Include="SqlStatementFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EApp.Common\EApp.Common.csproj">

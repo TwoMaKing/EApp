@@ -470,5 +470,31 @@ namespace Xpress.Mvc
             //    }
             //}
         }
+
+        private void btnQueryPaging_Click(object sender, EventArgs e)
+        {
+            IDataReader pagingReader = DbGateway.Default.SelectReader("post",
+                                                   new string[] { "post_id", "post_topic_id", "post_author_id", "post_content", "post_creation_datetime" },
+                                                   string.Empty,
+                                                   null,
+                                                   "post_id",
+                                                   null,
+                                                   3,
+                                                   3,
+                                                   "post_id");
+
+            while (pagingReader.Read())
+            {
+                string postTopicId = pagingReader[0].ToString();
+                string postId = pagingReader[1].ToString();
+                string postAuthorId = pagingReader[2].ToString();
+            }
+
+            if (!pagingReader.IsClosed)
+            {
+                pagingReader.Close();
+            }
+
+        }
     }
 }

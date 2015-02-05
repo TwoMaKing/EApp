@@ -834,6 +834,38 @@ namespace EApp.Data
             }
         }
 
+        public IDataReader SelectReader(string table,
+                                        string[] columns,
+                                        string where,
+                                        object[] whereParamValues,
+                                        string orderBy,
+                                        string groupBy,
+                                        int pageNumber,
+                                        int pageSize,
+                                        string identityColumn,
+                                        bool identityColumnIsNumber = true) 
+        {
+
+            string[] whereParamNames = this.database.DiscoverParams(where);
+
+            ISqlStatementFactory sqlStatementFactory = this.database.GetStatementFactory();
+
+            string selectRangeQuerySql = sqlStatementFactory.CreateSelectRangeStatement(table, 
+                                                                                        where, 
+                                                                                        orderBy, 
+                                                                                        pageSize, 
+                                                                                        (pageNumber - 1) * pageSize, 
+                                                                                        identityColumn, 
+                                                                                        identityColumnIsNumber, 
+                                                                                        groupBy, 
+                                                                                        columns);
+
+            DbCommand command = this.PrepareSqlStringCommand(whereParamNames, null, whereParamValues, selectRangeQuerySql);
+
+            return this.database.ExecuteReader(command);
+        }
+
+
         #endregion
 
         #region Select DataSet

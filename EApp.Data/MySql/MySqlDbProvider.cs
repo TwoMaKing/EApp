@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using EApp.Common.Serialization;
+using EApp.Data.Queries;
 using MySql.Data.MySqlClient;
 
 namespace EApp.Data.MySql
@@ -217,5 +218,11 @@ namespace EApp.Data.MySql
                 return Parameter_Prefix.ToString(); 
             }
         }
+
+        public override WhereClauseBuilder<T> CreateWhereClauseBuilder<T>()
+        {
+            return new MySqlWhereClauseBuilder<T>(new XmlObjectMappingResolver(""));
+        }
+
     }
 }

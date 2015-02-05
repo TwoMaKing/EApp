@@ -34,7 +34,7 @@ namespace EApp.Data.Queries
 
         private string groupBySql = string.Empty;
 
-        private string identyColumn = string.Empty;
+        private string identityColumn = string.Empty;
 
         private int pageNumber = 0;
 
@@ -350,7 +350,7 @@ namespace EApp.Data.Queries
             return this;
         }
 
-        public ISqlBuilder Page(string identyColumn, int pageNumber, int pageSize)
+        public ISqlBuilder Page(string identityColumn, int pageNumber, int pageSize)
         {
             if (pageNumber <= 0)
             {
@@ -362,7 +362,7 @@ namespace EApp.Data.Queries
                 throw new ArgumentOutOfRangeException("pageSize", pageSize, "The pageSize is one-based and should be larger than zero.");
             }
 
-            this.identyColumn = identyColumn;
+            this.identityColumn = identityColumn;
 
             this.pageNumber = pageNumber;
 

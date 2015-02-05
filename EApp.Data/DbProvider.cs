@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
+using EApp.Data.Queries;
 
 namespace EApp.Data
 {
@@ -91,6 +92,8 @@ namespace EApp.Data
         /// </summary>
         /// <value>The param prefix.</value>
         public abstract string ParamPrefix { get; }
+
+        public abstract WhereClauseBuilder<T> CreateWhereClauseBuilder<T>() where T : class, new();
 
         #endregion
 
