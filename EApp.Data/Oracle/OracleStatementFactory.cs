@@ -8,6 +8,8 @@ namespace EApp.Data.Oracle
 {
     public class OracleStatementFactory : SqlStatementFactory, ISqlStatementFactory
     {
+        public OracleStatementFactory(DbProvider dbProvider) : base(dbProvider) { }
+
         public override string CreateInsertStatement(string tableName, string[] includedColumns)
         {
             throw new NotImplementedException();
@@ -29,17 +31,17 @@ namespace EApp.Data.Oracle
         }
 
 
-        protected override string CreateSelectTopStatement(string from, string where, string[] columns, string orderBy, string groupBy, int topCount)
+        protected override string CreateSelectTopStatement(string tableName, string where, string[] columns, string orderBy, string groupBy, int topCount)
         {
             throw new NotImplementedException();
         }
 
-        protected override string CreateSelectRangeStatementForSortedRows(string from, string where, string[] columns, string orderBy, string groupBy, int topCount, int skipCount, string identityColumn, bool isIdentityColumnDesc)
+        protected override string CreateSelectRangeStatementForSortedRows(string tableName, string where, string[] columns, string orderBy, string groupBy, int topCount, int skipCount, string identityColumn, bool isIdentityColumnDesc)
         {
             throw new NotImplementedException();
         }
 
-        protected override string CreateSelectRangeStatementForUnsortedRows(string from, string where, string[] columns, string orderBy, string groupBy, int topCount, int skipCount, string identyColumn)
+        protected override string CreateSelectRangeStatementForUnsortedRows(string tableName, string where, string[] columns, string orderBy, string groupBy, int topCount, int skipCount, string identyColumn)
         {
             throw new NotImplementedException();
         }

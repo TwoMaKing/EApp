@@ -1,11 +1,26 @@
 ﻿
-namespace EApp.Data.Queries
+namespace EApp.Data.Mapping
 {
     /// <summary>
     /// Represents that the implemented classes are storage mapping resolvers.
     /// </summary>
     public interface IObjectMappingResolver
     {
+        /// <summary>
+        /// Resolves the table name by using the object name or type name.
+        /// </summary>
+        /// <param name="objectName"></param>
+        /// <returns></returns>
+        string ResolveTableName(string objectOrTypeName);
+
+        /// <summary>
+        /// Resolves the filed name by using the object name or type name and property name.
+        /// </summary>
+        /// <param name="objectName"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        string ResolveFieldName(string objectOrTypeName, string propertyName);
+
         /// <summary>
         /// Resolves the table name by using the given type.
         /// </summary>

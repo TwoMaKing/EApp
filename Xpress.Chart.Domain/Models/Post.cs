@@ -28,29 +28,9 @@ namespace Xpress.Chat.Domain.Models
             this.content = content;
         }
 
-        public Topic Topic 
-        {
-            get 
-            {
-                return this.topic;
-            }
-            set
-            {
-                this.topic = value;
-            }
-        }
+        public int TopicId { get; set; }
 
-        public User Author 
-        {
-            get 
-            {
-                return this.author;
-            }
-            set 
-            {
-                this.author = value;
-            }
-        }
+        public int AuthorId { get; set; }
 
         public string Content
         {
@@ -85,6 +65,30 @@ namespace Xpress.Chat.Domain.Models
             private set
             {
                 this.praiseCount = value;
+            }
+        }
+
+        public Topic Topic
+        {
+            get
+            {
+                return this.topic;
+            }
+            set
+            {
+                this.topic = value;
+            }
+        }
+
+        public User Author
+        {
+            get
+            {
+                return this.author;
+            }
+            set
+            {
+                this.author = value;
             }
         }
 

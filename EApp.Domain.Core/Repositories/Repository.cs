@@ -9,7 +9,7 @@ using EApp.Core.QuerySepcifications;
 namespace EApp.Domain.Core.Repositories
 {
     public abstract class Repository<TAggregateRoot> : IRepository<TAggregateRoot, int>, IRepository<TAggregateRoot> , IRepositoryPersistence
-        where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot
+        where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot, new()
     {
         private IRepositoryContext repositoryContext;
 

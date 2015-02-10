@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace EApp.Common.Util
 {
-    public static class DateTimeUtil
+    public static class DateTimeUtils
     {
         private static CultureInfo cultureInfo = CultureInfo.CurrentCulture;
 

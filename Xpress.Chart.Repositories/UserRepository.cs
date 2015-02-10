@@ -65,5 +65,15 @@ namespace Xpress.Chat.Repositories
         {
             throw new NotImplementedException();
         }
+
+        protected override string GetFromTableSqlByFindAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override string[] GetSelectColumnsByFindAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

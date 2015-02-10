@@ -325,7 +325,7 @@ namespace EApp.Data
             return this.dbProvider.DbProviderFactory.CreateDataAdapter();
         }
 
-        public ISqlStatementFactory GetStatementFactory()
+        public ISqlStatementFactory GetSqlStatementFactory()
         {
             return this.dbProvider.CreateStatementFactory();
         }

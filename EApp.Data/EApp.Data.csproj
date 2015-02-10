@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper">
+      <HintPath>..\packages\Dapper.1.12.1\lib\net40\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DapperExtensions">
+      <HintPath>..\packages\DapperExtensions.1.4.4\lib\net40\DapperExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\packages\Database\MySql.Data.dll</HintPath>
     </Reference>
@@ -49,6 +55,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatchCommander.cs" />
+    <Compile Include="Configuration\EAppDataConfigurationSection.csd.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EAppDataConfigurationSection.csd</DependentUpon>
+    </Compile>
     <Compile Include="Database.cs" />
     <Compile Include="DbGateway.cs" />
     <Compile Include="DbParameterCache.cs" />
@@ -56,6 +67,7 @@
     <Compile Include="DbProviderFactory.cs" />
     <Compile Include="IPagingSplit.cs" />
     <Compile Include="ISqlStatementFactory.cs" />
+    <Compile Include="Mapping\MetaDataManager.cs" />
     <Compile Include="MySql\MySqlDbProvider.cs" />
     <Compile Include="MySql\MySqlStatementFactory.cs" />
     <Compile Include="MySql\MySqlWhereClauseBuilder.cs" />
@@ -87,12 +99,13 @@
     <Compile Include="Queries\SqlBuilder.cs" />
     <Compile Include="Queries\SqlBuilderExtension.cs" />
     <Compile Include="Queries\SqlQuery.cs" />
-    <Compile Include="Queries\Where\IObjectMappingResolver.cs" />
+    <Compile Include="Mapping\IObjectMappingResolver.cs" />
+    <Compile Include="Queries\Where\IOrderByClauseBuilder.cs" />
     <Compile Include="Queries\Where\IWhereClauseBuilder.cs" />
-    <Compile Include="Queries\Where\ObjectMappingSchema.cs" />
+    <Compile Include="Mapping\EntityMappingConfiguration.cs" />
     <Compile Include="Queries\Where\WhereClauseBuilder.cs" />
     <Compile Include="Queries\Where\WhereClauseBuildResult.cs" />
-    <Compile Include="Queries\Where\XmlObjectMappingResolver.cs" />
+    <Compile Include="Mapping\XmlObjectMappingResolver.cs" />
     <Compile Include="SqlLite\SqlLiteDbProvider.cs" />
     <Compile Include="SqlLite\SqlLiteServerWhereClauseBuilder.cs" />
     <Compile Include="SqlLite\SqlLiteStatementFactory.cs" />
@@ -118,6 +131,26 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Configuration\EAppDataConfigurationSection.csd">
+      <Generator>CsdFileGenerator</Generator>
+      <LastGenOutput>EAppDataConfigurationSection.csd.cs</LastGenOutput>
+    </None>
+    <None Include="Configuration\EAppDataConfigurationSection.csd.config">
+      <DependentUpon>EAppDataConfigurationSection.csd</DependentUpon>
+    </None>
+    <None Include="Configuration\EAppDataConfigurationSection.csd.diagram">
+      <DependentUpon>EAppDataConfigurationSection.csd</DependentUpon>
+    </None>
+    <None Include="Configuration\EAppDataConfigurationSection.csd.xsd">
+      <DependentUpon>EAppDataConfigurationSection.csd</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

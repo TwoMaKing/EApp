@@ -113,11 +113,12 @@
     <Compile Include="Serialization\ObjectJsonSerializer.cs" />
     <Compile Include="Serialization\ObjectSerializerFactory.cs" />
     <Compile Include="Serialization\ObjectXmlSerializer.cs" />
-    <Compile Include="Util\ArrayUtil.cs" />
+    <Compile Include="Util\ArrayUtils.cs" />
+    <Compile Include="Util\CommonUtils.cs" />
     <Compile Include="Util\Convertor.cs" />
     <Compile Include="Lambda\LambdaUtil.cs" />
-    <Compile Include="Util\LocalizationUtil.cs" />
-    <Compile Include="Util\DateTimeUtil.cs" />
+    <Compile Include="Util\LocalizationUtils.cs" />
+    <Compile Include="Util\DateTimeUtils.cs" />
     <Compile Include="Encrypt\DESEncrypt.cs" />
     <Compile Include="Encrypt\AESEncrypt.cs" />
     <Compile Include="Compression\ICompression.cs" />

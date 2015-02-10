@@ -54,7 +54,7 @@ namespace EApp.Domain.Core.Repositories
             }
         }
 
-        public IRepository<TAggregateRoot> GetRepository<TAggregateRoot>() where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot
+        public IRepository<TAggregateRoot> GetRepository<TAggregateRoot>() where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot, new()
         {
             lock (lockObject)
             { 
@@ -208,7 +208,8 @@ namespace EApp.Domain.Core.Repositories
             }
         }
 
-        protected abstract IRepository<TAggregateRoot> CreateRepository<TAggregateRoot>() where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot;
+        protected abstract IRepository<TAggregateRoot> CreateRepository<TAggregateRoot>()
+            where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot, new();
 
     }
 

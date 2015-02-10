@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using EApp.Common.Serialization;
+using EApp.Data.Mapping;
 using EApp.Data.Queries;
 
 namespace EApp.Data.SqlServer
@@ -15,12 +16,12 @@ namespace EApp.Data.SqlServer
     {
         private const char Parameter_Prefix = '@';
 
-        private SqlServerStatementFactory sqlServerStatementFactory = new SqlServerStatementFactory();
+        private SqlServerStatementFactory sqlServerStatementFactory;
 
         public SqlServerDbProvider(string connectionString) : 
             base(connectionString, System.Data.SqlClient.SqlClientFactory.Instance)
         {
-
+            this.sqlServerStatementFactory = new SqlServerStatementFactory(this);
         }
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace EApp.Data.SqlServer
                 return null;
             }
 
-            Regex r = new Regex("\\" + this.ParamPrefix + @"([\w\d_]+)");
+            Regex r = new Regex("\\" + this.ParameterPrefix + @"([\w\d_]+)");
             MatchCollection ms = r.Matches(sql);
 
             if (ms.Count == 0)
@@ -151,7 +152,7 @@ namespace EApp.Data.SqlServer
 
             if (!name[0].Equals(Parameter_Prefix))
             {
-                return name.Insert(0, this.ParamPrefix);
+                return name.Insert(0, this.ParameterPrefix.ToString());
             }
 
             return name;
@@ -180,17 +181,49 @@ namespace EApp.Data.SqlServer
             }
         }
 
-        public override string ParamPrefix
+        public override char ParameterPrefix
         {
             get 
             {
-                return Parameter_Prefix.ToString(); 
+                return Parameter_Prefix; 
+            }
+        }
+
+        public override char ParameterLeftToken
+        {
+            get 
+            { 
+                return '['; 
+            }
+        }
+
+        public override char ParameterRightToken
+        {
+            get 
+            {
+                return ']';
+            }
+        }
+
+        public override char WildCharToken
+        {
+            get 
+            { 
+                return '%';
+            }
+        }
+
+        public override char WildSingleCharToken
+        {
+            get 
+            {
+                return '_';
             }
         }
 
         public override WhereClauseBuilder<T> CreateWhereClauseBuilder<T>()
         {
-            return new SqlServerWhereClauseBuilder<T>(new XmlObjectMappingResolver(""));
+            return new SqlServerWhereClauseBuilder<T>();
         }
     }
 }

@@ -73,7 +73,7 @@ namespace EApp.Common.Util
                 return null;
             }
 
-            return DateTimeUtil.ToDateTime(resultDateTime);
+            return DateTimeUtils.ToDateTime(resultDateTime);
         }
 
     }

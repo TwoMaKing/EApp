@@ -69,6 +69,7 @@ namespace Xpress.Chat.Repositories
             post.Topic = new Topic();
             post.Topic.Id = Convertor.ConvertToInteger(dataReader["post_topic_id"]).Value;
             post.Topic.Name = dataReader["topic_name"].ToString().Trim();
+
             post.Author = new User();
             post.Author.Id = Convertor.ConvertToInteger(dataReader["post_topic_id"]).Value;
             post.Author.Name = dataReader["user_name"].ToString();
@@ -138,6 +139,18 @@ namespace Xpress.Chat.Repositories
                                                  "post_id=@post_id",
                                                  new object[] { post.Id });
             }
+        }
+
+        protected override string GetFromTableSqlByFindAll()
+        {
+            return @"post
+                     inner join topic on post_topic_id = topic_id
+                     inner join [user] on post_author_id = user_id";
+        }
+
+        protected override string[] GetSelectColumnsByFindAll()
+        {
+            return new string[] { "post_id", "post_topic_id", "post_author_id", "post_content", "post_creation_datetime", "topic_name", "user_name" };
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using EApp.Core;
-
+using EApp.Data.Mapping;
 
 namespace EApp.Data.Queries
 {
@@ -13,11 +13,13 @@ namespace EApp.Data.Queries
     /// </summary>
     /// <typeparam name="TDataObject">The type of the data object which would be mapped to
     /// a certain table in the relational database.</typeparam>
-    public abstract class WhereClauseBuilder<TDataObject> : ExpressionVisitor, IWhereClauseBuilder<TDataObject>
+    public abstract class WhereClauseBuilder<TDataObject> : ExpressionVisitor, IWhereClauseBuilder<TDataObject>, IOrderByClauseBuilder<TDataObject>
         where TDataObject : class, new()
     {
         #region Private Fields
-        private readonly StringBuilder sb = new StringBuilder();
+        private readonly StringBuilder whereClauseBuilder = new StringBuilder();
+        private readonly StringBuilder orderByClauseBuilder = new StringBuilder();
+
         private readonly Dictionary<string, object> parameterValues = new Dictionary<string, object>();
         private readonly IObjectMappingResolver mappingResolver = null;
         private bool startsWith = false;
@@ -35,12 +37,15 @@ namespace EApp.Data.Queries
         {
             this.mappingResolver = mappingResolver;
         }
+
+        public WhereClauseBuilder() { }
+
         #endregion
 
         #region Private Methods
         private void Out(string s)
         {
-            sb.Append(s);
+            whereClauseBuilder.Append(s);
         }
 
         private void OutMember(Expression instance, MemberInfo member)
@@ -48,6 +53,19 @@ namespace EApp.Data.Queries
             string mappedFieldName = mappingResolver.ResolveFieldName<TDataObject>(member.Name);
             Out(mappedFieldName);
         }
+
+        private string ResolveFieldName(Type entityType, MemberInfo member) 
+        {
+            if (this.mappingResolver == null)
+            {
+                return MetaDataManager.Instance.ResolveFieldName(entityType.Name, member.Name);
+            }
+            else
+            {
+                return this.mappingResolver.ResolveFieldName(entityType.Name, member.Name);
+            }
+        }
+
         #endregion
 
         #region Protected Properties
@@ -191,24 +209,89 @@ namespace EApp.Data.Queries
         /// returns the original expression.</returns>
         protected override Expression VisitMember(MemberExpression node)
         {
-            if (node.Member.DeclaringType == typeof(TDataObject) ||
-                typeof(TDataObject).IsSubclassOf(node.Member.DeclaringType))
+            if ((node.Member.DeclaringType == typeof(TDataObject) ||
+                 typeof(TDataObject).IsSubclassOf(node.Member.DeclaringType)) &&
+                 node.Expression != null &&
+                 node.Expression is ParameterExpression)
             {
-                string mappedFieldName = mappingResolver.ResolveFieldName<TDataObject>(node.Member.Name);
+                string mappedFieldName = this.ResolveFieldName(node.Expression.Type, node.Member);
+
                 Out(mappedFieldName);
             }
+            //else if (node.Expression != null &&
+            //         node.Expression is MemberExpression &&
+            //        (node.Member.DeclaringType.IsAssignableFrom(node.Expression.Type) ||
+            //         node.Expression.Type.IsSubclassOf(node.Member.DeclaringType)))
+            //{
+            //    string mappedFieldName = this.ResolveFieldName(node.Expression.Type, node.Member);
+
+            //    Out(mappedFieldName);
+            //}
             else
             {
+                object memberValue = null;
+
                 if (node.Member is FieldInfo)
                 {
                     ConstantExpression ce = node.Expression as ConstantExpression;
                     FieldInfo fi = node.Member as FieldInfo;
-                    object fieldValue = fi.GetValue(ce.Value);
-                    Expression constantExpr = Expression.Constant(fieldValue);
-                    Visit(constantExpr);
+                    memberValue = fi.GetValue(ce.Value);
                 }
-                else
-                    throw new NotSupportedException(string.Format(Resources.EX_MEMBER_TYPE_NOT_SUPPORT, node.Member.GetType().FullName));
+                else if (node.Member is PropertyInfo)
+                {
+                    PropertyInfo pi = node.Member as PropertyInfo;
+
+                    if (pi.GetGetMethod().IsStatic)
+                    {
+                        memberValue = pi.GetValue(null, null);
+                    }
+                    else
+                    {
+                        List<PropertyInfo> piList = new List<PropertyInfo>(new PropertyInfo[] { pi });
+
+                        Expression nodeExpression = node.Expression;
+
+                        while (nodeExpression is MemberExpression)
+                        {
+                            MemberExpression memberExpression = (MemberExpression)nodeExpression;
+
+                            if (memberExpression.Expression is ConstantExpression)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (memberExpression.Member is PropertyInfo)
+                                {
+                                    PropertyInfo subPi = memberExpression.Member as PropertyInfo;
+                                    piList.Add(subPi);
+                                }
+                            }
+
+                            nodeExpression = memberExpression.Expression;
+                        }
+                        
+                        MemberExpression lastMemberExpression = (MemberExpression)nodeExpression;
+
+                        ConstantExpression constantExpression = lastMemberExpression.Expression as ConstantExpression;
+
+                        FieldInfo fi = lastMemberExpression.Member as FieldInfo;
+
+                        memberValue = fi.GetValue(constantExpression.Value);
+
+                        piList.Reverse();
+
+                        for (int piIndex = 0; piIndex < piList.Count; piIndex++)
+                        {
+                            memberValue = piList[piIndex].GetValue(memberValue, null);
+                        }
+
+                        //throw new NotSupportedException(string.Format(Resources.EX_MEMBER_TYPE_NOT_SUPPORT, node.Member.GetType().FullName));
+                    }
+                }
+
+                Expression constantExpr = Expression.Constant(memberValue);
+                Visit(constantExpr);
             }
             return node;
         }
@@ -594,7 +677,28 @@ namespace EApp.Data.Queries
         /// returns the original expression.</returns>
         protected override Expression VisitUnary(UnaryExpression node)
         {
-            throw new NotSupportedException(string.Format(Resources.EX_PROCESS_NODE_NOT_SUPPORT, node.GetType().Name));
+            if (node.Operand != null)
+            {
+                Expression operandExpression = node.Operand;
+
+                if (operandExpression is MemberExpression)
+                {
+                    MemberExpression memberExpression = (MemberExpression)operandExpression;
+
+                    if (memberExpression.Expression != null &&
+                        memberExpression.Expression.Type != null &&
+                       (memberExpression.Member.DeclaringType == typeof(TDataObject) ||
+                        memberExpression.Member.DeclaringType.IsAssignableFrom(memberExpression.Expression.Type) ||
+                        memberExpression.Expression.Type.IsSubclassOf(memberExpression.Member.DeclaringType)))
+                    {
+                        string fieldName = this.ResolveFieldName(memberExpression.Expression.Type, memberExpression.Member);
+
+                        this.orderByClauseBuilder.Append(fieldName);
+                    }
+                }
+            }
+
+            return node;
         }
         #endregion
 
@@ -607,16 +711,29 @@ namespace EApp.Data.Queries
         /// which contains the build result.</returns>
         public WhereClauseBuildResult BuildWhereClause(Expression<Func<TDataObject, bool>> expression)
         {
-            this.sb.Clear();
+            this.whereClauseBuilder.Clear();
             this.parameterValues.Clear();
             this.Visit(expression.Body);
             WhereClauseBuildResult result = new WhereClauseBuildResult
             {
                 ParameterValues = parameterValues,
-                WhereClause = sb.ToString()
+                WhereClause = whereClauseBuilder.ToString()
             };
             return result;
         }
+        #endregion
+
+
+        #region IWhereClauseBuilder<T> Members
+
+        public string BuildOrderByClause(Expression<Func<TDataObject, dynamic>> expression)
+        {
+            this.orderByClauseBuilder.Clear();
+            this.VisitUnary((UnaryExpression)expression.Body);
+
+            return this.orderByClauseBuilder.ToString();
+        }
+
         #endregion
     }
 }

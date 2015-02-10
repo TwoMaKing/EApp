@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<EntityMappingConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <entities>
+    <entity name="Post" table="post" type="Xpress.Chat.Domain.Models.Post">
+      <properties>
+        <property name="Id" type="System.Int32" column="post_id" sqlType="int" isPrimaryKey="true" isAutoIdentity="true" isRelationKey="false" relatedType="" relatedForeignKey="" />
+        <property name="TopicId" type="System.Int32" column="post_topic_id" sqlType="int" isPrimaryKey="false" isAutoIdentity="false" isRelationKey="true" relatedType="Xpress.Chat.Domain.Models.Topic" relatedForeignKey="topic_id" />
+        <property name="AuthorId" type="System.Int32" column="post_author_id" sqlType="int" isPrimaryKey="false" isAutoIdentity="false" isRelationKey="true" relatedType="Xpress.Chat.Domain.Models.User" relatedForeignKey="user_id" />
+        <property name="Content" type="System.String" column="post_content" sqlType="nvarchar(max)" isPrimaryKey="false" isAutoIdentity="false" isRelationKey="false" />
+        <property name="CreationDateTime" type="System.DateTime" column="post_creation_datetime" sqlType="datetime" isPrimaryKey="false" isAutoIdentity="false" isRelationKey="false" />
+      </properties>
+    </entity>
+	<entity name="Topic" table="topic" type="Xpress.Chat.Domain.Models.Topic">
+      <properties>
+        <property name="Id" type="System.Int32" column="topic_id" sqlType="int" isPrimaryKey="true" isAutoIdentity="true" isRelationKey="false" relatedType="" relatedForeignKey="" />
+        <property name="Name" type="System.String" column="topic_name" sqlType="nvarchar(20)" isPrimaryKey="false" isAutoIdentity="false" isRelationKey="false" relatedType="" relatedForeignKey="" />
+        <property name="Summary" type="System.String" column="topic_desc" sqlType="nvarchar(500)" isPrimaryKey="false" isAutoIdentity="false" isRelationKey="false" relatedType="" relatedForeignKey="" />
+      </properties>
+    </entity>
+	<entity name="User" table="user" type="Xpress.Chat.Domain.Models.User">
+      <properties>
+        <property name="Id" type="System.Int32" column="user_id" sqlType="int" isPrimaryKey="true" isAutoIdentity="true" isRelationKey="false" relatedType="" relatedForeignKey="" />
+        <property name="Name" type="System.String" column="user_name" sqlType="nvarchar(50)" isPrimaryKey="false" isAutoIdentity="false" isRelationKey="false" relatedType="" relatedForeignKey="" />
+        <property name="NickName" type="System.String" column="user_nick_name" sqlType="nvarchar(50)" isPrimaryKey="false" isAutoIdentity="false" isRelationKey="false" relatedType="" relatedForeignKey="" />
+		<property name="Email" type="System.String" column="user_email" sqlType="nvarchar(200)" isPrimaryKey="false" isAutoIdentity="false" isRelationKey="false" relatedType="" relatedForeignKey="" />
+		<property name="Password" type="System.String" column="user_password" sqlType="nvarchar(20)" isPrimaryKey="false" isAutoIdentity="false" isRelationKey="false" relatedType="" relatedForeignKey="" />
+      </properties>
+    </entity>
+  </entities>
+</EntityMappingConfiguration>

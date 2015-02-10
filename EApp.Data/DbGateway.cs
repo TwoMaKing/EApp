@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using EApp.Core.Exceptions;
+using EApp.Data.Queries;
 
 namespace EApp.Data
 {
@@ -834,10 +835,28 @@ namespace EApp.Data
             }
         }
 
+        public IDataReader SelectReader(ISqlBuilder sqlBuilder,
+                                        int pageNumber,
+                                        int pageSize,
+                                        string identityColumn,
+                                        bool identityColumnIsNumber = true) 
+        {
+            return SelectReader(sqlBuilder.GetTables(),
+                                sqlBuilder.GetColumns(),
+                                sqlBuilder.GetPredicate(),
+                                sqlBuilder.GetParameters().Values.ToArray(),
+                                sqlBuilder.GetOrderBy(),
+                                sqlBuilder.GetGroupBy(),
+                                pageNumber,
+                                pageSize,
+                                identityColumn,
+                                identityColumnIsNumber);
+        }
+
         public IDataReader SelectReader(string table,
                                         string[] columns,
                                         string where,
-                                        object[] whereParamValues,
+                                        object[] whereValues,
                                         string orderBy,
                                         string groupBy,
                                         int pageNumber,
@@ -845,10 +864,31 @@ namespace EApp.Data
                                         string identityColumn,
                                         bool identityColumnIsNumber = true) 
         {
+            if (string.IsNullOrEmpty(table))
+            {
+                throw new ArgumentNullException("The table name cannot be null or empty.");
+            }
+
+            if (pageNumber <= 0)
+            {
+                throw new ArgumentOutOfRangeException("pageNumber", pageNumber, "The pageNumber is one-based and should be larger than zero.");
+            }
+
+            if (pageSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException("pageSize", pageSize, "The pageSize is one-based and should be larger than zero.");
+            }
 
             string[] whereParamNames = this.database.DiscoverParams(where);
 
-            ISqlStatementFactory sqlStatementFactory = this.database.GetStatementFactory();
+            if (whereParamNames != null &&
+               (whereValues == null ||
+               !whereParamNames.Length.Equals(whereValues.Length)))
+            {
+                throw new ArgumentException("The length of parameter values in where Sql should equal the length of parameter names in where Sql if where is not null or empty.");
+            }
+
+            ISqlStatementFactory sqlStatementFactory = this.database.GetSqlStatementFactory();
 
             string selectRangeQuerySql = sqlStatementFactory.CreateSelectRangeStatement(table, 
                                                                                         where, 
@@ -860,11 +900,10 @@ namespace EApp.Data
                                                                                         groupBy, 
                                                                                         columns);
 
-            DbCommand command = this.PrepareSqlStringCommand(whereParamNames, null, whereParamValues, selectRangeQuerySql);
+            DbCommand command = this.PrepareSqlStringCommand(whereParamNames, null, whereValues, selectRangeQuerySql);
 
             return this.database.ExecuteReader(command);
         }
-
 
         #endregion
 

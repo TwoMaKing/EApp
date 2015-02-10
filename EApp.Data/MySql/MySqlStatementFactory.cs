@@ -7,6 +7,8 @@ namespace EApp.Data.MySql
 {
     public class MySqlStatementFactory : SqlStatementFactory, ISqlStatementFactory
     {
+        public MySqlStatementFactory(DbProvider dbProvider) : base(dbProvider) { }
+
         private const char Parameter_Prefix = '?';
 
         private const char Parameter_Token = '`';
@@ -129,17 +131,17 @@ namespace EApp.Data.MySql
                                  string.IsNullOrEmpty(orderBy.Trim()) ? string.Empty : "ORDER BY " + orderBy);
         }
 
-        protected override string CreateSelectTopStatement(string from, string where, string[] columns, string orderBy, string groupBy, int topCount)
+        protected override string CreateSelectTopStatement(string tableName, string where, string[] columns, string orderBy, string groupBy, int topCount)
         {
             throw new NotImplementedException();
         }
 
-        protected override string CreateSelectRangeStatementForSortedRows(string from, string where, string[] columns, string orderBy, string groupBy, int topCount, int skipCount, string identityColumn, bool isIdentityColumnDesc)
+        protected override string CreateSelectRangeStatementForSortedRows(string tableName, string where, string[] columns, string orderBy, string groupBy, int topCount, int skipCount, string identityColumn, bool isIdentityColumnDesc)
         {
             throw new NotImplementedException();
         }
 
-        protected override string CreateSelectRangeStatementForUnsortedRows(string from, string where, string[] columns, string orderBy, string groupBy, int topCount, int skipCount, string identyColumn)
+        protected override string CreateSelectRangeStatementForUnsortedRows(string tableName, string where, string[] columns, string orderBy, string groupBy, int topCount, int skipCount, string identyColumn)
         {
             throw new NotImplementedException();
         }

@@ -19,6 +19,11 @@ namespace Xpress.Chat.Repositories
     {
         public CommentRepository(IRepositoryContext repositoryContext) : base(repositoryContext) { }
 
+        public IEnumerable<Comment> GetCommentsByPost(Post post)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override string GetAggregateRootQuerySqlById()
         {
             throw new NotImplementedException();
@@ -49,9 +54,15 @@ namespace Xpress.Chat.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Comment> GetCommentsByPost(Post post)
+        protected override string GetFromTableSqlByFindAll()
         {
             throw new NotImplementedException();
         }
+
+        protected override string[] GetSelectColumnsByFindAll()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

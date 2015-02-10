@@ -20,6 +20,7 @@ using EApp.Core.Application;
 using EApp.Core.Configuration;
 using EApp.Core.Query;
 using EApp.Data;
+using EApp.Data.Mapping;
 using EApp.Data.Queries;
 using EApp.Windows.Mvc;
 using Microsoft.CSharp.RuntimeBinder;
@@ -475,13 +476,13 @@ namespace Xpress.Mvc
         {
             IDataReader pagingReader = DbGateway.Default.SelectReader("post",
                                                    new string[] { "post_id", "post_topic_id", "post_author_id", "post_content", "post_creation_datetime" },
-                                                   string.Empty,
-                                                   null,
-                                                   "post_id",
-                                                   null,
-                                                   3,
-                                                   3,
-                                                   "post_id");
+                                                   "post_topic_id=@post_topic_id and post_creation_datetime<@post_creation_datetime",
+                                                    new object[] { 1000, "2015-1-22" },
+                                                   "post_creation_datetime desc",
+                                                    null,
+                                                    3,
+                                                    3,
+                                                   "post_creation_datetime");
 
             while (pagingReader.Read())
             {
@@ -494,6 +495,14 @@ namespace Xpress.Mvc
             {
                 pagingReader.Close();
             }
+
+        }
+
+        private void btnBuilderEntityMappingXml_Click(object sender, EventArgs e)
+        {
+            EntityMappingConfiguration entityMappingConfig = new EntityMappingConfiguration();
+
+
 
         }
     }

@@ -114,7 +114,10 @@ namespace Xpress.Chat.Application
 
         protected override void Dispose(bool disposing)
         {
-            throw new NotImplementedException();
+            if (disposing)
+            {
+                this.RepositoryContext.Dispose();
+            }
         }
     }
 }

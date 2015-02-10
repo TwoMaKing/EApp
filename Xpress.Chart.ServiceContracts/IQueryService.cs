@@ -19,6 +19,6 @@ namespace Xpress.Chat.ServiceContracts
 
         [OperationContract()]
         [WebInvoke(UriTemplate = "Posts/Query", Method = "Post", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        IEnumerable<PostDataObject> GetPostsByQueryRequest(QueryRequest request);
+        IEnumerable<PostDataObject> GetPostsByQueryRequest(PostQueryRequest request);
     }
 }

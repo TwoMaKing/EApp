@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
+using EApp.Data.Mapping;
 using EApp.Data.Queries;
 
 namespace EApp.Data.SqlLite
@@ -11,12 +12,12 @@ namespace EApp.Data.SqlLite
     {
         private const char Parameter_Prefix = '?';
 
-        private ISqlStatementFactory sqlStatementFactory = new SqlLiteStatementFactory();
+        private ISqlStatementFactory sqlStatementFactory;
 
         public SqlLiteDbProvider(string connectionString) : 
             base(connectionString, System.Data.SQLite.SQLiteFactory.Instance) 
-        { 
-            
+        {
+            this.sqlStatementFactory = new SqlLiteStatementFactory(this);
         }
 
         public override void AdjustParameter(System.Data.Common.DbParameter param)
@@ -49,14 +50,46 @@ namespace EApp.Data.SqlLite
             get { throw new NotImplementedException(); }
         }
 
-        public override string ParamPrefix
+        public override char ParameterPrefix
         {
             get { throw new NotImplementedException(); }
         }
 
+        public override char ParameterLeftToken
+        {
+            get 
+            { 
+                return '['; 
+            }
+        }
+
+        public override char ParameterRightToken
+        {
+            get 
+            { 
+                return ']'; 
+            }
+        }
+
+        public override char WildCharToken
+        {
+            get 
+            { 
+                return '%'; 
+            }
+        }
+
+        public override char WildSingleCharToken
+        {
+            get 
+            {
+                return '_';
+            }
+        }
+
         public override WhereClauseBuilder<T> CreateWhereClauseBuilder<T>()
         {
-            throw new NotImplementedException();
+            return new SqlLiteServerWhereClauseBuilder<T>();
         }
     }
 }

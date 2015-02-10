@@ -13,12 +13,6 @@ namespace EApp.Core.Query
         private int? pageSzie;
         private List<T> data;
 
-        public PagingResult(int? totalRecords, int? totalPages) 
-        {
-            this.totalRecords = totalRecords;
-            this.totalPages = totalPages;
-        }
-
         public PagingResult(int? totalRecords, int? totalPages, int? pageNumber, int? pageSzie, List<T> data)
         {
             this.totalPages = totalRecords;
@@ -50,10 +44,6 @@ namespace EApp.Core.Query
             { 
                 return this.pageNumber; 
             }
-            set
-            {
-                this.pageNumber = value;
-            }
         }
 
         public int? PageSize
@@ -61,10 +51,6 @@ namespace EApp.Core.Query
             get 
             {
                 return this.pageSzie;
-            }
-            set
-            {
-                this.pageSzie = value;
             }
         }
 

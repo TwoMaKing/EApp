@@ -43,7 +43,7 @@ namespace Xpress.Core.Logic
                             GridViewColumnType.EditBox,
                             GridViewCellValueType.Percentage);
 
-                        costCellDetail.DisplayValue = LocalizationUtil.FormatRateToString(costLine.LeaseRateFactor, 6);
+                        costCellDetail.DisplayValue = LocalizationUtils.FormatRateToString(costLine.LeaseRateFactor, 6);
 
                         return costCellDetail;
                     }

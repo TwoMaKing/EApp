@@ -20,7 +20,7 @@ namespace EApp.Repositories.SQL
     /// Repository used for Sql Server.
     /// </summary>
     public abstract class SqlRepository<TAggregateRoot> : Repository<TAggregateRoot> 
-        where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot
+        where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot, new()
     {
         protected delegate void AppendChildToAggregateRoot(TAggregateRoot aggregateRoot, int childEntityId);
 
@@ -102,20 +102,64 @@ namespace EApp.Repositories.SQL
 
         protected override TAggregateRoot DoFind(ISpecification<TAggregateRoot> specification)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         protected override IEnumerable<TAggregateRoot> DoFindAll(Expression<Func<TAggregateRoot, bool>> expression, Expression<Func<TAggregateRoot, dynamic>> sortPredicate, SortOrder sortOrder)
         {
-            throw new NotImplementedException();
+            string fromTable = this.GetFromTableSqlByFindAll();
+
+            string[] selectColumns = this.GetSelectColumnsByFindAll();
+
+            var whereBuilderResult = this.SqlRepositoryContext.GetWhereClauseSql<TAggregateRoot>(expression);
+
+            string orderBy = this.SqlRepositoryContext.GetOrderByClauseSql<TAggregateRoot>(sortPredicate) +
+                             (sortOrder == SortOrder.Descending ? " DESC " : " ASC ");
+
+            IDataReader dataReader = this.SqlRepositoryContext.Select(fromTable,
+                                                                      selectColumns,
+                                                                      whereBuilderResult.WhereClause,
+                                                                      whereBuilderResult.ParameterValues.Values.ToArray(),
+                                                                      orderBy);
+
+            return this.BuildAggregateRootsFromDataReader(dataReader);
         }
 
-        protected override IPagingResult<TAggregateRoot> DoFindAll(Expression<Func<TAggregateRoot, bool>> expression, Expression<Func<TAggregateRoot, dynamic>> sortPredicate, SortOrder sortOrder, int pageNumber, int pageSize)
+        protected override IPagingResult<TAggregateRoot> DoFindAll(Expression<Func<TAggregateRoot, bool>> expression, 
+                                                                   Expression<Func<TAggregateRoot, dynamic>> sortPredicate, 
+                                                                   SortOrder sortOrder, 
+                                                                   int pageNumber, 
+                                                                   int pageSize)
         {
-            throw new NotImplementedException();
+            string fromTable = this.GetFromTableSqlByFindAll();
+
+            string[] selectColumns = this.GetSelectColumnsByFindAll();
+
+            var whereBuilderResult = this.SqlRepositoryContext.GetWhereClauseSql<TAggregateRoot>(expression);
+
+            string orderBy = this.SqlRepositoryContext.GetOrderByClauseSql<TAggregateRoot>(sortPredicate) +
+                             (sortOrder == SortOrder.Descending ? " DESC " : " ASC ");
+
+            IDataReader dataReader = this.SqlRepositoryContext.Select(fromTable,
+                                                                      selectColumns,
+                                                                      whereBuilderResult.WhereClause,
+                                                                      whereBuilderResult.ParameterValues.Values.ToArray(),
+                                                                      orderBy,
+                                                                      pageNumber,
+                                                                      pageSize,
+                                                                      orderBy,
+                                                                      true);
+
+            IEnumerable<TAggregateRoot> aggregateRoots = this.BuildAggregateRootsFromDataReader(dataReader);
+
+            return new PagingResult<TAggregateRoot>(aggregateRoots.Count(), null, pageNumber, pageSize, aggregateRoots.ToList());
         }
 
         #region Protected methods for finding the specified aggregate root
+
+        protected abstract string GetFromTableSqlByFindAll();
+
+        protected abstract string[] GetSelectColumnsByFindAll();
 
         protected abstract string GetAggregateRootQuerySqlById();
 

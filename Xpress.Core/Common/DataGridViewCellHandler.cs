@@ -44,7 +44,7 @@ namespace Xpress.Core.Common
 
                     try
                     {
-                        decimal? newDecimalValue = LocalizationUtil.FormatStringTo2Decimal(tempDecimalValue);
+                        decimal? newDecimalValue = LocalizationUtils.FormatStringTo2Decimal(tempDecimalValue);
 
                         cellDetail.Value = newDecimalValue;
                     }
@@ -86,7 +86,7 @@ namespace Xpress.Core.Common
 
                     try
                     {
-                        decimal? percentValue = LocalizationUtil.FormatStringToRate(tempPercentageValue);
+                        decimal? percentValue = LocalizationUtils.FormatStringToRate(tempPercentageValue);
 
                         cellDetail.Value = percentValue;
                     }
@@ -105,7 +105,7 @@ namespace Xpress.Core.Common
                     tempDateTimeValue = newValue.ToString();
                 }
 
-                cellDetail.Value = DateTimeUtil.ToDateTime(tempDateTimeValue);
+                cellDetail.Value = DateTimeUtils.ToDateTime(tempDateTimeValue);
             }
 
             return updateSuccess;

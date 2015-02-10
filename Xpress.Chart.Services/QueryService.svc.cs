@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.ServiceModel.Activation;
@@ -9,8 +10,10 @@ using System.ServiceModel.Web;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
+using EApp.Common.Query;
 using EApp.Core;
 using EApp.Core.Application;
+using EApp.Core.Query;
 using EApp.Domain.Core.Repositories;
 using Xpress.Chat.Commands;
 using Xpress.Chat.DataObjects;
@@ -49,13 +52,32 @@ namespace Xpress.Chat.Services
             }
         }
 
-        public IEnumerable<PostDataObject> GetPostsByQueryRequest(QueryRequest request)
+        public IEnumerable<PostDataObject> GetPostsByQueryRequest(PostQueryRequest request)
         {
             using (IRepositoryContext repositoryContext = ServiceLocator.Instance.GetService<IRepositoryContext>())
             {
                 IRepository<Post> postRepository = repositoryContext.GetRepository<Post>();
 
-                IEnumerable<Post> posts = postRepository.FindAll();
+                Expression<Func<Post, bool>> dateTimeExpression = (p) => true;
+
+                switch (request.CreationDateTimeParam.CreationDateTimeOperator)
+                { 
+                    case Operator.LessThanEqual:
+                        dateTimeExpression = p => p.CreationDateTime <= request.CreationDateTimeParam.CreationDateTime;
+                        break;
+                    case Operator.GreaterThanEqual:
+                        dateTimeExpression = p => p.CreationDateTime >= request.CreationDateTimeParam.CreationDateTime;
+                        break;
+                    case Operator.Equal:
+                        dateTimeExpression = p => p.CreationDateTime.Equals(request.CreationDateTimeParam.CreationDateTime);
+                        break;
+                }
+
+                QueryBuilder<Post> postQueryBuilder = new QueryBuilder<Post>();
+
+                postQueryBuilder.And(p => p.TopicId == request.TopicId).And(dateTimeExpression);
+
+                IEnumerable<Post> posts = postRepository.FindAll(postQueryBuilder.QueryPredicate);
 
                 IList<PostDataObject> postDataObjects = new List<PostDataObject>();
 

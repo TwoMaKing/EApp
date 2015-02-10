@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using EApp.Common.Serialization;
 
-namespace EApp.Data.Queries
+namespace EApp.Data.Mapping
 {
     /// <summary>
     /// Represents the XML storage mapping resolver.
@@ -14,7 +14,7 @@ namespace EApp.Data.Queries
         #region Private Fields
         private readonly string fileName;
         private readonly IObjectSerializer serializer = new ObjectXmlSerializer();
-        private readonly ObjectMappingSchema mappingSchema;
+        private readonly EntityMappingConfiguration entityMappingConfiguration;
         #endregion
 
         #region Ctor
@@ -29,24 +29,74 @@ namespace EApp.Data.Queries
             {
                 byte[] bytes = new byte[fileStream.Length];
                 fileStream.Read(bytes, 0, Convert.ToInt32(fileStream.Length));
-                mappingSchema = serializer.Deserialize<ObjectMappingSchema>(bytes);
+                this.entityMappingConfiguration = serializer.Deserialize<EntityMappingConfiguration>(bytes);
                 fileStream.Close();
             }
         }
+
+        /// <summary>
+        ///  Initializes a new instance of <c>XmlStorageMappingResolver</c> class.
+        /// </summary>
+        /// <param name="entityMappingConfiguration">The instance of EntityMappingConfiguration</param>
+        public XmlObjectMappingResolver(EntityMappingConfiguration entityMappingConfiguration)
+        {
+            this.entityMappingConfiguration = entityMappingConfiguration;
+        }
+
         #endregion
 
         #region Private Methods
         private bool ValidateSchema()
         {
-            if (mappingSchema != null &&
-                mappingSchema.Entities != null &&
-                mappingSchema.Entities.Count > 0)
+            if (entityMappingConfiguration != null &&
+                entityMappingConfiguration.Entities != null &&
+                entityMappingConfiguration.Entities.Length > 0)
                 return true;
             return false;
         }
         #endregion
 
         #region IStorageMappingResolver Members
+
+        public string ResolveTableName(string objectOrTypeName)
+        {
+            if (ValidateSchema())
+            {
+                var entityConfiguration = entityMappingConfiguration.Entities.FirstOrDefault(p => p.TypeName.Equals(objectOrTypeName) || p.Name.Equals(objectOrTypeName));
+                if (entityConfiguration != null && !string.IsNullOrEmpty(entityConfiguration.TableName))
+                    return entityConfiguration.TableName;
+                else
+                    return objectOrTypeName;
+            }
+            else
+                return objectOrTypeName;
+        }
+
+        public string ResolveFieldName(string objectOrTypeName, string propertyName)
+        {
+            if (ValidateSchema())
+            {
+                var dataType = entityMappingConfiguration.Entities.FirstOrDefault(p => p.TypeName.Equals(objectOrTypeName) || p.Name.Equals(objectOrTypeName));
+                if (dataType != null)
+                {
+                    if (dataType.Properties != null && dataType.Properties.Length > 0)
+                    {
+                        var property = dataType.Properties.FirstOrDefault(p => p.Name.Equals(propertyName));
+                        if (property != null && !string.IsNullOrEmpty(property.ColumnName))
+                            return property.ColumnName;
+                        else
+                            return propertyName;
+                    }
+                    else
+                        return propertyName;
+                }
+                else
+                    return propertyName;
+            }
+            else
+                return propertyName;
+        }
+
         /// <summary>
         /// Resolves the table name by using the given type.
         /// </summary>
@@ -56,7 +106,7 @@ namespace EApp.Data.Queries
         {
             if (ValidateSchema())
             {
-                var entityConfiguration = mappingSchema.Entities.FirstOrDefault(p => p.TypeName.Equals(typeof(T).FullName));
+                var entityConfiguration = entityMappingConfiguration.Entities.FirstOrDefault(p => p.TypeName.Equals(typeof(T).FullName));
                 if (entityConfiguration != null && !string.IsNullOrEmpty(entityConfiguration.TableName))
                     return entityConfiguration.TableName;
                 else
@@ -75,14 +125,14 @@ namespace EApp.Data.Queries
         {
             if (ValidateSchema())
             {
-                var dataType = mappingSchema.Entities.FirstOrDefault(p => p.TypeName.Equals(typeof(T).FullName));
+                var dataType = entityMappingConfiguration.Entities.FirstOrDefault(p => p.TypeName.Equals(typeof(T).FullName));
                 if (dataType != null)
                 {
-                    if (dataType.Properties != null && dataType.Properties.Count > 0)
+                    if (dataType.Properties != null && dataType.Properties.Length > 0)
                     {
                         var property = dataType.Properties.FirstOrDefault(p => p.Name.Equals(propertyName));
-                        if (property != null && !string.IsNullOrEmpty(property.FieldName))
-                            return property.FieldName;
+                        if (property != null && !string.IsNullOrEmpty(property.ColumnName))
+                            return property.ColumnName;
                         else
                             return propertyName;
                     }
@@ -105,10 +155,10 @@ namespace EApp.Data.Queries
         {
             if (ValidateSchema())
             {
-                var dataType = mappingSchema.Entities.FirstOrDefault(p => p.TypeName.Equals(typeof(T).FullName));
+                var dataType = entityMappingConfiguration.Entities.FirstOrDefault(p => p.TypeName.Equals(typeof(T).FullName));
                 if (dataType != null)
                 {
-                    if (dataType.Properties != null && dataType.Properties.Count > 0)
+                    if (dataType.Properties != null && dataType.Properties.Length > 0)
                     {
                         var property = dataType.Properties.FirstOrDefault(p => p.Name.Equals(propertyName));
                         if (property != null)
@@ -126,5 +176,6 @@ namespace EApp.Data.Queries
                 return false;
         }
         #endregion
+
     }
 }

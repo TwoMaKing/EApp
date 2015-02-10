@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace EApp.Common.Util
 {
-    public static class LocalizationUtil
+    public static class LocalizationUtils
     {
         private const string NUMERIC_COMMA = ",";
 

@@ -57,6 +57,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Repositories.MongoDB",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Domain.Core", "EApp.Domain.Core\EApp.Domain.Core.csproj", "{3B98F11D-5383-4856-B82A-9EB6AE800603}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EApp.Tests", "EApp.Tests", "{78DC4B5F-3364-4314-AE25-F7E63A581879}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Tests", "EApp.Tests\EApp.Tests.csproj", "{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -337,6 +341,16 @@ Global
 		{3B98F11D-5383-4856-B82A-9EB6AE800603}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3B98F11D-5383-4856-B82A-9EB6AE800603}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3B98F11D-5383-4856-B82A-9EB6AE800603}.Release|x86.ActiveCfg = Release|Any CPU
+		{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -356,5 +370,6 @@ Global
 		{285FF342-90C9-4D5C-ACA9-1CEC9E81131A} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{0322529D-FD0D-4D5F-A3D0-A5B6296F00AE} = {69953842-655B-4E4C-9CB0-284F0390D323}
 		{467E249E-6656-499E-BA28-299DA422FB6B} = {69953842-655B-4E4C-9CB0-284F0390D323}
+		{2CC86C4C-7F7F-418D-9828-EC99960E4C5C} = {78DC4B5F-3364-4314-AE25-F7E63A581879}
 	EndGlobalSection
 EndGlobal

@@ -63,6 +63,7 @@
     <Compile Include="Application\AppInitEventArgs.cs" />
     <Compile Include="Application\EAppRuntime.cs" />
     <Compile Include="Application\IApp.cs" />
+    <Compile Include="DisposableObject.cs" />
     <Compile Include="DynamicQueryable.cs" />
     <Compile Include="ExpressionParser.cs" />
     <Compile Include="IoC\NInject\NInjectObjectContainer.cs" />

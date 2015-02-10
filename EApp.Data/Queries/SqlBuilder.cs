@@ -22,7 +22,7 @@ namespace EApp.Data.Queries
 
         private StringBuilder querySqlBuilder = new StringBuilder();
 
-        private string selectColumnsSql = string.Empty;
+        private List<string> selectColumns = new List<string>();
 
         private string selectTopSql = string.Empty;
 
@@ -269,10 +269,11 @@ namespace EApp.Data.Queries
                 return this;
             }
 
-            this.groupBySql = " GROUP BY " + 
-                                string.Join(",", columns) + 
-                               (string.IsNullOrEmpty(having) ? string.Empty :
-                                " HAVING " + having);
+            this.groupBySql = string.Join(",", columns) + 
+                             (string.IsNullOrEmpty(having) ? 
+                              string.Empty :
+                              " HAVING " + having);
+
             return this;
         }
 
@@ -334,11 +335,14 @@ namespace EApp.Data.Queries
         {
             if (columns == null)
             {
-                this.selectColumnsSql = " * ";
+                if (!this.selectColumns.Contains("*"))
+                {
+                    this.selectColumns.Add("*");
+                }
             }
             else
             {
-                this.selectColumnsSql = string.Join(",", columns);
+                this.selectColumns.AddRange(columns);
             }
 
             return this;
@@ -346,7 +350,6 @@ namespace EApp.Data.Queries
 
         public ISqlBuilder Where(string wherePredicate, IEnumerable<object> paramValues)
         {
-
             return this;
         }
 
@@ -379,6 +382,7 @@ namespace EApp.Data.Queries
             this.innerJoinTables.Clear();
             this.leftOuterJoinTables.Clear();
             this.rightOuterJoinTables.Clear();
+            this.selectColumns.Clear();
             this.orderByColumns.Clear();
             this.parameterValues.Clear();
             this.parameterColumnValues.Clear();
@@ -386,12 +390,53 @@ namespace EApp.Data.Queries
             this.fromTable = string.Empty;
             this.selectTopSql = string.Empty;
             this.selectDistinctSql = string.Empty;
-            this.selectColumnsSql = string.Empty;
             this.groupBySql = string.Empty;
 
             ParameterColumnCache.Instance.Reset();
 
             return this;
+        }
+
+        public string GetTables()
+        {
+            StringBuilder tableBuilder = new StringBuilder();
+
+            tableBuilder.Append(this.fromTable);
+
+            if (this.innerJoinTables != null &&
+                this.innerJoinTables.Count > 0)
+            {
+                this.innerJoinTables.ForEach((joinSql) => tableBuilder.Append(joinSql));
+            }
+
+            if (this.leftOuterJoinTables != null &&
+                this.leftOuterJoinTables.Count > 0)
+            {
+                this.leftOuterJoinTables.ForEach((joinSql) => tableBuilder.Append(joinSql));
+            }
+
+            if (this.rightOuterJoinTables != null &&
+                this.rightOuterJoinTables.Count > 0)
+            {
+                this.rightOuterJoinTables.ForEach((joinSql) => tableBuilder.Append(joinSql));
+            }
+
+            return tableBuilder.ToString();
+        }
+
+        public string[] GetColumns()
+        {
+            return this.selectColumns.ToArray();
+        }
+
+        public string GetOrderBy()
+        {
+            return string.Join(",", this.orderByColumns.ToArray());
+        }
+
+        public string GetGroupBy()
+        {
+            return this.groupBySql;
         }
 
         public string GetPredicate()
@@ -406,31 +451,15 @@ namespace EApp.Data.Queries
 
         public string GetQuerySql()
         {
+            this.querySqlBuilder = new StringBuilder();
+
             this.querySqlBuilder.Append("SELECT ")
                                 .Append(this.selectDistinctSql)
                                 .Append(this.selectTopSql)
                                 .Append(this.selectFunctionBuilder.ToString().TrimEnd(new char[] { ',', ' ' }))
-                                .Append(this.selectColumnsSql)
+                                .Append(this.selectColumns.Count.Equals(0) ? "*" : string.Join(",", this.selectColumns))
                                 .Append(" FROM ")
-                                .Append(this.fromTable);
-
-            if (this.innerJoinTables != null &&
-                this.innerJoinTables.Count > 0)
-            {
-                this.innerJoinTables.ForEach((joinSql) => this.querySqlBuilder.Append(joinSql));
-            }
-
-            if (this.leftOuterJoinTables != null &&
-                this.leftOuterJoinTables.Count > 0)
-            {
-                this.leftOuterJoinTables.ForEach((joinSql) => this.querySqlBuilder.Append(joinSql));
-            }
-
-            if (this.rightOuterJoinTables != null &&
-                this.rightOuterJoinTables.Count > 0)
-            {
-                this.rightOuterJoinTables.ForEach((joinSql) => this.querySqlBuilder.Append(joinSql));
-            }
+                                .Append(this.GetTables());
 
             string sqlPredicate = this.GetPredicate();
 
@@ -443,13 +472,14 @@ namespace EApp.Data.Queries
             if (!string.IsNullOrEmpty(this.groupBySql) &&
                 !string.IsNullOrWhiteSpace(this.groupBySql))
             {
+                this.querySqlBuilder.Append(" GROUP BY ");
                 this.querySqlBuilder.Append(this.groupBySql);
             }
        
             if (this.orderByColumns.Count > 0)
             {
                 this.querySqlBuilder.Append(" ORDER BY ");
-                this.querySqlBuilder.Append(string.Join(",", this.orderByColumns.ToArray())); 
+                this.querySqlBuilder.Append(this.GetOrderBy()); 
             }
 
             return this.querySqlBuilder.ToString();

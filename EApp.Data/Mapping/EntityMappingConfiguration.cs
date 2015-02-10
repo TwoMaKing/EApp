@@ -5,16 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using EApp.Common.Util;
 
-namespace EApp.Data.Queries
+namespace EApp.Data.Mapping
 {
     [Serializable()]
-    [XmlRoot("ObjectMappingConfiguration")]
-    public class ObjectMappingSchema
+    [XmlRoot("EntityMappingConfiguration")]
+    public class EntityMappingConfiguration
     {
         [XmlArray("entities")]
         [XmlArrayItem("entity")]
-        public List<EntityConfiguration> Entities { get; set; }
+        public EntityConfiguration[] Entities { get; set; }
     }
 
     [Serializable()]
@@ -31,23 +32,45 @@ namespace EApp.Data.Queries
 
         [XmlArray("properties")]
         [XmlArrayItem("property")]
-        public List<PropertyConfiguration> Properties { get; set; }
+        public PropertyConfiguration[] Properties { get; set; }
     }
 
     [Serializable()]
     public class PropertyConfiguration
     {
+        private string sqlType;
+
+        private bool isNotNull = true;
+
         [XmlAttribute("name")]
         public string Name { get; set; }
 
         [XmlAttribute("type")]
         public string PropertyType { get; set; }
 
-        [XmlAttribute("field")]
-        public string FieldName { get; set; }
+        [XmlAttribute("column")]
+        public string ColumnName { get; set; }
 
         [XmlAttribute("sqlType")]
-        public string SqlType { get; set; }
+        public string SqlType 
+        {
+            get 
+            {
+                if ((string.IsNullOrEmpty(this.sqlType) ||
+                     string.IsNullOrWhiteSpace(this.sqlType)) &&
+                    (!string.IsNullOrEmpty(this.PropertyType) &&
+                     !string.IsNullOrWhiteSpace(this.PropertyType)))
+                {
+                    return this.GetDefaultSqlType(CommonUtils.GetType(this.PropertyType));
+                }
+
+                return sqlType;
+            }
+            set 
+            {
+                this.sqlType = value;
+            }
+        }
 
         [XmlAttribute("isPrimaryKey")]
         public bool IsPrimaryKey { get; set; }
@@ -55,8 +78,21 @@ namespace EApp.Data.Queries
         [XmlAttribute("isAutoIdentity")]
         public bool IsAutoIdentity { get; set; }
 
+        [XmlAttribute("isNotNull")]
+        public bool IsNotNull 
+        {
+            get 
+            {
+                return this.isNotNull;
+            }
+            set 
+            {
+                this.isNotNull = value;
+            }
+        }
+
         [XmlAttribute("isRelationKey")]
-        public bool IsRelationKey  {get;set;}
+        public bool IsRelationKey  {get; set;}
 
         [XmlAttribute("relatedType")]
         public string RelatedType { get; set; }
@@ -192,4 +228,5 @@ namespace EApp.Data.Queries
         }
 
     }
+
 }

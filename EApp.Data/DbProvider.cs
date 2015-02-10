@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using EApp.Data.Queries;
+using EApp.Data.Mapping;
 
 namespace EApp.Data
 {
@@ -21,7 +22,6 @@ namespace EApp.Data
             this.dbConnectionStringBuilder = new DbConnectionStringBuilder();
             this.dbConnectionStringBuilder.ConnectionString = connectionString;
             this.dbProviderFactory = dbProviderFactory;
-
         }
 
         #endregion
@@ -91,12 +91,25 @@ namespace EApp.Data
         ///Gets the param prefix.
         /// </summary>
         /// <value>The param prefix.</value>
-        public abstract string ParamPrefix { get; }
+        public abstract char ParameterPrefix { get; }
+
+        /// <summary>
+        /// Gets the left token of parameter name. e.g. [, i.e. [post_id]
+        /// </summary>
+        public abstract char ParameterLeftToken { get; }
+
+        /// <summary>
+        /// Gets the right token of parameter name. e.g.], i.e. [post_id]
+        /// </summary>
+        public abstract char ParameterRightToken { get; }
+
+        public abstract char WildCharToken { get; }
+
+        public abstract char WildSingleCharToken { get; }
 
         public abstract WhereClauseBuilder<T> CreateWhereClauseBuilder<T>() where T : class, new();
 
         #endregion
-
     }
 
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EApp.Common.Util
 {
-    public static class ArrayUtil
+    public static class ArrayUtils
     {
         public static bool IsExistInArray<TObject>(TObject[] objectArray, TObject item)
         {

@@ -15,8 +15,8 @@ namespace EApp.Core.Query
 
         int? TotalPages { get; }
 
-        int? PageNumber { get; set; }
+        int? PageNumber { get; }
 
-        int? PageSize { get; set; }
+        int? PageSize { get; }
     }
 }

@@ -11,7 +11,7 @@ namespace EApp.Domain.Core.Repositories
     /// <summary>
     /// Repository interface for an aggregate.
     /// </summary>
-    public interface IRepository<TAggregateRoot, TIdentityKey> where TAggregateRoot : class, IAggregateRoot<TIdentityKey>
+    public interface IRepository<TAggregateRoot, TIdentityKey> where TAggregateRoot : class, IAggregateRoot<TIdentityKey>, new()
     {
         /// <summary>
         /// Return a repository context with Unit Of Work.
@@ -132,7 +132,7 @@ namespace EApp.Domain.Core.Repositories
     }
 
     public interface IRepository<TAggregateRoot> : IRepository<TAggregateRoot, int>
-        where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot 
+        where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot, new()
     { 
     
     }

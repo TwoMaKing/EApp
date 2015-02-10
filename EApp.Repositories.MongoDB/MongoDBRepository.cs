@@ -13,7 +13,7 @@ using MongoDB;
 
 namespace EApp.Repositories.MongoDB
 {
-    public class MongoDBRepository<TAggregateRoot> : Repository<TAggregateRoot>, IRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot
+    public class MongoDBRepository<TAggregateRoot> : Repository<TAggregateRoot>, IRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot, new()
     {
         private IMongoDBRepositoryContext mongoDBRepositoryContext;
 

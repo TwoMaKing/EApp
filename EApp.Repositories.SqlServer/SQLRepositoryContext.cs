@@ -11,6 +11,8 @@ using EApp.Core.Application;
 using EApp.Core.Query;
 using EApp.Core.QuerySepcifications;
 using EApp.Data;
+using EApp.Data.Mapping;
+using EApp.Data.Queries;
 using EApp.Domain.Core.Repositories;
 using Microsoft.Practices.Unity;
 
@@ -122,31 +124,63 @@ namespace EApp.Repositories.SQL
 
             IUnityContainer unityContainer = EAppRuntime.Instance.CurrentApp.ObjectContainer.GetWrapperContainer<IUnityContainer>();
 
-            return (IRepository<TAggregateRoot>)unityContainer.Resolve(repositoryType, new DependencyOverride<IRepositoryContext>(this));
+            return (IRepository<TAggregateRoot>)unityContainer.Resolve(repositoryType,  new DependencyOverride<IRepositoryContext>(this));
         }
 
         #endregion
 
         #region ISQLRepositoryContext
 
-        public IEnumerable<T> Select<T>()
+        public WhereClauseBuildResult GetWhereClauseSql<TAggregateRoot>(Expression<Func<TAggregateRoot, bool>> predicate) where TAggregateRoot : class, new()
         {
-            throw new NotImplementedException();
+            return this.database.DBProvider.CreateWhereClauseBuilder<TAggregateRoot>().BuildWhereClause(predicate);
         }
 
-        public IEnumerable<T> Select<T>(Expression<Func<T, bool>> expression)
+        public string GetOrderByClauseSql<TAggregateRoot>(Expression<Func<TAggregateRoot, dynamic>> predicate) where TAggregateRoot : class, new()
         {
-            throw new NotImplementedException();
+            return this.database.DBProvider.CreateWhereClauseBuilder<TAggregateRoot>().BuildOrderByClause(predicate);
         }
 
-        public IEnumerable<T> Select<T>(Expression<Func<T, bool>> expression, Expression<Func<T, dynamic>> sortPredicate, SortOrder sortOrder)
+        public IDataReader Select(string querySql, object[] whereParamValues = null)
         {
-            throw new NotImplementedException();
+            string adjustedQuerySql = this.BuildParameterPrefix(querySql);
+
+            string[] whereParamNames = this.database.GetParsedParamNames(adjustedQuerySql);
+
+            DbCommand queryCommand = this.PrepareSqlStringCommand(querySql, whereParamNames, null, whereParamValues);
+
+            return this.database.ExecuteReader(queryCommand);
         }
 
-        public IEnumerable<T> Select<T>(Expression<Func<T, bool>> expression, Expression<Func<T, dynamic>> sortPredicate, SortOrder sortOrder, int pageNumber, int pageSize)
+        public IDataReader Select(string table, string[] columns)
         {
-            throw new NotImplementedException();
+            return Select(table, columns, null, null);
+        }
+
+        public IDataReader Select(string table, string[] columns, string where, object[] whereParamValues)
+        {
+            return Select(table, columns, where, whereParamValues, null);
+        }
+
+        public IDataReader Select(string table, string[] columns, string where, object[] whereParamValues, string orderBy)
+        {
+            return Select(table, columns, where, whereParamValues, orderBy, 1, int.MaxValue, null);
+        }
+
+        public IDataReader Select(string table, string[] columns, string where, object[] whereParamValues, string orderBy, int pageNumber, int pageSize, string identityColumn, bool identityColumnIsNumber = true)
+        {
+            ISqlStatementFactory sqlStatementFactory = this.database.GetSqlStatementFactory();
+
+            string selectRangeSqlStatement = sqlStatementFactory.CreateSelectRangeStatement(table, where, orderBy, pageSize, (pageNumber - 1) * pageSize, identityColumn, identityColumnIsNumber, null, columns);
+
+            string[] whereParamNames = this.database.DiscoverParams(where);
+
+            DbCommand selectRangeCommand = this.PrepareSqlStringCommand(selectRangeSqlStatement,
+                                                                        whereParamNames.ToArray(),
+                                                                        null,
+                                                                        whereParamValues.ToArray());
+
+            return this.database.ExecuteReader(selectRangeCommand);
         }
 
         public void Insert(string table, object[] values)
@@ -181,9 +215,9 @@ namespace EApp.Repositories.SQL
             }
 
             this.AddDbCommand(this.PrepareSqlStringCommand(insertSqlStatement,
-                                                             paramNames,
-                                                             null,
-                                                             values));
+                                                           paramNames,
+                                                           null,
+                                                           values));
         }
 
         public void Update(string table, string[] columns, object[] values)
@@ -218,9 +252,9 @@ namespace EApp.Repositories.SQL
             }
 
             DbCommand updateCommand = this.PrepareSqlStringCommand(updateSqlStatement,
-                                                             allParamNames.ToArray(), 
-                                                             null,
-                                                             allParamValues.ToArray());
+                                                                   allParamNames.ToArray(), 
+                                                                   null,
+                                                                   allParamValues.ToArray());
             this.AddDbCommand(updateCommand);
         }
 
@@ -238,9 +272,10 @@ namespace EApp.Repositories.SQL
             string[] whereParamNames = this.database.GetParsedParamNames(whereSql);
 
             DbCommand deleteCommand = this.PrepareSqlStringCommand(deleteSqlStatement,
-                                                             whereParamNames,
-                                                             null,
-                                                             whereParamNames == null ? null : whereParamValues);
+                                                                   whereParamNames,
+                                                                   null,
+                                                                   whereParamNames == null ? 
+                                                                   null : whereParamValues);
 
             this.AddDbCommand(deleteCommand);
         }
@@ -251,7 +286,7 @@ namespace EApp.Repositories.SQL
 
             string[] paramNames = this.database.DiscoverParams(sqlCommandtext);
 
-            DbCommand command = this.PrepareSqlStringCommand(sqlCommandtext, paramNames, null, paramNames);
+            DbCommand command = this.PrepareSqlStringCommand(sqlCommandtext, paramNames, null, paramValues);
 
             this.AddDbCommand(command);
         }
@@ -268,28 +303,27 @@ namespace EApp.Repositories.SQL
                 return null;
             }
 
-            for (int charIndex = 0; charIndex < Parameter_Prefixes.Length; charIndex++)
-            {
-                sqlCommandText = sqlCommandText.Replace(Parameter_Prefixes[charIndex].ToString(),
-                                                        this.database.DBProvider.ParamPrefix);
-            }
-
-            return sqlCommandText;
+            return SqlQueryUtils.ReplaceDatabaseTokens(sqlCommandText,
+                this.database.DBProvider.ParameterLeftToken,
+                this.database.DBProvider.ParameterRightToken,
+                this.database.DBProvider.ParameterPrefix,
+                this.database.DBProvider.WildCharToken,
+                this.database.DBProvider.WildSingleCharToken);
         }
 
         private string GetInsertSql(string table, string[] columns) 
         {
-            return this.database.GetStatementFactory().CreateInsertStatement(table, columns);
+            return this.database.GetSqlStatementFactory().CreateInsertStatement(table, columns);
         }
 
         private string GetUpdateSql(string table, string[] columns,  string whereSql)
         {
-            return this.database.GetStatementFactory().CreateUpdateStatement(table, whereSql, columns);
+            return this.database.GetSqlStatementFactory().CreateUpdateStatement(table, whereSql, columns);
         }
 
         private string GetDeleteSql(string table, string whereSql)
         {
-            return this.database.GetStatementFactory().CreateDeleteStatement(table, whereSql);
+            return this.database.GetSqlStatementFactory().CreateDeleteStatement(table, whereSql);
         }
 
         private DbCommand PrepareSqlStringCommand(string sqlCommandText, 
@@ -332,5 +366,6 @@ namespace EApp.Repositories.SQL
         }
 
         #endregion
+
     }
 }

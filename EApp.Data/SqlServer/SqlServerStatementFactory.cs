@@ -8,11 +8,24 @@ namespace EApp.Data.SqlServer
 {
     public class SqlServerStatementFactory : SqlStatementFactory, ISqlStatementFactory
     {
-        private const char Parameter_Prefix = '@';
+        private char parameterLeftToken;
 
-        private const char Parameter_Left_Token = '[';
+        private char parameterRightToken; 
+            
+        private char parameterPrefix;
 
-        private const char Parameter_Right_Token = ']';
+        private char wildCharToken;
+
+        private char wildSingleCharToken;
+
+        public SqlServerStatementFactory(DbProvider dbProvider) : base(dbProvider) 
+        {
+            this.parameterPrefix = dbProvider.ParameterPrefix;
+            this.parameterLeftToken = dbProvider.ParameterLeftToken;
+            this.parameterRightToken = dbProvider.ParameterRightToken;
+            this.wildCharToken = dbProvider.WildCharToken;
+            this.wildSingleCharToken = dbProvider.WildSingleCharToken;
+        }
 
         public override string CreateInsertStatement(string tableName, string[] includedColumns)
         {
@@ -32,9 +45,9 @@ namespace EApp.Data.SqlServer
 
                 for (int columnIndex = 0; columnIndex < includedColumns.Length; columnIndex++)
                 {
-                    includedColumn = includedColumns[columnIndex].Trim(Parameter_Left_Token, Parameter_Right_Token, Parameter_Prefix);
+                    includedColumn = includedColumns[columnIndex].Trim(parameterLeftToken, parameterRightToken, parameterPrefix);
 
-                    dbFieldName = string.Format("{0}{1}{2},", Parameter_Left_Token, includedColumn, Parameter_Right_Token);
+                    dbFieldName = string.Format("{0}{1}{2},", parameterLeftToken, includedColumn, parameterRightToken);
 
                     if (columnIndex == 0)
                     {
@@ -46,7 +59,7 @@ namespace EApp.Data.SqlServer
                         dbFieldName = dbFieldName + ")";
                     }
 
-                    dbFieldParamName = string.Format("{0}{1},", Parameter_Prefix, includedColumn);
+                    dbFieldParamName = string.Format("{0}{1},", parameterPrefix, includedColumn);
 
                     columnNameBuilder.Append(dbFieldName);
 
@@ -58,7 +71,7 @@ namespace EApp.Data.SqlServer
                 columnParamNameBuilder.Append("{0}");
             }
 
-            return string.Format(insertSql, tableName.Trim(Parameter_Left_Token, Parameter_Right_Token),
+            return string.Format(insertSql, tableName.Trim(parameterLeftToken, parameterRightToken),
                 columnNameBuilder.ToString().TrimEnd(',', ' '),
                 columnParamNameBuilder.ToString().TrimEnd(',', ' '));
         }
@@ -81,16 +94,16 @@ namespace EApp.Data.SqlServer
 
             for (int columnIndex = 0; columnIndex < includedColumns.Length; columnIndex++)
             {
-                includedColumn = includedColumns[columnIndex].Trim(Parameter_Left_Token, Parameter_Right_Token, Parameter_Prefix);
+                includedColumn = includedColumns[columnIndex].Trim(parameterLeftToken, parameterRightToken, parameterPrefix);
 
                 fieldUpdateStatement = string.Format("{0}{1}{2} = {3}{1},",
-                    Parameter_Left_Token, includedColumn, Parameter_Right_Token, Parameter_Prefix);
+                    parameterLeftToken, includedColumn, parameterRightToken, parameterPrefix);
 
                 fieldUpdateStatementBuilder.Append(fieldUpdateStatement);
             }
             
             return string.Format(updateSql, 
-                                 tableName.Trim(Parameter_Left_Token, Parameter_Right_Token),
+                                 tableName.Trim(parameterLeftToken, parameterRightToken),
                                  fieldUpdateStatementBuilder.ToString().TrimEnd(',', ' '),
                                  string.IsNullOrEmpty(where.Trim()) ? string.Empty : "WHERE " + where);
         }
@@ -100,7 +113,7 @@ namespace EApp.Data.SqlServer
             string deleteSql = @"DELETE FROM [{0}] {1}";
 
             return string.Format(deleteSql, 
-                                 tableName.Trim(Parameter_Left_Token, Parameter_Right_Token),
+                                 tableName.Trim(parameterLeftToken, parameterRightToken),
                                  string.IsNullOrEmpty(where.Trim()) ? string.Empty : "WHERE " + where);
         }
 
@@ -116,7 +129,7 @@ namespace EApp.Data.SqlServer
 
                 for (int columnIndex = 0; columnIndex < includedColumns.Length; columnIndex++)
                 {
-                    includedColumn = includedColumns[columnIndex].Trim(Parameter_Left_Token, Parameter_Right_Token, Parameter_Prefix);
+                    includedColumn = includedColumns[columnIndex].Trim(parameterLeftToken, parameterRightToken, parameterPrefix);
                     selectedFieldNameBuilder.Append(string.Format("{0}, ", includedColumn));
                 }
             }
@@ -127,24 +140,19 @@ namespace EApp.Data.SqlServer
 
             return string.Format(querySelectSql,
                                  selectedFieldNameBuilder.ToString().TrimEnd(',', ' '),
-                                 tableName.Trim(Parameter_Left_Token, Parameter_Right_Token),
+                                 tableName.Trim(parameterLeftToken, parameterRightToken),
                                  string.IsNullOrEmpty(where.Trim()) ? string.Empty : "WHERE " + where,
                                  string.IsNullOrEmpty(orderBy.Trim()) ? string.Empty : "ORDER BY " + orderBy);
         }
 
-        public override string CreateSelectRangeStatement(string from, string where, string orderBy, int topCount, int skipCount, string identityColumn, [OptionalAttribute][DefaultParameterValueAttribute(true)]bool identityColumnIsNumber, [OptionalAttribute][DefaultParameterValueAttribute(null)]string groupBy, params string[] includedColumns)
-        {
-            return base.CreateSelectRangeStatement(from, where, orderBy, topCount, skipCount, identityColumn, identityColumnIsNumber, groupBy, includedColumns);
-        }
-
-        protected override string CreateSelectTopStatement(string from, string where, string[] columns, string orderBy, string groupBy, int topCount)
+        protected override string CreateSelectTopStatement(string tableName, string where, string[] columns, string orderBy, string groupBy, int topCount)
         {
             StringBuilder sqlBuilder = new StringBuilder("SELECT TOP ");
             sqlBuilder.Append(topCount);
             sqlBuilder.Append(' ');
             for (int i = 0; i < columns.Length; ++i)
             {
-                SqlQueryUtils.AppendColumnName(sqlBuilder, columns[i], Parameter_Left_Token, Parameter_Right_Token);
+                SqlQueryUtils.AppendColumnName(sqlBuilder, columns[i], parameterLeftToken, parameterRightToken);
 
                 if (i < columns.Length - 1)
                 {
@@ -153,7 +161,7 @@ namespace EApp.Data.SqlServer
             }
 
             sqlBuilder.Append(" FROM ");
-            sqlBuilder.Append(from);
+            sqlBuilder.Append(tableName);
             sqlBuilder.Append(' ');
             sqlBuilder.Append(where);
             sqlBuilder.Append(" ORDER BY " + orderBy);
@@ -162,7 +170,7 @@ namespace EApp.Data.SqlServer
             return sqlBuilder.ToString();
         }
 
-        protected override string CreateSelectRangeStatementForSortedRows(string from, string where, string[] columns, string orderBy, string groupBy, int topCount, int skipCount, string identityColumn, bool isIdentityColumnDesc)
+        protected override string CreateSelectRangeStatementForSortedRows(string tableName, string where, string[] columns, string orderBy, string groupBy, int topCount, int skipCount, string identityColumn, bool isIdentityColumnDesc)
         {
             //SELECT TOP 10 *
             //FROM TestTable
@@ -173,39 +181,55 @@ namespace EApp.Data.SqlServer
             //                 ORDER BY id) AS T))
             //ORDER BY ID'
 
-            StringBuilder columnSqlBuilder = new StringBuilder();
-
-            for (int i = 0; i < columns.Length; ++i)
-            {
-                SqlQueryUtils.AppendColumnName(columnSqlBuilder, columns[i], Parameter_Left_Token, Parameter_Right_Token);
-
-                if (i < columns.Length - 1)
-                {
-                    columnSqlBuilder.Append(',');
-                }
-            }
-
-            string columnSql = columnSqlBuilder.ToString();
-
-            StringBuilder sourceTableSqlBuilder = new StringBuilder("(SELECT ");
-            sourceTableSqlBuilder.Append(columnSql);
-            sourceTableSqlBuilder.Append(" FROM ");
-            sourceTableSqlBuilder.Append(from);
-            sourceTableSqlBuilder.Append(' ');
-            sourceTableSqlBuilder.Append(where);
-            sourceTableSqlBuilder.Append(" ORDER BY " + orderBy);
-            sourceTableSqlBuilder.Append(" GROUP BY " + groupBy);
-            sourceTableSqlBuilder.Append(") ");
-
             StringBuilder outerSqlBuilder = new StringBuilder("SELECT ");
+
             if (topCount < int.MaxValue)
             {
                 outerSqlBuilder.Append("TOP ");
                 outerSqlBuilder.Append(topCount);
                 outerSqlBuilder.Append(' ');
             }
-            outerSqlBuilder.Append(columnSql);
+
+            for (int i = 0; i < columns.Length; ++i)
+            {
+                SqlQueryUtils.AppendColumnName(outerSqlBuilder, columns[i], parameterLeftToken, parameterRightToken);
+
+                if (i < columns.Length - 1)
+                {
+                    outerSqlBuilder.Append(',');
+                }
+            }
+
             outerSqlBuilder.Append(" FROM ");
+
+            outerSqlBuilder.Append(tableName);
+
+            outerSqlBuilder.Append(" WHERE ");
+
+            StringBuilder innerWhereClipBuilder = new StringBuilder();
+            innerWhereClipBuilder.Append(tableName);
+
+            if (!string.IsNullOrEmpty(where) &&
+                !string.IsNullOrWhiteSpace(where))
+            {
+                innerWhereClipBuilder.Append(" WHERE " + where);
+            }
+
+            StringBuilder orderByGroupByBuilder = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(orderBy) &&
+                !string.IsNullOrWhiteSpace(orderBy))
+            {
+                orderByGroupByBuilder.Append(" ORDER BY " + orderBy);
+            }
+
+            if (!string.IsNullOrEmpty(groupBy) &&
+                !string.IsNullOrWhiteSpace(groupBy))
+            {
+                orderByGroupByBuilder.Append(" GROUP BY " + groupBy);
+            }
+
+            innerWhereClipBuilder.Append(orderByGroupByBuilder.ToString());
 
             #region Construct & extend CloneWhere
 
@@ -225,28 +249,30 @@ namespace EApp.Data.SqlServer
             innerSqlBuilder.Append(" AS ");
             innerSqlBuilder.Append(splittedIdentyColumn[splittedIdentyColumn.Length - 1]);
             innerSqlBuilder.Append(" FROM ");
-            innerSqlBuilder.Append(sourceTableSqlBuilder.ToString());
+            innerSqlBuilder.Append(innerWhereClipBuilder.ToString());
             innerSqlBuilder.Append(") [__T])");
 
             string outerWhereSql = string.Empty;
 
-            if (sourceTableSqlBuilder.Length == 0)
+            if (where.Length == 0)
             {
                 outerWhereSql = innerSqlBuilder.ToString();
             }
             else
             {
-                outerWhereSql = "(" + sourceTableSqlBuilder.ToString() + ") AND " + innerSqlBuilder.ToString();
+                outerWhereSql = "(" + where + ") AND " + innerSqlBuilder.ToString();
             }
 
             #endregion
 
             outerSqlBuilder.Append(outerWhereSql);
 
-            return outerSqlBuilder.ToString();
+            outerSqlBuilder.Append(orderByGroupByBuilder.ToString());
+
+            return SqlQueryUtils.ReplaceDatabaseTokens(outerSqlBuilder.ToString(), this.parameterLeftToken, this.parameterRightToken, this.parameterPrefix, this.wildCharToken, this.wildSingleCharToken);
         }
 
-        protected override string CreateSelectRangeStatementForUnsortedRows(string from, string where, string[] columns, string orderBy, string groupBy, int topCount, int skipCount, string identyColumn)
+        protected override string CreateSelectRangeStatementForUnsortedRows(string tableName, string where, string[] columns, string orderBy, string groupBy, int topCount, int skipCount, string identyColumn)
         {
             //SELECT TOP 10 *
             //FROM TestTable
@@ -256,46 +282,88 @@ namespace EApp.Data.SqlServer
             //         ORDER BY id))
             //ORDER BY ID
 
-            StringBuilder sb = new StringBuilder("SELECT ");
+            StringBuilder outerSqlBuilder = new StringBuilder("SELECT ");
+
             if (topCount < int.MaxValue)
             {
-                sb.Append("TOP ");
-                sb.Append(topCount);
-                sb.Append(' ');
+                outerSqlBuilder.Append("TOP ");
+                outerSqlBuilder.Append(topCount);
+                outerSqlBuilder.Append(' ');
             }
+
             for (int i = 0; i < columns.Length; ++i)
             {
-                SqlQueryUtils.AppendColumnName(sb, columns[i], Parameter_Left_Token, Parameter_Right_Token);
+                SqlQueryUtils.AppendColumnName(outerSqlBuilder, columns[i], parameterLeftToken, parameterRightToken);
 
                 if (i < columns.Length - 1)
                 {
-                    sb.Append(',');
+                    outerSqlBuilder.Append(',');
                 }
             }
-            sb.Append(" FROM ");
 
-            StringBuilder sbInside = new StringBuilder();
-            sbInside.Append(identyColumn);
-            sbInside.Append(" NOT IN (SELECT TOP ");
-            sbInside.Append(skipCount);
-            sbInside.Append(' ');
-            sbInside.Append(identyColumn);
-            sbInside.Append(" FROM ");
-            sbInside.Append(where.ToString());
-            sbInside.Append(")");
+            outerSqlBuilder.Append(" FROM ");
 
-            //if (.Length == 0)
-            //{
-            //    cloneWhere.Sql = sbInside.ToString();
-            //}
-            //else
-            //{
-            //    cloneWhere.Sql = "(" + cloneWhere.Sql.ToString() + ") AND " + sbInside.ToString();
-            //}
+            outerSqlBuilder.Append(tableName);
 
-            //sb.Append(cloneWhere.ToString());
+            outerSqlBuilder.Append(" WHERE ");
 
-            return null;
+            StringBuilder innerWhereClipBuilder = new StringBuilder();
+            innerWhereClipBuilder.Append(tableName);
+
+            if (!string.IsNullOrEmpty(where) &&
+                !string.IsNullOrWhiteSpace(where))
+            {
+                innerWhereClipBuilder.Append(" WHERE " + where);
+            }
+
+            StringBuilder orderByGroupByBuilder = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(orderBy) &&
+                !string.IsNullOrWhiteSpace(orderBy))
+            {
+                orderByGroupByBuilder.Append(" ORDER BY " + orderBy);
+            }
+
+            if (!string.IsNullOrEmpty(groupBy) &&
+                !string.IsNullOrWhiteSpace(groupBy))
+            {
+                orderByGroupByBuilder.Append(" GROUP BY " + groupBy);
+            }
+
+            innerWhereClipBuilder.Append(orderByGroupByBuilder.ToString());
+
+            #region Construct & extend CloneWhere
+
+            StringBuilder innerSqlBuilder = new StringBuilder();
+
+            innerSqlBuilder.Append(identyColumn);
+            innerSqlBuilder.Append(" NOT IN (SELECT TOP ");
+            innerSqlBuilder.Append(skipCount);
+            innerSqlBuilder.Append(' ');
+            innerSqlBuilder.Append(identyColumn);
+            innerSqlBuilder.Append(" FROM ");
+            innerSqlBuilder.Append(innerWhereClipBuilder.ToString());
+            innerSqlBuilder.Append(")");
+
+            string outerWhereSql = string.Empty;
+
+            if (where.Length == 0)
+            {
+                outerWhereSql = innerSqlBuilder.ToString();
+            }
+            else
+            {
+                outerWhereSql = "(" + where + ") AND " + innerSqlBuilder.ToString();
+            }
+
+            #endregion
+
+            outerSqlBuilder.Append(outerWhereSql);
+
+            outerSqlBuilder.Append(orderByGroupByBuilder.ToString());
+
+            return SqlQueryUtils.ReplaceDatabaseTokens(outerSqlBuilder.ToString(), this.parameterLeftToken, this.parameterRightToken, this.parameterPrefix, this.wildCharToken, this.wildSingleCharToken);
+       
         }
 
     }

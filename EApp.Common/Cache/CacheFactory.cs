@@ -17,7 +17,15 @@ namespace EApp.Common.Cache
 
         public static ICacheManager GetCacheManager() 
         {
-            return GetCacheManager(EAppRuntime.Instance.CurrentApp.ConfigSource.Config.CacheManagers.Default);
+            string defaultCacheManager = EAppRuntime.Instance.CurrentApp.ConfigSource.Config.CacheManagers.Default;
+
+            if (string.IsNullOrEmpty(defaultCacheManager) ||
+                string.IsNullOrWhiteSpace(defaultCacheManager))
+            {
+                defaultCacheManager = "Redis";
+            }
+
+            return GetCacheManager(defaultCacheManager);
         }
 
         public static ICacheManager GetCacheManager(string name)

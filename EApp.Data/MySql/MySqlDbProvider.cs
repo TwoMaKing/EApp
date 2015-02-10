@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using EApp.Common.Serialization;
+using EApp.Data.Mapping;
 using EApp.Data.Queries;
 using MySql.Data.MySqlClient;
 
@@ -16,12 +17,12 @@ namespace EApp.Data.MySql
     {
         private const char Parameter_Prefix = '?';
 
-        private ISqlStatementFactory sqlStatementFactory = new MySqlStatementFactory();
+        private ISqlStatementFactory sqlStatementFactory;
 
         public MySqlDbProvider(string connectionString) : 
             base(connectionString, MySqlClientFactory.Instance) 
-        { 
-        
+        {
+            this.sqlStatementFactory = new MySqlStatementFactory(this);
         }
 
         /// <summary>
@@ -144,7 +145,7 @@ namespace EApp.Data.MySql
                 return null;
             }
 
-            Regex r = new Regex("\\" + this.ParamPrefix + @"([\w\d_]+)");
+            Regex r = new Regex("\\" + this.ParameterPrefix + @"([\w\d_]+)");
 
             MatchCollection ms = r.Matches(sql);
 
@@ -174,7 +175,7 @@ namespace EApp.Data.MySql
 
             if (!name[0].Equals(Parameter_Prefix))
             {
-                return name.Insert(0, this.ParamPrefix);
+                return name.Insert(0, this.ParameterPrefix.ToString());
             }
 
             return name;
@@ -211,17 +212,49 @@ namespace EApp.Data.MySql
             }
         }
 
-        public override string ParamPrefix
+        public override char ParameterPrefix
+        {
+            get 
+            {
+                return Parameter_Prefix; 
+            }
+        }
+
+        public override char ParameterLeftToken
         {
             get 
             { 
-                return Parameter_Prefix.ToString(); 
+                return '`'; 
+            }
+        }
+
+        public override char ParameterRightToken
+        {
+            get 
+            { 
+                return '`'; 
+            }
+        }
+
+        public override char WildCharToken
+        {
+            get 
+            { 
+                return '%'; 
+            }
+        }
+
+        public override char WildSingleCharToken
+        {
+            get 
+            {
+                return '_'; 
             }
         }
 
         public override WhereClauseBuilder<T> CreateWhereClauseBuilder<T>()
         {
-            return new MySqlWhereClauseBuilder<T>(new XmlObjectMappingResolver(""));
+            return new MySqlWhereClauseBuilder<T>();
         }
 
     }

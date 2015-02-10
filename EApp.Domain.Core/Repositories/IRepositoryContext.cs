@@ -15,8 +15,8 @@ namespace EApp.Domain.Core.Repositories
     {
         Guid Id { get; }
 
-        IRepository<TAggregateRoot> GetRepository<TAggregateRoot>() 
-            where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot;
+        IRepository<TAggregateRoot> GetRepository<TAggregateRoot>()
+            where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot, new();
 
         void RegisterAdded(IEnumerable<object> objects, IRepositoryPersistence persistence);
 

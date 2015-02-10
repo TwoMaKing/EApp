@@ -36,6 +36,7 @@
             this.btnQuery = new System.Windows.Forms.Button();
             this.btnBuilderQuery = new System.Windows.Forms.Button();
             this.btnQueryPaging = new System.Windows.Forms.Button();
+            this.btnBuilderEntityMappingXml = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -115,11 +116,22 @@
             this.btnQueryPaging.UseVisualStyleBackColor = true;
             this.btnQueryPaging.Click += new System.EventHandler(this.btnQueryPaging_Click);
             // 
+            // btnBuilderEntityMappingXml
+            // 
+            this.btnBuilderEntityMappingXml.Location = new System.Drawing.Point(364, 253);
+            this.btnBuilderEntityMappingXml.Name = "btnBuilderEntityMappingXml";
+            this.btnBuilderEntityMappingXml.Size = new System.Drawing.Size(202, 23);
+            this.btnBuilderEntityMappingXml.TabIndex = 9;
+            this.btnBuilderEntityMappingXml.Text = "Builder Entity Mapping Configuration";
+            this.btnBuilderEntityMappingXml.UseVisualStyleBackColor = true;
+            this.btnBuilderEntityMappingXml.Click += new System.EventHandler(this.btnBuilderEntityMappingXml_Click);
+            // 
             // Cost
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(804, 550);
+            this.Controls.Add(this.btnBuilderEntityMappingXml);
             this.Controls.Add(this.btnQueryPaging);
             this.Controls.Add(this.btnBuilderQuery);
             this.Controls.Add(this.btnQuery);
@@ -145,6 +157,7 @@
         private System.Windows.Forms.Button btnQuery;
         private System.Windows.Forms.Button btnBuilderQuery;
         private System.Windows.Forms.Button btnQueryPaging;
+        private System.Windows.Forms.Button btnBuilderEntityMappingXml;
     }
 }
 

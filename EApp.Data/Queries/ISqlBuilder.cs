@@ -74,8 +74,16 @@ namespace EApp.Data.Queries
         ISqlBuilder Page(string identityColumn, int pageNumber, int pageSize);
 
         ISqlBuilder Clear();
-        
+
+        string GetTables();
+
+        string[] GetColumns();
+
         string GetPredicate();
+
+        string GetOrderBy();
+
+        string GetGroupBy();
 
         string GetQuerySql();
 

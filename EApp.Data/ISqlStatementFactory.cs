@@ -38,7 +38,7 @@ namespace EApp.Data
         /// <summary>
         /// Creates the select statement for paging
         /// </summary>
-        string CreateSelectRangeStatement(string from, 
+        string CreateSelectRangeStatement(string tableName, 
                                           string where, 
                                           string orderBy,
                                           int topCount, 
