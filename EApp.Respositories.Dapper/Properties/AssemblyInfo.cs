@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("EApp.Repositories.EntityFramework")]
+[assembly: AssemblyTitle("EApp.Respositories.Dapper")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("EApp.Repositories.EntityFramework")]
-[assembly: AssemblyProduct("EApp.Repositories.EntityFramework")]
-[assembly: AssemblyCopyright("Copyright © EApp.Repositories.EntityFramework")]
+[assembly: AssemblyCompany("EApp.Repositories.Dapper")]
+[assembly: AssemblyProduct("EApp.Respositories.Dapper")]
+[assembly: AssemblyCopyright("Copyright © EApp.Repositories.Dapper")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0a59932c-852a-4674-b18a-ddf880d4a5c1")]
+[assembly: Guid("17be4c68-2c92-4604-ab81-caaa13b8b6ee")]
 
 // Version information for an assembly consists of the following four values:
 //

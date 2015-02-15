@@ -131,6 +131,16 @@ namespace EApp.Repositories.SQL
 
         #region ISQLRepositoryContext
 
+        public DbConnection CreateConnection()
+        {
+            return this.database.CreateConnection();
+        }
+
+        public void CloseConnection(DbConnection connection)
+        {
+            this.database.CloseConnection(connection);
+        }
+
         public WhereClauseBuildResult GetWhereClauseSql<TAggregateRoot>(Expression<Func<TAggregateRoot, bool>> predicate) where TAggregateRoot : class, new()
         {
             return this.database.DBProvider.CreateWhereClauseBuilder<TAggregateRoot>().BuildWhereClause(predicate);
@@ -141,7 +151,7 @@ namespace EApp.Repositories.SQL
             return this.database.DBProvider.CreateWhereClauseBuilder<TAggregateRoot>().BuildOrderByClause(predicate);
         }
 
-        public IDataReader Select(string querySql, object[] whereParamValues = null)
+        public IDataReader Select(string querySql, object[] whereParamValues = null, DbTransaction transaction = null)
         {
             string adjustedQuerySql = this.BuildParameterPrefix(querySql);
 
@@ -149,25 +159,41 @@ namespace EApp.Repositories.SQL
 
             DbCommand queryCommand = this.PrepareSqlStringCommand(querySql, whereParamNames, null, whereParamValues);
 
-            return this.database.ExecuteReader(queryCommand);
+            if (transaction != null)
+            {
+                return this.database.ExecuteReader(queryCommand, transaction);
+            }
+            else
+            {
+                return this.database.ExecuteReader(queryCommand);
+            }
         }
 
-        public IDataReader Select(string table, string[] columns)
+        public IDataReader Select(string table, string[] columns, DbTransaction transaction = null)
         {
-            return Select(table, columns, null, null);
+            return Select(table, columns, null, null, transaction);
         }
 
-        public IDataReader Select(string table, string[] columns, string where, object[] whereParamValues)
+        public IDataReader Select(string table, string[] columns, string where, object[] whereParamValues, DbTransaction transaction = null)
         {
-            return Select(table, columns, where, whereParamValues, null);
+            return Select(table, columns, where, whereParamValues, null, transaction);
         }
 
-        public IDataReader Select(string table, string[] columns, string where, object[] whereParamValues, string orderBy)
+        public IDataReader Select(string table, string[] columns, string where, object[] whereParamValues, string orderBy, DbTransaction transaction = null)
         {
-            return Select(table, columns, where, whereParamValues, orderBy, 1, int.MaxValue, null);
+            return Select(table, columns, where, whereParamValues, orderBy, 1, int.MaxValue, null, true, transaction);
         }
 
-        public IDataReader Select(string table, string[] columns, string where, object[] whereParamValues, string orderBy, int pageNumber, int pageSize, string identityColumn, bool identityColumnIsNumber = true)
+        public IDataReader Select(string table, 
+                                  string[] columns, 
+                                  string where, 
+                                  object[] whereParamValues, 
+                                  string orderBy, 
+                                  int pageNumber, 
+                                  int pageSize, 
+                                  string identityColumn, 
+                                  bool identityColumnIsNumber = true, 
+                                  DbTransaction transaction = null)
         {
             ISqlStatementFactory sqlStatementFactory = this.database.GetSqlStatementFactory();
 
@@ -179,8 +205,14 @@ namespace EApp.Repositories.SQL
                                                                         whereParamNames.ToArray(),
                                                                         null,
                                                                         whereParamValues.ToArray());
-
-            return this.database.ExecuteReader(selectRangeCommand);
+            if (transaction != null)
+            {
+                return this.database.ExecuteReader(selectRangeCommand, transaction);
+            }
+            else
+            {
+                return this.database.ExecuteReader(selectRangeCommand);
+            }
         }
 
         public void Insert(string table, object[] values)
@@ -304,11 +336,11 @@ namespace EApp.Repositories.SQL
             }
 
             return SqlQueryUtils.ReplaceDatabaseTokens(sqlCommandText,
-                this.database.DBProvider.ParameterLeftToken,
-                this.database.DBProvider.ParameterRightToken,
-                this.database.DBProvider.ParameterPrefix,
-                this.database.DBProvider.WildCharToken,
-                this.database.DBProvider.WildSingleCharToken);
+                                                       this.database.DBProvider.ParameterLeftToken,
+                                                       this.database.DBProvider.ParameterRightToken,
+                                                       this.database.DBProvider.ParameterPrefix,
+                                                       this.database.DBProvider.WildCharToken,
+                                                       this.database.DBProvider.WildSingleCharToken);
         }
 
         private string GetInsertSql(string table, string[] columns) 

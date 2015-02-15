@@ -13,7 +13,8 @@ using MongoDB;
 
 namespace EApp.Repositories.MongoDB
 {
-    public class MongoDBRepository<TAggregateRoot> : Repository<TAggregateRoot>, IRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot, new()
+    public class MongoDBRepository<TAggregateRoot> : Repository<TAggregateRoot> where 
+        TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot, new()
     {
         private IMongoDBRepositoryContext mongoDBRepositoryContext;
 
@@ -21,7 +22,7 @@ namespace EApp.Repositories.MongoDB
         {
             if (!(repositoryContext is IMongoDBRepositoryContext))
             {
-                throw new ArgumentException("The specified Repository context is not IMongoDBRepositoryContext.");
+                throw new ArgumentException("The specified Repository context is not the instance of IMongoDBRepositoryContext.");
             }
 
             this.mongoDBRepositoryContext = (IMongoDBRepositoryContext)repositoryContext;

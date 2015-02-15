@@ -32,7 +32,11 @@ namespace EApp.Repositories.SQL
         {
             if (repositoryContext is ISqlRepositoryContext)
             {
-                this.sqlRepositoryContext = repositoryContext as ISqlRepositoryContext;
+                this.sqlRepositoryContext = (ISqlRepositoryContext)repositoryContext;
+            }
+            else
+            {
+                throw new ArgumentException("The specified Repository context is not the instance of ISqlRepositoryContext.");
             }
         }
 
@@ -178,6 +182,11 @@ namespace EApp.Repositories.SQL
                 TAggregateRoot aggregateRoot = this.BuildAggregateRootFromDataReader(dataReader);
 
                 aggregateRoots.Add(aggregateRoot);
+            }
+
+            if (!dataReader.IsClosed)
+            {
+                dataReader.Close();
             }
 
             return aggregateRoots;

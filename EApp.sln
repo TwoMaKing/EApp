@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{69953842-655B-4E4C-9CB0-284F0390D323}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpress.Chat.Domain", "Xpress.Chart.Domain\Xpress.Chat.Domain.csproj", "{EDFF63AB-3B20-41E6-869D-26AA995DE025}"
@@ -60,6 +62,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EApp.Tests", "EApp.Tests", "{78DC4B5F-3364-4314-AE25-F7E63A581879}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Tests", "EApp.Tests\EApp.Tests.csproj", "{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Dapper", "EApp.Dapper\EApp.Dapper.csproj", "{096BBD2C-E9C6-48EC-9DAF-73B5685A5BC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EApp.Repositories.Dapper", "EApp.Respositories.Dapper\EApp.Repositories.Dapper.csproj", "{770EAFE0-B840-4A4A-B32D-FE19DDD8603A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -351,6 +357,26 @@ Global
 		{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2CC86C4C-7F7F-418D-9828-EC99960E4C5C}.Release|x86.ActiveCfg = Release|Any CPU
+		{096BBD2C-E9C6-48EC-9DAF-73B5685A5BC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{096BBD2C-E9C6-48EC-9DAF-73B5685A5BC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{096BBD2C-E9C6-48EC-9DAF-73B5685A5BC0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{096BBD2C-E9C6-48EC-9DAF-73B5685A5BC0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{096BBD2C-E9C6-48EC-9DAF-73B5685A5BC0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{096BBD2C-E9C6-48EC-9DAF-73B5685A5BC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{096BBD2C-E9C6-48EC-9DAF-73B5685A5BC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{096BBD2C-E9C6-48EC-9DAF-73B5685A5BC0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{096BBD2C-E9C6-48EC-9DAF-73B5685A5BC0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{096BBD2C-E9C6-48EC-9DAF-73B5685A5BC0}.Release|x86.ActiveCfg = Release|Any CPU
+		{770EAFE0-B840-4A4A-B32D-FE19DDD8603A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{770EAFE0-B840-4A4A-B32D-FE19DDD8603A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{770EAFE0-B840-4A4A-B32D-FE19DDD8603A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{770EAFE0-B840-4A4A-B32D-FE19DDD8603A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{770EAFE0-B840-4A4A-B32D-FE19DDD8603A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{770EAFE0-B840-4A4A-B32D-FE19DDD8603A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{770EAFE0-B840-4A4A-B32D-FE19DDD8603A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{770EAFE0-B840-4A4A-B32D-FE19DDD8603A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{770EAFE0-B840-4A4A-B32D-FE19DDD8603A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{770EAFE0-B840-4A4A-B32D-FE19DDD8603A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

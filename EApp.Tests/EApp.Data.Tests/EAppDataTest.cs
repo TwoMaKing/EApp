@@ -15,6 +15,7 @@ using EApp.Data.Queries;
 using NUnit.Framework;
 using Xpress.Chat.DataObjects;
 using Xpress.Chat.Domain.Models;
+using System.Linq.Expressions;
 
 namespace EApp.Tests
 {

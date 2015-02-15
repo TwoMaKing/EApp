@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using EApp.Core.Application;
+using EApp.Core;
 
 namespace EApp.Domain.Core.Repositories
 {
-    public abstract class RepositoryContext : IRepositoryContext
+    public abstract class RepositoryContext : DisposableObject, IRepositoryContext
     {
         private Guid id = Guid.NewGuid();
 
@@ -195,7 +196,7 @@ namespace EApp.Domain.Core.Repositories
 
         protected abstract void DoRollback();
 
-        protected virtual void Dispose(bool disposing) 
+        protected override void Dispose(bool disposing) 
         {
             if (disposing)
             {

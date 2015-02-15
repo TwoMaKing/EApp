@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Text;
 
 namespace EApp.Common.Network
@@ -20,11 +21,11 @@ namespace EApp.Common.Network
                 PingReply reply = pingSender.Send(hostNameOrAddress);
                 return reply.Status;
             }
-            catch (System.Net.NetworkInformation.PingException ex)
+            catch (PingException ex)
             {
                 return IPStatus.TimedOut;
             }
-            catch (System.Net.Sockets.SocketException ex)
+            catch (SocketException ex)
             {
                 return IPStatus.TimedOut;
             }
@@ -63,7 +64,7 @@ namespace EApp.Common.Network
                     return statusCode;
                 }
             }
-            catch (System.Net.WebException ex)
+            catch (WebException ex)
             {
                 using (HttpWebResponse response = ex.Response as HttpWebResponse)
                 {

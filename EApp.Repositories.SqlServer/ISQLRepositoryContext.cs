@@ -16,19 +16,23 @@ namespace EApp.Repositories.SQL
     /// </summary>
     public interface ISqlRepositoryContext : IRepositoryContext
     {
+        DbConnection CreateConnection();
+
+        void CloseConnection(DbConnection connection);
+
         WhereClauseBuildResult GetWhereClauseSql<TAggregateRoot>(Expression<Func<TAggregateRoot, bool>> predicate) where TAggregateRoot : class, new();
 
         string GetOrderByClauseSql<TAggregateRoot>(Expression<Func<TAggregateRoot, dynamic>> predicate) where TAggregateRoot : class, new();
 
-        IDataReader Select(string querySql, object[] whereParamValues = null);
+        IDataReader Select(string querySql, object[] whereParamValues = null, DbTransaction transaction = null);
 
-        IDataReader Select(string table, string[] columns);
+        IDataReader Select(string table, string[] columns, DbTransaction transaction = null);
 
-        IDataReader Select(string table, string[] columns, string where, object[] whereParamValues);
+        IDataReader Select(string table, string[] columns, string where, object[] whereParamValues, DbTransaction transaction = null);
 
-        IDataReader Select(string table, string[] columns, string where, object[] whereParamValues, string orderBy);
+        IDataReader Select(string table, string[] columns, string where, object[] whereParamValues, string orderBy, DbTransaction transaction = null);
 
-        IDataReader Select(string table, string[] columns, string where, object[] whereParamValues, string orderBy, int pageNumber, int pageSize, string identityColumn, bool identityColumnIsNumber = true);
+        IDataReader Select(string table, string[] columns, string where, object[] whereParamValues, string orderBy, int pageNumber, int pageSize, string identityColumn, bool identityColumnIsNumber = true, DbTransaction transaction = null);
 
         void Insert(string table, string[] columns, object[] values);
 
@@ -49,31 +53,5 @@ namespace EApp.Repositories.SQL
         void Delete(string table, string whereSql, object[] whereParamValues);
 
         void ExecuteNonQuery(string commandText, object[] paramValues = null);
-
-        #region Select<T> using ORM 
-        /*
-        public IEnumerable<T> Select<T>()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<T> Select<T>(Expression<Func<T, bool>> expression)
-        {
-            return null;
-        }
-
-        public IEnumerable<T> Select<T>(Expression<Func<T, bool>> expression, Expression<Func<T, dynamic>> sortPredicate, SortOrder sortOrder)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<T> Select<T>(Expression<Func<T, bool>> expression, Expression<Func<T, dynamic>> sortPredicate, SortOrder sortOrder, int pageNumber, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-        
-        */
-        #endregion
-
     }
 }

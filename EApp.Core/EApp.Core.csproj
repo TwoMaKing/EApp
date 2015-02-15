@@ -65,6 +65,7 @@
     <Compile Include="Application\IApp.cs" />
     <Compile Include="DisposableObject.cs" />
     <Compile Include="DynamicQueryable.cs" />
+    <Compile Include="Exceptions\DatabaseException.cs" />
     <Compile Include="ExpressionParser.cs" />
     <Compile Include="IoC\NInject\NInjectObjectContainer.cs" />
     <Compile Include="IoC\NInject\NInjectObjectContainerFactory.cs" />
