@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using EApp.Core.Application;
+using Xpress.Chat.DataObjects;
+using Xpress.Life.ModelBinder;
 
 namespace Xpress.Life
 {
@@ -25,8 +27,16 @@ namespace Xpress.Life
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
+            ControllerBuilder.Current.SetControllerFactory(new EAppControllerFactory());
+
+            ModelBinders.Binders.Add(typeof(PostDataObject), new PostModelBinder());
+
+            ValueProviderFactories.Factories.Add(new JsonValueProviderFactory());
+
             EAppRuntime.Instance.Create();
 
+ 			//Enable  RESTful service in MVC
+            //RouteTable.Routes.Add(new ServiceRoute("AppService", new WebServiceHostFactory(), typeof(AppService)));
         }
     }
 }

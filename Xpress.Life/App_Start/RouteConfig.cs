@@ -18,6 +18,8 @@ namespace Xpress.Life
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute("post", "Posts/Sports/{date}/{id}", new { Controller = "Home", Action = "GetPostDetail" });
         }
     }
 }

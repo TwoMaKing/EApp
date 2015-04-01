@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Web.Mvc;
 using EApp.Domain.Core.Application;
 using Xpress.Chat.Domain.Models;
 

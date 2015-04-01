@@ -60,10 +60,6 @@
       <Project>{3B98F11D-5383-4856-B82A-9EB6AE800603}</Project>
       <Name>EApp.Domain.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EApp.Repositories.EntityFramework\EApp.Repositories.EntityFramework.csproj">
-      <Project>{5A6BFFC4-41C0-42CE-9186-56076D3002E6}</Project>
-      <Name>EApp.Repositories.EntityFramework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EApp.Repositories.SqlServer\EApp.Repositories.SQL.csproj">
       <Project>{69820BD8-912B-461F-BDC2-AFA43E318953}</Project>
       <Name>EApp.Repositories.SQL</Name>

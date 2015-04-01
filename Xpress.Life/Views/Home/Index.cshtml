@@ -1,9 +1,5 @@
 ﻿@model Xpress.Chat.DataObjects.PostDataObject
 
-@{
-    
-    
-}
 @section featured {
     <section class="featured">
         <div class="content-wrapper">
@@ -21,8 +17,75 @@
                 </div>
             }
         </div>
+
+        <div>
+           
+           @using(Html.BeginForm("CreatePost", "Home", FormMethod.Post))
+           {
+                @Html.AntiForgeryToken();
+                
+                <div>
+                    <label>Author: </label>
+                    @Html.TextBoxFor(p => p.Author.Name);
+                </div>
+               
+                <div>
+                    <label>Topic: </label>
+                    @Html.DropDownListFor(p => p.Topic.Id, new SelectListItem[] { new SelectListItem() { Text = "体育", Value = "1000" }, new SelectListItem() { Text = "娱乐", Value = "10001" } }); 
+                </div> 
+               
+                <div>
+                    <label>Content: </label>
+                    @Html.TextAreaFor(p => p.Content);
+                </div>
+                
+               
+                <div>
+                    <input type="submit" value="发布" />
+                </div>
+           }  
+           
+                 
+
+        </div>
+
+
+        <div>
+            <form action="@Url.Action("CreatePostByCommonForm", "Home", new { Id = 1000 })"  method="post">
+                
+                <div>
+                    <label>Author: </label>
+                    <input id="authorName" name="Author.Name" type="text" value="@Model.Author.Name" />
+                </div>
+               
+                <div>
+                    <label>Topic: </label>
+                    <select id="topicName" name="Topic.Name" >
+                        <option value="1000">体育</option>
+                        <option value="1001">娱乐</option>
+                    </select>
+                </div> 
+               
+                <div>
+                    <label>Content: </label>
+                    <textarea id="Content" name="Content" rows="" cols="">
+                    </textarea>
+                </div>
+                
+                <div>
+                    <input type="submit" value="发布" />
+                </div>
+
+            </form>
+        </div>
+
     </section>
 }
+
+<div>
+    @Html.Partial("Post"); 
+</div>
+
 <div class="content-wrapper">
     <div>
         <div>

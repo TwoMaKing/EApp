@@ -1,19 +1,27 @@
-﻿using System;
+﻿using EApp.Core;
+using EApp.Core.Application;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using EApp.Core;
-using EApp.Core.Application;
 using Xpress.Chat.Application;
 using Xpress.Chat.DataObjects;
 using Xpress.Chat.Domain.Models;
 using Xpress.Chat.ServiceContracts;
+using Xpress.Life.Models;
 
 namespace Xpress.Life.Controllers
 {
     public class HomeController : Controller
     {
+        private IPostService postService;
+
+        public HomeController(IPostService postService)
+        {
+            this.postService = postService;
+        }
+
         public ActionResult Index()
         {
             this.HttpContext.Session["user"] = new User()
@@ -25,6 +33,8 @@ namespace Xpress.Life.Controllers
                                                };
 
             PostDataObject postDataObject = new PostDataObject();
+            postDataObject.Author.Name = GlobalApplication.LoginUser.Name;
+            postDataObject.Content = "啦啦啦啦啦啦啦啦哈哈哈哈哈哈";
             postDataObject.Topic.Id = 1000;
             postDataObject.Topic.Name = "热门";
 
@@ -107,6 +117,42 @@ namespace Xpress.Life.Controllers
             {
                 throw e;
             }
+        }
+
+        public ActionResult GetPostDetail(DateTime date, int id)
+        {
+            PostDataObject post;
+            if (PostModel.PostsByDate.ContainsKey(date))
+            {
+                post = PostModel.PostsByDate[date].SingleOrDefault(p => p.Id == id);
+            }
+            else
+            {
+                post = new PostDataObject();
+            }
+
+            return View("Index", post);
+        }
+
+
+        public ActionResult CreatePost(PostDataObject post)
+        {
+           
+            bool updated = this.TryUpdateModel<PostDataObject>(post);
+
+            if (updated)
+            { 
+                
+            }
+
+            return View("index");
+        }
+
+        public ActionResult CreatePostByCommonForm(PostDataObject post) 
+        {
+            string content = post.Content;
+
+            return View("index");
         }
 
     }
